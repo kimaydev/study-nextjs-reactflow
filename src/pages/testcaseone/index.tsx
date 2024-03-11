@@ -1,11 +1,11 @@
-import { useState, useCallback } from "react";
+import React, { ReactElement, useCallback, useState } from "react";
+import DashboardLayout from "@/components/layout/DashboardLayout";
 import ReactFlow, {
-  Controls,
   Background,
-  applyNodeChanges,
+  Controls,
   applyEdgeChanges,
+  applyNodeChanges,
 } from "reactflow";
-import "reactflow/dist/style.css";
 
 const initialNodes = [
   {
@@ -25,19 +25,18 @@ const initialEdges = [
   { id: "1-2", source: "1", target: "2", label: "to the", type: "step" },
 ];
 
-function Flow() {
+const TestCaseOne = () => {
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
 
   const onNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    []
+    changes => setNodes(nds => applyNodeChanges(changes, nds)),
+    [],
   );
   const onEdgesChange = useCallback(
-    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-    []
+    changes => setEdges(eds => applyEdgeChanges(changes, eds)),
+    [],
   );
-
   return (
     <div style={{ height: "100%" }}>
       <ReactFlow
@@ -52,6 +51,10 @@ function Flow() {
       </ReactFlow>
     </div>
   );
-}
+};
 
-export default Flow;
+TestCaseOne.getLayout = function getLayout(page: ReactElement) {
+  return <DashboardLayout>{page}</DashboardLayout>;
+};
+
+export default TestCaseOne;
