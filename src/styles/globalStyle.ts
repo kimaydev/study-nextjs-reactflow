@@ -134,4 +134,11 @@ h3 {
   font-size: 1.6rem;
   font-weight: 700;    
   }
+button{
+    border: 0;
+    background: transparent;
+}
+i {
+    font-style: normal;
+}
 `;
