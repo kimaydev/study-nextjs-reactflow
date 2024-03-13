@@ -1,32 +1,39 @@
 import styled from "styled-components";
 
 export const HandlerBoxStyled = styled.div`
-  position: absolute;
+  /* position: absolute;
   z-index: 99;
   top: 3%;
-  left: 1%;
+  left: 1%; */
   background: #fff;
   border: 0.05rem solid #ddd;
-  border-radius: 1rem;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 15px;
+  box-shadow: 0px 0px 17px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   isolation: isolate;
-  ul {
-    & > li {
-      border-bottom: 0.05rem solid #ddd;
-      .submit-button {
-        display: block;
-        width: 100%;
-        padding: 1.4rem;
-        font-size: 1.8rem;
-        background: rgba(0, 0, 0, 0.8);
-        color: #fff;
-        &:hover {
-          background: rgba(0, 0, 0, 1);
-        }
+  form {
+    position: relative;
+    height: 100%;
+    .submit-button {
+      position: absolute;
+      bottom: 0;
+      display: block;
+      width: 100%;
+      padding: 1.4rem;
+      font-size: 1.8rem;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      &:hover {
+        background: rgba(0, 0, 0, 1);
       }
-      &:last-of-type {
-        border-bottom: 0;
+    }
+    & > ul {
+      height: calc(100% - 4.6rem);
+      overflow-y: auto;
+      & > li {
+        border-bottom: 0.05rem solid #ddd;
+        &:last-of-type {
+          border-bottom: 0;
+        }
       }
     }
   }
@@ -48,6 +55,55 @@ export const HandlerBoxStyled = styled.div`
       display: flex;
       align-items: center;
       gap: 1rem;
+    }
+  }
+`;
+export const RadioButtonStyled = styled.div`
+  margin-bottom: 0.6rem;
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+  & > ul {
+    display: flex;
+    align-items: center;
+    & > li {
+      position: relative;
+      width: 100%;
+      border: 0.05rem solid #999;
+      border-right: 0;
+      overflow: hidden;
+      isolation: isolate;
+      &:first-of-type {
+        border-radius: 0.6rem 0 0 0.6rem;
+      }
+      &:last-of-type {
+        border-right: 0.05rem solid #999;
+        border-radius: 0 0.6rem 0.6rem 0;
+      }
+      label {
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-height: 4rem;
+        background: #fff;
+        line-height: 1;
+        cursor: pointer;
+        .arrow {
+          margin-right: 0.2rem;
+        }
+      }
+      input[type="radio"] {
+        position: absolute;
+      }
+      input[type="radio"]:checked + label {
+        background: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        .arrow {
+          color: #fff;
+        }
+      }
     }
   }
 `;

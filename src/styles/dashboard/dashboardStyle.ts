@@ -6,5 +6,7 @@ export const DashboardLayoutStyled = styled.div`
 `;
 export const DashboardWrapperStyled = styled.div`
   position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
   height: 100%;
 `;

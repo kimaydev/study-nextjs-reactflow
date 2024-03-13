@@ -13,11 +13,16 @@ import ReactFlow, {
   applyNodeChanges,
 } from "reactflow";
 import { DashboardWrapperStyled } from "@/styles/dashboard/dashboardStyle";
+import CustomNode from "@/components/common/CustomNode";
 
 // 노드의 초깃값
 const initialNodes: Node[] = [];
-// 엣지의 초깃값
+// 간선의 초깃값
 const initialEdges: Edge[] = [];
+// 커스텀 노드 타입
+const nodeTypes = {
+  custom: CustomNode,
+};
 
 const DashboardWrap = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
@@ -27,7 +32,7 @@ const DashboardWrap = () => {
     changes => setNodes(nds => applyNodeChanges(changes, nds)),
     [],
   );
-  // 선택한 엣지의 위치를 변경하는 함수
+  // 선택한 간선의 위치를 변경하는 함수
   const onEdgesChange: OnEdgesChange = useCallback(
     changes => setEdges(eds => applyEdgeChanges(changes, eds)),
     [],
@@ -37,12 +42,10 @@ const DashboardWrap = () => {
     params => setEdges(eds => addEdge(params, eds)),
     [],
   );
-  // console.log("nodes: ", nodes);
+  console.log("nodes: ", nodes);
   // console.log("edges: ", edges);
   return (
     <DashboardWrapperStyled>
-      {/* 토폴로지 커스텀 핸들러 박스 */}
-      <HandlerBox nodes={nodes} setNodes={setNodes} />
       {/* 토폴로지 */}
       <ReactFlow
         nodes={nodes}
@@ -50,11 +53,14 @@ const DashboardWrap = () => {
         edges={edges}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        nodeTypes={nodeTypes}
         fitView
       >
         <Background />
         <Controls />
       </ReactFlow>
+      {/* 토폴로지 커스텀 핸들러 박스 */}
+      <HandlerBox nodes={nodes} setNodes={setNodes} />
     </DashboardWrapperStyled>
   );
 };
