@@ -6,6 +6,7 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { GlobalStyled } from "@/styles/globalStyle";
 import AppLayout from "@/components/layout/AppLayout";
+import { RecoilRoot } from "recoil";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -29,7 +30,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <meta name="format-detection" content="telephone=no" />
       </Head>
       <AppLayout>
-        <>{getLayout(<Component {...pageProps} />)}</>
+        <RecoilRoot>{getLayout(<Component {...pageProps} />)}</RecoilRoot>
       </AppLayout>
     </>
   );

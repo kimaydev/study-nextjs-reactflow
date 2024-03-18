@@ -1,15 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import CustomHandle from "./CustomHandle";
-import { Position } from "reactflow";
+import { NodeProps, Position } from "reactflow";
 
-const CustomNode = () => {
+interface ICustomNodeProps extends NodeProps {
+  style?: React.CSSProperties;
+}
+
+const CustomNode = ({
+  data,
+  style,
+  targetPosition,
+  sourcePosition,
+  type,
+}: ICustomNodeProps) => {
+  // props를 통해 마지막으로 추가된 노드의 값을 가져올 수 있다.
+  // source: 출발 지점
+  // target: 도착 지점
+  console.table([data, sourcePosition, targetPosition, type]);
   return (
-    <div
-      style={{ background: "white", padding: 16, border: "1px solid black" }}
-    >
-      <CustomHandle type="target" position={Position.Top} isConnectable={1} />
-      <div>Connection Limit 1</div>
-    </div>
+    <>
+      <div
+        style={{
+          background: style?.backgroundColor,
+          padding: 16,
+          border: `1px solid #000`,
+          borderColor: style?.borderColor,
+        }}
+      >
+        {type === "customDefault" || type === "customInput" ? (
+          // 출발
+          <CustomHandle
+            type="source"
+            position={
+              (sourcePosition === "right" && Position.Right) ||
+              (sourcePosition === "bottom" && Position.Bottom)
+            }
+            isConnectable={data?.edgesLimit ? data?.edgesLimit : true}
+          />
+        ) : null}
+        <div>{data?.label}</div>
+        {type === "customDefault" || type === "customOutput" ? (
+          // 도착
+          <CustomHandle
+            type="target"
+            position={
+              (targetPosition === "left" && Position.Left) ||
+              (targetPosition === "top" && Position.Top)
+            }
+            isConnectable={data?.edgesLimit ? data?.edgesLimit : true}
+          />
+        ) : null}
+      </div>
+    </>
   );
 };
 

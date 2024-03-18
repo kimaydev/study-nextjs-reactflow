@@ -45,12 +45,6 @@ const nodeColorList = [
 ];
 
 const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
-  // 토폴로지 구조 설정 핸들러
-  const [flowStructureValue, setFlowStructureValue] =
-    useState<string>("FlowHorizontal");
-  const handleFlowStructure = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFlowStructureValue(e.target.value);
-  };
   // 노드명 입력 핸들러
   const [nodeNameValue, setNodeNameValue] = useState<string>("Node");
   const handleNodeName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,10 +57,26 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
     // console.log(e.target.value);
     setNodeColorValue(e.target.value);
   };
+  // 노드 타입 설정 핸들러
+  const [nodeTypeValue, setNodeTypeValue] = useState<string>("customDefault");
+  const handleNodeType = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNodeTypeValue(e.target.value);
+  };
+  // 트리 구조 방향 설정 핸들러
+  const [flowStructureValue, setFlowStructureValue] =
+    useState<string>("FlowHorizontal");
+  const handleFlowStructure = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFlowStructureValue(e.target.value);
+  };
   // 간선 최대 갯수 설정 핸들러
-  const [edgesCountValue, setEdgesCountValue] = useState("1");
+  const [edgesLimit, setEdgesLimit] = useState<string>("edgesLimitFalse");
+  const handleEdgesLimit = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEdgesLimit(e.target.value);
+  };
+  const [edgesCountValue, setEdgesCountValue] = useState<number>(1);
   const handleEdgesCount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEdgesCountValue(e.target.value);
+    const value = parseInt(e.target.value);
+    setEdgesCountValue(value);
   };
   // 노드 생성 시 랜덤한 위치에 나오게 하려고 넣은 함수
   const getRandom = (min: number, max: number) =>
@@ -95,12 +105,17 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
             targetPosition:
               flowStructureValue === "FlowHorizontal"
                 ? Position.Left
-                : undefined,
+                : Position.Top,
             sourcePosition:
               flowStructureValue === "FlowHorizontal"
                 ? Position.Right
-                : undefined,
-            data: { label: nodeNameValue },
+                : Position.Bottom,
+            type: nodeTypeValue,
+            data: {
+              label: nodeNameValue,
+              edgesLimit:
+                edgesLimit === "edgesLimitTrue" ? edgesCountValue : null,
+            },
             style: {
               backgroundColor: selectNodeColor[0].backgroundColor,
               color: selectNodeColor[0].textColor,
@@ -110,7 +125,14 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
         ];
       });
     },
-    [flowStructureValue, nodeNameValue, nodeColorValue],
+    [
+      flowStructureValue,
+      nodeNameValue,
+      nodeColorValue,
+      nodeTypeValue,
+      edgesLimit,
+      edgesCountValue,
+    ],
   );
   // 선택한 노드 삭제 핸들러
   return (
@@ -203,7 +225,9 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
                       type="radio"
                       name="NodeType"
                       id="nodeInput"
-                      value="nodeInput"
+                      value="customInput"
+                      checked={nodeTypeValue === "customInput"}
+                      onChange={handleNodeType}
                     />
                     <label htmlFor="nodeInput">입력</label>
                   </li>
@@ -212,7 +236,9 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
                       type="radio"
                       name="NodeType"
                       id="nodeOutput"
-                      value="nodeOutput"
+                      value="customOutput"
+                      checked={nodeTypeValue === "customOutput"}
+                      onChange={handleNodeType}
                     />
                     <label htmlFor="nodeOutput">출력</label>
                   </li>
@@ -221,7 +247,9 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
                       type="radio"
                       name="NodeType"
                       id="nodeDefault"
-                      value="nodeDefault"
+                      value="customDefault"
+                      checked={nodeTypeValue === "customDefault"}
+                      onChange={handleNodeType}
                     />
                     <label htmlFor="nodeDefault">입 · 출력</label>
                   </li>
@@ -231,7 +259,7 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
           </li>
           <li>
             <div className="form-box">
-              <span className="form-item-title">링크 방향 설정</span>
+              <span className="form-item-title">트리 구조 방향 설정</span>
               <RadioButtonStyled>
                 <ul>
                   <li>
@@ -271,6 +299,8 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
                       name="EdgesLimit"
                       id="edgesLimitTrue"
                       value="edgesLimitTrue"
+                      checked={edgesLimit === "edgesLimitTrue"}
+                      onChange={handleEdgesLimit}
                     />
                     <label htmlFor="edgesLimitTrue">제한함</label>
                   </li>
@@ -280,70 +310,74 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
                       name="EdgesLimit"
                       id="edgesLimitFalse"
                       value="edgesLimitFalse"
+                      checked={edgesLimit === "edgesLimitFalse"}
+                      onChange={handleEdgesLimit}
                     />
                     <label htmlFor="edgesLimitFalse">제한하지않음</label>
                   </li>
                 </ul>
               </RadioButtonStyled>
-              <RadioButtonStyled>
-                <ul>
-                  <li>
-                    <input
-                      type="radio"
-                      name="EdgesCount"
-                      id="edgeOne"
-                      value="1"
-                      checked={edgesCountValue === "1"}
-                      onChange={handleEdgesCount}
-                    />
-                    <label htmlFor="edgeOne">1</label>
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      name="EdgesCount"
-                      id="edgeTwo"
-                      value="2"
-                      checked={edgesCountValue === "2"}
-                      onChange={handleEdgesCount}
-                    />
-                    <label htmlFor="edgeTwo">2</label>
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      name="EdgesCount"
-                      id="edgeThree"
-                      value="3"
-                      checked={edgesCountValue === "3"}
-                      onChange={handleEdgesCount}
-                    />
-                    <label htmlFor="edgeThree">3</label>
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      name="EdgesCount"
-                      id="edgeFour"
-                      value="4"
-                      checked={edgesCountValue === "4"}
-                      onChange={handleEdgesCount}
-                    />
-                    <label htmlFor="edgeFour">4</label>
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      name="EdgesCount"
-                      id="edgeFive"
-                      value="5"
-                      checked={edgesCountValue === "5"}
-                      onChange={handleEdgesCount}
-                    />
-                    <label htmlFor="edgeFive">5</label>
-                  </li>
-                </ul>
-              </RadioButtonStyled>
+              {edgesLimit === "edgesLimitTrue" && (
+                <RadioButtonStyled>
+                  <ul>
+                    <li>
+                      <input
+                        type="radio"
+                        name="EdgesCount"
+                        id="edgeOne"
+                        value={1}
+                        checked={edgesCountValue === 1}
+                        onChange={handleEdgesCount}
+                      />
+                      <label htmlFor="edgeOne">1</label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="EdgesCount"
+                        id="edgeTwo"
+                        value={2}
+                        checked={edgesCountValue === 2}
+                        onChange={handleEdgesCount}
+                      />
+                      <label htmlFor="edgeTwo">2</label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="EdgesCount"
+                        id="edgeThree"
+                        value={3}
+                        checked={edgesCountValue === 3}
+                        onChange={handleEdgesCount}
+                      />
+                      <label htmlFor="edgeThree">3</label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="EdgesCount"
+                        id="edgeFour"
+                        value={4}
+                        checked={edgesCountValue === 4}
+                        onChange={handleEdgesCount}
+                      />
+                      <label htmlFor="edgeFour">4</label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="EdgesCount"
+                        id="edgeFive"
+                        value={5}
+                        checked={edgesCountValue === 5}
+                        onChange={handleEdgesCount}
+                      />
+                      <label htmlFor="edgeFive">5</label>
+                    </li>
+                  </ul>
+                </RadioButtonStyled>
+              )}
             </div>
           </li>
         </ul>
