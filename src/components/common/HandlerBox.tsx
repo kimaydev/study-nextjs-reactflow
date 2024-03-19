@@ -113,8 +113,8 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
             type: nodeTypeValue,
             data: {
               label: nodeNameValue,
-              edgesLimit:
-                edgesLimit === "edgesLimitTrue" ? edgesCountValue : null,
+              // edgesLimit:
+              //   edgesLimit === "edgesLimitTrue" ? edgesCountValue : null,
             },
             style: {
               backgroundColor: selectNodeColor[0].backgroundColor,
@@ -288,7 +288,7 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
               </RadioButtonStyled>
             </div>
           </li>
-          <li>
+          {/* <li>
             <div className="form-box">
               <span className="form-item-title">간선 연결 갯수 제한 설정</span>
               <RadioButtonStyled>
@@ -379,7 +379,7 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
                 </RadioButtonStyled>
               )}
             </div>
-          </li>
+          </li> */}
         </ul>
         <button className="submit-button" type="submit">
           노드 생성

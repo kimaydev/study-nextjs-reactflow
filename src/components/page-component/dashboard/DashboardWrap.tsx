@@ -45,7 +45,7 @@ const DashboardWrap = () => {
     params => setEdges(eds => addEdge(params, eds)),
     [],
   );
-  console.log("nodes: ", nodes);
+  // console.log("nodes: ", nodes);
   // console.log("edges: ", edges);
   return (
     <DashboardWrapperStyled>

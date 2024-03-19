@@ -16,7 +16,6 @@ const CustomNode = ({
   // props를 통해 마지막으로 추가된 노드의 값을 가져올 수 있다.
   // source: 출발 지점
   // target: 도착 지점
-  console.table([data, sourcePosition, targetPosition, type]);
   return (
     <>
       <div
@@ -35,7 +34,7 @@ const CustomNode = ({
               (sourcePosition === "right" && Position.Right) ||
               (sourcePosition === "bottom" && Position.Bottom)
             }
-            isConnectable={data?.edgesLimit ? data?.edgesLimit : true}
+            // isConnectable={data?.edgesLimit ? data?.edgesLimit : true}
           />
         ) : null}
         <div>{data?.label}</div>
@@ -47,7 +46,7 @@ const CustomNode = ({
               (targetPosition === "left" && Position.Left) ||
               (targetPosition === "top" && Position.Top)
             }
-            isConnectable={data?.edgesLimit ? data?.edgesLimit : true}
+            // isConnectable={data?.edgesLimit ? data?.edgesLimit : true}
           />
         ) : null}
       </div>
