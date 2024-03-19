@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import CustomHandle from "./CustomHandle";
 import { NodeProps, Position } from "reactflow";
+import Image from "next/image";
+import { NodeStyled } from "@/styles/common/topologyStyle";
 
 interface ICustomNodeProps extends NodeProps {
   style?: React.CSSProperties;
@@ -16,16 +18,10 @@ const CustomNode = ({
   // props를 통해 마지막으로 추가된 노드의 값을 가져올 수 있다.
   // source: 출발 지점
   // target: 도착 지점
+  // console.log("data props: ", data);
   return (
     <>
-      <div
-        style={{
-          background: style?.backgroundColor,
-          padding: 16,
-          border: `1px solid #000`,
-          borderColor: style?.borderColor,
-        }}
-      >
+      <NodeStyled $alaramToggle={data?.alaramToggle}>
         {type === "customDefault" || type === "customInput" ? (
           // 출발
           <CustomHandle
@@ -34,10 +30,22 @@ const CustomNode = ({
               (sourcePosition === "right" && Position.Right) ||
               (sourcePosition === "bottom" && Position.Bottom)
             }
-            // isConnectable={data?.edgesLimit ? data?.edgesLimit : true}
           />
         ) : null}
-        <div>{data?.label}</div>
+        <div className="image-box">
+          <i className="alarm">{data?.alaram >= 100 ? "99+" : data.alaram}</i>
+          <Image
+            src={`/assets/images/${(data?.nodeImage === "demoOne" && "icon_demo_001.png") || (data?.nodeImage === "demoTwo" && "icon_demo_002.png") || (data?.nodeImage === "demoThree" && "icon_demo_003.png")}`}
+            width="60"
+            height="60"
+            priority={true}
+            alt="데모001"
+          />
+        </div>
+        <div className="text-box">
+          <b>{data?.label}</b>
+          <p>{data?.desc}</p>
+        </div>
         {type === "customDefault" || type === "customOutput" ? (
           // 도착
           <CustomHandle
@@ -46,10 +54,9 @@ const CustomNode = ({
               (targetPosition === "left" && Position.Left) ||
               (targetPosition === "top" && Position.Top)
             }
-            // isConnectable={data?.edgesLimit ? data?.edgesLimit : true}
           />
         ) : null}
-      </div>
+      </NodeStyled>
     </>
   );
 };
