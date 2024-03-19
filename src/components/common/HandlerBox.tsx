@@ -37,23 +37,22 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
     // console.log("value", value);
     setNodeAlarmValue(value);
   };
-  // 노드 알람 레벨 설정 핸들러
   // 노드 이미지 설정 핸들러
   const [nodeImageValue, setNodeImageValue] = useState<string>("demoOne");
   const handleNodeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("선택한 이미지", e.target.value);
+    // console.log("선택한 이미지", e.target.value);
     setNodeImageValue(e.target.value);
-  };
-  // 노드 타입 설정 핸들러
-  const [nodeTypeValue, setNodeTypeValue] = useState<string>("customDefault");
-  const handleNodeType = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNodeTypeValue(e.target.value);
   };
   // 트리 구조 방향 설정 핸들러
   const [flowStructureValue, setFlowStructureValue] =
     useState<string>("FlowHorizontal");
   const handleFlowStructure = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFlowStructureValue(e.target.value);
+  };
+  // 노드 타입 설정 핸들러
+  const [nodeTypeValue, setNodeTypeValue] = useState<string>("customDefault");
+  const handleNodeType = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNodeTypeValue(e.target.value);
   };
   // 노드 생성 시 랜덤한 위치에 나오게 하려고 넣은 함수
   const getRandom = (min: number, max: number) =>
@@ -274,6 +273,37 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
           </li>
           <li>
             <div className="form-box">
+              <span className="form-item-title">트리 구조 방향 설정</span>
+              <RadioButtonStyled>
+                <ul>
+                  <li>
+                    <input
+                      type="radio"
+                      name="FlowStructure"
+                      id="FlowHorizontal"
+                      value="FlowHorizontal"
+                      checked={flowStructureValue === "FlowHorizontal"}
+                      onChange={handleFlowStructure}
+                    />
+                    <label htmlFor="FlowHorizontal">가로형</label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="FlowStructure"
+                      id="FlowVertical"
+                      value="FlowVertical"
+                      checked={flowStructureValue === "FlowVertical"}
+                      onChange={handleFlowStructure}
+                    />
+                    <label htmlFor="FlowVertical">세로형</label>
+                  </li>
+                </ul>
+              </RadioButtonStyled>
+            </div>
+          </li>
+          <li>
+            <div className="form-box">
               <span className="form-item-title">노드 타입 설정</span>
               <RadioButtonStyled>
                 <ul>
@@ -309,37 +339,6 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
                       onChange={handleNodeType}
                     />
                     <label htmlFor="nodeDefault">입 · 출력</label>
-                  </li>
-                </ul>
-              </RadioButtonStyled>
-            </div>
-          </li>
-          <li>
-            <div className="form-box">
-              <span className="form-item-title">트리 구조 방향 설정</span>
-              <RadioButtonStyled>
-                <ul>
-                  <li>
-                    <input
-                      type="radio"
-                      name="FlowStructure"
-                      id="FlowHorizontal"
-                      value="FlowHorizontal"
-                      checked={flowStructureValue === "FlowHorizontal"}
-                      onChange={handleFlowStructure}
-                    />
-                    <label htmlFor="FlowHorizontal">가로형</label>
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      name="FlowStructure"
-                      id="FlowVertical"
-                      value="FlowVertical"
-                      checked={flowStructureValue === "FlowVertical"}
-                      onChange={handleFlowStructure}
-                    />
-                    <label htmlFor="FlowVertical">세로형</label>
                   </li>
                 </ul>
               </RadioButtonStyled>
