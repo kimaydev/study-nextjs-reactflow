@@ -46,15 +46,58 @@ export const HandlerBoxStyled = styled.div`
       margin-bottom: 0.6rem;
     }
     .input-text {
+      display: block;
       width: 100%;
       border: 0.05rem solid #999;
       font-size: 1em;
+      margin-top: 4px;
       padding: 0.4rem 0.6rem;
+      border-radius: 4px;
+      &:first-of-type {
+        margin-top: 0;
+      }
     }
     ol {
       display: flex;
       align-items: center;
       gap: 1rem;
+    }
+  }
+`;
+export const ImageButtonStyled = styled.div`
+  & > ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    & > li {
+      position: relative;
+      label {
+        display: block;
+        cursor: pointer;
+        span {
+          display: block;
+          width: 100%;
+          text-align: center;
+          margin-top: 4px;
+          font-size: 14px;
+          background: #fff;
+          border: 0.05rem solid #999;
+          color: #000;
+          padding: 4px 0;
+          border-radius: 4px;
+        }
+      }
+      input[type="radio"] {
+        position: absolute;
+        background-color: red;
+      }
+      input[type="radio"]:checked + label {
+        span {
+          background: rgba(0, 0, 0, 0.8);
+          color: #fff;
+        }
+      }
     }
   }
 `;

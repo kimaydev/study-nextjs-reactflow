@@ -1,8 +1,10 @@
 import {
   HandlerBoxStyled,
+  ImageButtonStyled,
   NodeColorRadioStyled,
   RadioButtonStyled,
 } from "@/styles/common/handlerBoxStyle";
+import Image from "next/image";
 import React, { useCallback, useState } from "react";
 import { Node, Position } from "reactflow";
 
@@ -11,39 +13,6 @@ interface IHandlerBox {
   setNodes: React.Dispatch<React.SetStateAction<Node[]>>;
 }
 
-const nodeColorList = [
-  {
-    value: "white",
-    backgroundColor: "rgba(255,255,255,1)",
-    textColor: "#000",
-    borderColor: "#000",
-  },
-  {
-    value: "red",
-    backgroundColor: "rgba(252,239,237,1)",
-    textColor: "rgba(238,93,80,1)",
-    borderColor: "rgba(238,93,80,1)",
-  },
-  {
-    value: "yellow",
-    backgroundColor: "rgba(254,249,236,1)",
-    textColor: "rgba(255,194,70,1)",
-    borderColor: "rgba(255,194,70,1)",
-  },
-  {
-    value: "blue",
-    backgroundColor: "rgba(236,240,251,1)",
-    textColor: "rgba(51,103,217,1)",
-    borderColor: "rgba(51,103,217,1)",
-  },
-  {
-    value: "green",
-    backgroundColor: "rgba(237,248,239,1)",
-    textColor: "rgba(7,187,98,1)",
-    borderColor: "rgba(7,187,98,1)",
-  },
-];
-
 const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
   // 노드명 입력 핸들러
   const [nodeNameValue, setNodeNameValue] = useState<string>("Node");
@@ -51,16 +20,28 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
     e.preventDefault();
     setNodeNameValue(e.target.value);
   };
-  // 노드색상 선택 핸들러
-  const [nodeColorValue, setNodeColorValue] = useState<string>("white");
-  const handleNodeColor = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log(e.target.value);
-    setNodeColorValue(e.target.value);
+  const [nodeDescValue, setNodeDescValue] = useState<string>("");
+  const handleNodeDesc = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setNodeDescValue(e.target.value);
   };
-  // 노드 타입 설정 핸들러
-  const [nodeTypeValue, setNodeTypeValue] = useState<string>("customDefault");
-  const handleNodeType = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNodeTypeValue(e.target.value);
+  // 노드 알람 핸들러
+  const [nodeAlarmToggle, setNodeAlarmToggle] = useState("off");
+  const handleNodeAlarmToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNodeAlarmToggle(e.target.value);
+  };
+  // 노드 알람 갯수 설정 핸들러
+  const [nodeAlarmValue, setNodeAlarmValue] = useState<number>(5);
+  const handleNodeAlarm = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
+    // console.log("value", value);
+    setNodeAlarmValue(value);
+  };
+  // 노드 이미지 설정 핸들러
+  const [nodeImageValue, setNodeImageValue] = useState<string>("demoOne");
+  const handleNodeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // console.log("선택한 이미지", e.target.value);
+    setNodeImageValue(e.target.value);
   };
   // 트리 구조 방향 설정 핸들러
   const [flowStructureValue, setFlowStructureValue] =
@@ -68,15 +49,10 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
   const handleFlowStructure = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFlowStructureValue(e.target.value);
   };
-  // 간선 최대 갯수 설정 핸들러
-  const [edgesLimit, setEdgesLimit] = useState<string>("edgesLimitFalse");
-  const handleEdgesLimit = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEdgesLimit(e.target.value);
-  };
-  const [edgesCountValue, setEdgesCountValue] = useState<number>(1);
-  const handleEdgesCount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
-    setEdgesCountValue(value);
+  // 노드 타입 설정 핸들러
+  const [nodeTypeValue, setNodeTypeValue] = useState<string>("customDefault");
+  const handleNodeType = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNodeTypeValue(e.target.value);
   };
   // 노드 생성 시 랜덤한 위치에 나오게 하려고 넣은 함수
   const getRandom = (min: number, max: number) =>
@@ -85,11 +61,6 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
   const handleAddNode = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      // console.log("nodeColorValue", nodeColorValue);
-      const selectNodeColor = nodeColorList.filter(
-        item => item.value === nodeColorValue,
-      );
-      // console.log("selectNodeColor", selectNodeColor);
       setNodes(prev => {
         // console.log("prev: ", prev);
         // 마지막으로 생성된 노드의 id 값에서 1을 증가
@@ -113,13 +84,10 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
             type: nodeTypeValue,
             data: {
               label: nodeNameValue,
-              // edgesLimit:
-              //   edgesLimit === "edgesLimitTrue" ? edgesCountValue : null,
-            },
-            style: {
-              backgroundColor: selectNodeColor[0].backgroundColor,
-              color: selectNodeColor[0].textColor,
-              borderColor: selectNodeColor[0].borderColor,
+              desc: nodeDescValue,
+              alaram: nodeAlarmValue,
+              alaramToggle: nodeAlarmToggle,
+              nodeImage: nodeImageValue,
             },
           },
         ];
@@ -128,10 +96,11 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
     [
       flowStructureValue,
       nodeNameValue,
-      nodeColorValue,
+      nodeDescValue,
+      nodeAlarmToggle,
+      nodeAlarmValue,
+      nodeImageValue,
       nodeTypeValue,
-      edgesLimit,
-      edgesCountValue,
     ],
   );
   // 선택한 노드 삭제 핸들러
@@ -142,7 +111,7 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
           <li>
             <div className="form-box">
               <label htmlFor="NodeName" className="form-item-title">
-                노드 명
+                노드명
               </label>
               <input
                 type="text"
@@ -151,68 +120,186 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
                 onChange={handleNodeName}
                 placeholder="노드명을 입력해주세요."
               />
+              <input
+                type="text"
+                className="input-text"
+                value={nodeDescValue}
+                onChange={handleNodeDesc}
+                placeholder="설명글을 입력해주세요."
+              />
             </div>
           </li>
           <li>
             <div className="form-box">
-              <span className="form-item-title">노드 색상</span>
-              <ol>
-                <li>
-                  <NodeColorRadioStyled $value="white">
+              <span className="form-item-title">노드 알람</span>
+              <RadioButtonStyled>
+                <ul>
+                  <li>
                     <input
                       type="radio"
-                      name="NodeColor"
-                      value="white"
-                      checked={nodeColorValue === "white"}
-                      onChange={handleNodeColor}
+                      name="NodeAlarmToggle"
+                      id="nodeAlarmOn"
+                      value="on"
+                      checked={nodeAlarmToggle === "on"}
+                      onChange={handleNodeAlarmToggle}
                     />
-                  </NodeColorRadioStyled>
-                </li>
-                <li>
-                  <NodeColorRadioStyled $value="red">
+                    <label htmlFor="nodeAlarmOn">On</label>
+                  </li>
+                  <li>
                     <input
                       type="radio"
-                      name="NodeColor"
-                      value="red"
-                      checked={nodeColorValue === "red"}
-                      onChange={handleNodeColor}
+                      name="NodeAlarmToggle"
+                      id="nodeAlarmOff"
+                      value="off"
+                      checked={nodeAlarmToggle === "off"}
+                      onChange={handleNodeAlarmToggle}
                     />
-                  </NodeColorRadioStyled>
-                </li>
-                <li>
-                  <NodeColorRadioStyled $value="yellow">
+                    <label htmlFor="nodeAlarmOff">Off</label>
+                  </li>
+                </ul>
+              </RadioButtonStyled>
+            </div>
+          </li>
+          <li>
+            <div className="form-box">
+              <span className="form-item-title">노드 알람 갯수</span>
+              <RadioButtonStyled>
+                <ul>
+                  <li>
                     <input
                       type="radio"
-                      name="NodeColor"
-                      value="yellow"
-                      checked={nodeColorValue === "yellow"}
-                      onChange={handleNodeColor}
+                      name="NodeAlarm"
+                      id="nodeAlarmA"
+                      value={5}
+                      checked={nodeAlarmValue === 5}
+                      onChange={handleNodeAlarm}
                     />
-                  </NodeColorRadioStyled>
-                </li>
-                <li>
-                  <NodeColorRadioStyled $value="blue">
+                    <label htmlFor="nodeAlarmA">5개</label>
+                  </li>
+                  <li>
                     <input
                       type="radio"
-                      name="NodeColor"
-                      value="blue"
-                      checked={nodeColorValue === "blue"}
-                      onChange={handleNodeColor}
+                      name="NodeAlarm"
+                      id="nodeAlarmB"
+                      value={50}
+                      checked={nodeAlarmValue === 50}
+                      onChange={handleNodeAlarm}
                     />
-                  </NodeColorRadioStyled>
-                </li>
-                <li>
-                  <NodeColorRadioStyled $value="green">
+                    <label htmlFor="nodeAlarmB">50개</label>
+                  </li>
+                  <li>
                     <input
                       type="radio"
-                      name="NodeColor"
-                      value="green"
-                      checked={nodeColorValue === "green"}
-                      onChange={handleNodeColor}
+                      name="NodeAlarm"
+                      id="nodeAlarmC"
+                      value={100}
+                      checked={nodeAlarmValue >= 100}
+                      onChange={handleNodeAlarm}
                     />
-                  </NodeColorRadioStyled>
-                </li>
-              </ol>
+                    <label htmlFor="nodeAlarmC">100개↑</label>
+                  </li>
+                </ul>
+              </RadioButtonStyled>
+            </div>
+          </li>
+          <li>
+            <div className="form-box">
+              <span className="form-item-title">노드 이미지</span>
+              <ImageButtonStyled>
+                <ul>
+                  <li>
+                    <input
+                      type="radio"
+                      name="NodeImage"
+                      id="demoOne"
+                      value="demoOne"
+                      checked={nodeImageValue === "demoOne"}
+                      onChange={handleNodeImage}
+                    />
+                    <label htmlFor="demoOne">
+                      <Image
+                        src="/assets/images/icon_demo_001.png"
+                        width="60"
+                        height="60"
+                        priority={true}
+                        alt="데모001"
+                      />
+                      <span>데모001</span>
+                    </label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="NodeImage"
+                      id="demoTwo"
+                      value="demoTwo"
+                      checked={nodeImageValue === "demoTwo"}
+                      onChange={handleNodeImage}
+                    />
+                    <label htmlFor="demoTwo">
+                      <Image
+                        src="/assets/images/icon_demo_002.png"
+                        width="60"
+                        height="60"
+                        priority={true}
+                        alt="데모002"
+                      />
+                      <span>데모002</span>
+                    </label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="NodeImage"
+                      id="demoThree"
+                      value="demoThree"
+                      checked={nodeImageValue === "demoThree"}
+                      onChange={handleNodeImage}
+                    />
+                    <label htmlFor="demoThree">
+                      <Image
+                        src="/assets/images/icon_demo_003.png"
+                        width="60"
+                        height="60"
+                        priority={true}
+                        alt="데모003"
+                      />
+                      <span>데모003</span>
+                    </label>
+                  </li>
+                </ul>
+              </ImageButtonStyled>
+            </div>
+          </li>
+          <li>
+            <div className="form-box">
+              <span className="form-item-title">트리 구조 방향 설정</span>
+              <RadioButtonStyled>
+                <ul>
+                  <li>
+                    <input
+                      type="radio"
+                      name="FlowStructure"
+                      id="FlowHorizontal"
+                      value="FlowHorizontal"
+                      checked={flowStructureValue === "FlowHorizontal"}
+                      onChange={handleFlowStructure}
+                    />
+                    <label htmlFor="FlowHorizontal">가로형</label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="FlowStructure"
+                      id="FlowVertical"
+                      value="FlowVertical"
+                      checked={flowStructureValue === "FlowVertical"}
+                      onChange={handleFlowStructure}
+                    />
+                    <label htmlFor="FlowVertical">세로형</label>
+                  </li>
+                </ul>
+              </RadioButtonStyled>
             </div>
           </li>
           <li>
@@ -257,129 +344,6 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
               </RadioButtonStyled>
             </div>
           </li>
-          <li>
-            <div className="form-box">
-              <span className="form-item-title">트리 구조 방향 설정</span>
-              <RadioButtonStyled>
-                <ul>
-                  <li>
-                    <input
-                      type="radio"
-                      name="FlowStructure"
-                      id="FlowHorizontal"
-                      value="FlowHorizontal"
-                      checked={flowStructureValue === "FlowHorizontal"}
-                      onChange={handleFlowStructure}
-                    />
-                    <label htmlFor="FlowHorizontal">가로형</label>
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      name="FlowStructure"
-                      id="FlowVertical"
-                      value="FlowVertical"
-                      checked={flowStructureValue === "FlowVertical"}
-                      onChange={handleFlowStructure}
-                    />
-                    <label htmlFor="FlowVertical">세로형</label>
-                  </li>
-                </ul>
-              </RadioButtonStyled>
-            </div>
-          </li>
-          {/* <li>
-            <div className="form-box">
-              <span className="form-item-title">간선 연결 갯수 제한 설정</span>
-              <RadioButtonStyled>
-                <ul>
-                  <li>
-                    <input
-                      type="radio"
-                      name="EdgesLimit"
-                      id="edgesLimitTrue"
-                      value="edgesLimitTrue"
-                      checked={edgesLimit === "edgesLimitTrue"}
-                      onChange={handleEdgesLimit}
-                    />
-                    <label htmlFor="edgesLimitTrue">제한함</label>
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      name="EdgesLimit"
-                      id="edgesLimitFalse"
-                      value="edgesLimitFalse"
-                      checked={edgesLimit === "edgesLimitFalse"}
-                      onChange={handleEdgesLimit}
-                    />
-                    <label htmlFor="edgesLimitFalse">제한하지않음</label>
-                  </li>
-                </ul>
-              </RadioButtonStyled>
-              {edgesLimit === "edgesLimitTrue" && (
-                <RadioButtonStyled>
-                  <ul>
-                    <li>
-                      <input
-                        type="radio"
-                        name="EdgesCount"
-                        id="edgeOne"
-                        value={1}
-                        checked={edgesCountValue === 1}
-                        onChange={handleEdgesCount}
-                      />
-                      <label htmlFor="edgeOne">1</label>
-                    </li>
-                    <li>
-                      <input
-                        type="radio"
-                        name="EdgesCount"
-                        id="edgeTwo"
-                        value={2}
-                        checked={edgesCountValue === 2}
-                        onChange={handleEdgesCount}
-                      />
-                      <label htmlFor="edgeTwo">2</label>
-                    </li>
-                    <li>
-                      <input
-                        type="radio"
-                        name="EdgesCount"
-                        id="edgeThree"
-                        value={3}
-                        checked={edgesCountValue === 3}
-                        onChange={handleEdgesCount}
-                      />
-                      <label htmlFor="edgeThree">3</label>
-                    </li>
-                    <li>
-                      <input
-                        type="radio"
-                        name="EdgesCount"
-                        id="edgeFour"
-                        value={4}
-                        checked={edgesCountValue === 4}
-                        onChange={handleEdgesCount}
-                      />
-                      <label htmlFor="edgeFour">4</label>
-                    </li>
-                    <li>
-                      <input
-                        type="radio"
-                        name="EdgesCount"
-                        id="edgeFive"
-                        value={5}
-                        checked={edgesCountValue === 5}
-                        onChange={handleEdgesCount}
-                      />
-                      <label htmlFor="edgeFive">5</label>
-                    </li>
-                  </ul>
-                </RadioButtonStyled>
-              )}
-            </div>
-          </li> */}
         </ul>
         <button className="submit-button" type="submit">
           노드 생성
