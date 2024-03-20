@@ -1,22 +1,28 @@
 import {
   HandlerBoxStyled,
   ImageButtonStyled,
-  NodeColorRadioStyled,
   RadioButtonStyled,
 } from "@/styles/common/handlerBoxStyle";
 import Image from "next/image";
-import React, { useCallback, useState } from "react";
-import { AiOutlineAppstoreAdd } from "react-icons/ai";
-import { Node, Position } from "reactflow";
+import React, { useCallback, useEffect, useState } from "react";
+import { AiFillEdit } from "react-icons/ai";
+import { Node } from "reactflow";
 
-interface IHandlerBox {
+interface IHandlerEditBoxProps {
   nodes: Node[];
   setNodes: React.Dispatch<React.SetStateAction<Node[]>>;
+  selectNode: Node;
+  setSelectNode: React.Dispatch<React.SetStateAction<Node | null>>;
 }
 
-const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
+const HandlerEditBox = ({
+  nodes,
+  setNodes,
+  selectNode,
+  setSelectNode,
+}: IHandlerEditBoxProps) => {
   // 노드명 입력 핸들러
-  const [nodeNameValue, setNodeNameValue] = useState<string>("Node");
+  const [nodeNameValue, setNodeNameValue] = useState<string>("");
   const handleNodeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setNodeNameValue(e.target.value);
@@ -27,92 +33,85 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
     setNodeDescValue(e.target.value);
   };
   // 노드 알람 핸들러
-  const [nodeAlarmToggle, setNodeAlarmToggle] = useState<string>("off");
+  const [nodeAlarmToggle, setNodeAlarmToggle] = useState<string>("");
   const handleNodeAlarmToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNodeAlarmToggle(e.target.value);
   };
   // 노드 알람 갯수 설정 핸들러
-  const [nodeAlarmValue, setNodeAlarmValue] = useState<number>(5);
+  const [nodeAlarmValue, setNodeAlarmValue] = useState<number>(0);
   const handleNodeAlarm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
     // console.log("value", value);
     setNodeAlarmValue(value);
   };
   // 노드 이미지 설정 핸들러
-  const [nodeImageValue, setNodeImageValue] = useState<string>("demoOne");
+  const [nodeImageValue, setNodeImageValue] = useState<string>("");
   const handleNodeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     // console.log("선택한 이미지", e.target.value);
     setNodeImageValue(e.target.value);
   };
   // 트리 구조 방향 설정 핸들러
-  const [flowStructureValue, setFlowStructureValue] =
-    useState<string>("FlowHorizontal");
+  const [flowStructureValue, setFlowStructureValue] = useState<string>("");
   const handleFlowStructure = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFlowStructureValue(e.target.value);
   };
   // 노드 타입 설정 핸들러
-  const [nodeTypeValue, setNodeTypeValue] = useState<string>("customDefault");
+  const [nodeTypeValue, setNodeTypeValue] = useState<string | undefined>("");
   const handleNodeType = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNodeTypeValue(e.target.value);
   };
-  // 노드 생성 시 랜덤한 위치에 나오게 하려고 넣은 함수
-  const getRandom = (min: number, max: number) =>
-    Math.floor(Math.random() * (max - min) + min);
-  // 노드 추가 핸들러
-  const handleAddNode = useCallback(
+  // 선택한 노드의 id
+  useEffect(() => {
+    setNodeNameValue(selectNode?.data.label);
+    setNodeDescValue(selectNode?.data.desc);
+    setNodeAlarmToggle(selectNode?.data.alaramToggle);
+    setNodeAlarmValue(selectNode?.data.alaram);
+    setNodeImageValue(selectNode?.data.nodeImage);
+    if (
+      selectNode?.targetPosition === "left" &&
+      selectNode?.sourcePosition === "right"
+    ) {
+      setFlowStructureValue("FlowHorizontal");
+    } else {
+      setFlowStructureValue("FlowVertical");
+    }
+    setNodeTypeValue(selectNode?.type);
+  }, [selectNode]);
+  // 노드 수정 핸들러
+  const handleEditNode = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      setNodes(prev => {
-        // console.log("prev: ", prev);
-        // 마지막으로 생성된 노드의 id 값에서 1을 증가
-        const lastEl = prev.slice(-1)[0];
-        // 노드가 없을 경우 id 값은 0부터 시작함
-        const increaseId = prev.length > 0 ? parseInt(lastEl.id) + 1 : 0;
-        const toStringId = increaseId.toString();
-        return [
-          ...prev,
-          {
-            id: toStringId,
-            position: { x: getRandom(10, 100), y: getRandom(15, 80) },
-            targetPosition:
-              flowStructureValue === "FlowHorizontal"
-                ? Position.Left
-                : Position.Top,
-            sourcePosition:
-              flowStructureValue === "FlowHorizontal"
-                ? Position.Right
-                : Position.Bottom,
-            type: nodeTypeValue,
-            data: {
+      const selectNodeId = selectNode?.id;
+      console.log("수정 버튼 클릭");
+      console.log("selectNodeId", selectNodeId);
+      console.log("nodeNameValue", nodeNameValue);
+      setNodes(nds =>
+        nds.map(node => {
+          if (node.id === selectNodeId) {
+            // it's important that you create a new object here
+            // in order to notify react flow about the change
+            node.data = {
+              ...node.data,
               label: nodeNameValue,
-              desc: nodeDescValue,
-              alaram: nodeAlarmValue,
-              alaramToggle: nodeAlarmToggle,
-              nodeImage: nodeImageValue,
-            },
-          },
-        ];
-      });
+            };
+          }
+
+          return node;
+        }),
+      );
     },
-    [
-      flowStructureValue,
-      nodeNameValue,
-      nodeDescValue,
-      nodeAlarmToggle,
-      nodeAlarmValue,
-      nodeImageValue,
-      nodeTypeValue,
-    ],
+    [nodeNameValue, setNodes],
   );
+  console.log("노드 수정됨", nodes);
   return (
     <HandlerBoxStyled>
       <h2>
         <i>
-          <AiOutlineAppstoreAdd />
+          <AiFillEdit />
         </i>
-        노드 추가
+        노드 수정
       </h2>
-      <form onSubmit={handleAddNode}>
+      <form onSubmit={handleEditNode}>
         <ul>
           <li>
             <div className="form-box">
@@ -352,11 +351,11 @@ const HandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
           </li>
         </ul>
         <button className="submit-button" type="submit">
-          노드 생성
+          노드 수정
         </button>
       </form>
     </HandlerBoxStyled>
   );
 };
 
-export default HandlerBox;
+export default HandlerEditBox;

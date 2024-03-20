@@ -10,9 +10,20 @@ export const HandlerBoxStyled = styled.div`
   box-shadow: 0px 0px 17px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   isolation: isolate;
+  h2 {
+    padding: 1.4rem;
+    font-size: 2rem;
+    font-weight: 900;
+    border-bottom: 0.05rem solid #ddd;
+    i {
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 0.4rem;
+    }
+  }
   form {
     position: relative;
-    height: 100%;
+    height: calc(100% - 5rem);
     .submit-button {
       position: absolute;
       bottom: 0;
