@@ -5,6 +5,7 @@ import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { INodeContextMenuPropsType } from "@/utils/type/interface";
 
 const ContextMenu = ({
+  setToggleEditNode,
   data,
   id,
   top,
@@ -14,9 +15,13 @@ const ContextMenu = ({
   ...props
 }: INodeContextMenuPropsType) => {
   const { getNode, setNodes, addNodes, setEdges } = useReactFlow();
-  console.log("data", data);
+  // 노드 수정
+  const handleEditNode = useCallback(() => {
+    // console.log("data", data);
+    setToggleEditNode(true);
+  }, [id]);
   // 노드 삭제
-  const deleteNode = useCallback(() => {
+  const handleDeleteNode = useCallback(() => {
     setNodes(nodes => nodes.filter(node => node.id !== id));
     setEdges(edges => edges.filter(edge => edge.source !== id));
   }, [id, setNodes, setEdges]);
@@ -46,7 +51,7 @@ const ContextMenu = ({
         <div className="button-list">
           <ul>
             <li>
-              <button>
+              <button onClick={handleEditNode}>
                 <i>
                   <AiFillEdit />
                 </i>
@@ -54,7 +59,7 @@ const ContextMenu = ({
               </button>
             </li>
             <li>
-              <button onClick={deleteNode}>
+              <button onClick={handleDeleteNode}>
                 <i>
                   <AiFillDelete />
                 </i>

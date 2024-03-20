@@ -8,5 +8,6 @@ export interface INodeContextMenuType {
   bottom: any;
 }
 export interface INodeContextMenuPropsType extends INodeContextMenuType {
+  setToggleEditNode: React.Dispatch<React.SetStateAction<boolean>>;
   onClick?: () => void;
 }

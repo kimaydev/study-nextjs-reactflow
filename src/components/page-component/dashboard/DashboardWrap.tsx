@@ -18,6 +18,7 @@ import { DashboardWrapperStyled } from "@/styles/dashboard/dashboardStyle";
 import CustomNode from "@/components/common/CustomNode";
 import ContextMenu from "@/components/common/ContextMenu";
 import { INodeContextMenuType } from "@/utils/type/interface";
+import HandlerEditBox from "@/components/common/HandlerEditBox";
 
 // 노드의 초깃값
 const initialNodes: Node[] = [
@@ -222,6 +223,10 @@ const DashboardWrap = () => {
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
   const [menu, setMenu] = useState<INodeContextMenuType | null>(null);
   const ref = useRef<any>(null);
+  // 노드수정 패널 토글
+  const [toggleEditNode, setToggleEditNode] = useState<boolean>(false);
+  // 선택한 노드의 데이터
+  const [selectNode, setSelectNode] = useState<Node | null>(null);
   // 선택한 노드의 위치를 변경하는 함수
   const onNodesChange: OnNodesChange = useCallback(
     changes => setNodes(nds => applyNodeChanges(changes, nds)),
@@ -240,8 +245,10 @@ const DashboardWrap = () => {
   const onNodeContextMenu = useCallback(
     (e: React.MouseEvent, node: Node) => {
       e.preventDefault();
+      // console.log("node", node);
       // 메뉴 위치 계산, 화면 밖으로 contextMenu가 위치하지 않음
       const pane = ref.current.getBoundingClientRect();
+      setSelectNode(node);
       setMenu({
         id: node.id,
         data: node.data,
@@ -253,11 +260,9 @@ const DashboardWrap = () => {
     },
     [setMenu],
   );
-  console.log("menu", menu);
   // contextMenu가 열려있을 때 메뉴를 클릭하면 창이 닫힘
   const onPaneClick = useCallback(() => setMenu(null), [setMenu]);
-  console.log("nodes: ", nodes);
-  console.log("edges: ", edges);
+  // console.log("edges: ", edges);
   return (
     <DashboardWrapperStyled>
       <ReactFlowProvider>
@@ -275,11 +280,27 @@ const DashboardWrap = () => {
           fitView
         >
           <Background />
-          {menu && <ContextMenu onClick={onPaneClick} {...menu} />}
+          {menu && (
+            <ContextMenu
+              onClick={onPaneClick}
+              setToggleEditNode={setToggleEditNode}
+              {...menu}
+            />
+          )}
           <Controls />
         </ReactFlow>
-        {/* 토폴로지 커스텀 핸들러 박스 */}
-        <HandlerBox nodes={nodes} setNodes={setNodes} />
+        {toggleEditNode ? (
+          // 토폴로지 수정 패널
+          <HandlerEditBox
+            nodes={nodes}
+            setNodes={setNodes}
+            selectNode={selectNode}
+            setSelectNode={setSelectNode}
+          />
+        ) : (
+          // 토폴로지 추가 패널
+          <HandlerBox nodes={nodes} setNodes={setNodes} />
+        )}
       </ReactFlowProvider>
     </DashboardWrapperStyled>
   );
