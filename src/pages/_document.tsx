@@ -6,6 +6,7 @@ import Document, {
   Main,
   NextScript,
 } from "next/document";
+import { createCache, extractStyle, StyleProvider } from "@ant-design/cssinjs";
 import { ServerStyleSheet } from "styled-components";
 
 export default class MyDocument extends Document {
@@ -14,18 +15,30 @@ export default class MyDocument extends Document {
     ctx: DocumentContext,
   ): Promise<DocumentInitialProps> {
     const sheet = new ServerStyleSheet();
+    const cache = createCache();
     const originalRenderPage = ctx.renderPage;
     try {
       ctx.renderPage = () =>
         originalRenderPage({
           enhanceApp: (App: any) => (props: any) =>
-            sheet.collectStyles(<App {...props} />),
+            sheet.collectStyles(
+              <StyleProvider cache={cache}>
+                <App {...props} />
+              </StyleProvider>,
+            ),
         });
 
       const initialProps = await Document.getInitialProps(ctx);
+      const style = extractStyle(cache, true);
       return {
         ...initialProps,
-        styles: [initialProps.styles, sheet.getStyleElement()],
+        styles: (
+          <>
+            {initialProps.styles}
+            {sheet.getStyleElement()}
+            <style dangerouslySetInnerHTML={{ __html: style }} />
+          </>
+        ),
       };
     } finally {
       sheet.seal();

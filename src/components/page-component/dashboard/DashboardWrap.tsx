@@ -260,6 +260,7 @@ const DashboardWrap = () => {
     },
     [setMenu],
   );
+  console.log("selectNode", selectNode);
   // contextMenu가 열려있을 때 메뉴를 클릭하면 창이 닫힘
   const onPaneClick = useCallback(() => setMenu(null), [setMenu]);
   // console.log("edges: ", edges);

@@ -11,7 +11,7 @@ import { Node } from "reactflow";
 interface IHandlerEditBoxProps {
   nodes: Node[];
   setNodes: React.Dispatch<React.SetStateAction<Node[]>>;
-  selectNode: Node;
+  selectNode: Node | null;
   setSelectNode: React.Dispatch<React.SetStateAction<Node | null>>;
 }
 
