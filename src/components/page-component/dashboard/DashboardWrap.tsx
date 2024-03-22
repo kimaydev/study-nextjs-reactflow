@@ -4,6 +4,7 @@ import ReactFlow, {
   Background,
   Controls,
   Edge,
+  MarkerType,
   Node,
   OnConnect,
   OnEdgesChange,
@@ -19,156 +20,161 @@ import CustomNode from "@/components/common/CustomNode";
 import ContextMenu from "@/components/common/ContextMenu";
 import { INodeContextMenuType } from "@/utils/type/interface";
 import HandlerEditBox from "@/components/common/HandlerEditBox";
+import InstanceNode from "@/components/common/InstanceNode";
+import InstanceInputNode from "@/components/common/InstanceInputNode";
+import InstanceSmallNode from "@/components/common/InstanceSmallNode";
 
 // 노드의 초깃값
 const initialNodes: Node[] = [
   {
     id: "0",
-    position: {
-      x: -3.552713678800501e-15,
-      y: 87.00000000000001,
-    },
-    targetPosition: Position.Left,
-    sourcePosition: Position.Right,
-    type: "customDefault",
+    type: "instanceNode",
     data: {
-      label: "Node0",
-      desc: "설명글0",
-      alaram: 5,
-      alaramToggle: "off",
-      nodeImage: "demoThree",
+      label: "Node 1",
     },
-    width: 100,
-    height: 127,
+    position: {
+      x: 290.7585098840026,
+      y: 365.07355959139346,
+    },
+    width: 120,
+    height: 120,
     selected: false,
     positionAbsolute: {
-      x: -3.552713678800501e-15,
-      y: 87.00000000000001,
+      x: 290.7585098840026,
+      y: 365.07355959139346,
     },
     dragging: false,
   },
   {
     id: "1",
-    position: {
-      x: 344.0045695756484,
-      y: 240.22425314473264,
-    },
-    targetPosition: Position.Left,
-    sourcePosition: Position.Right,
-    type: "customOutput",
+    type: "instanceInputNode",
     data: {
-      label: "Node1",
-      desc: "설명글1",
-      alaram: 50,
-      alaramToggle: "on",
-      nodeImage: "demoThree",
+      label: "Node 1",
+    },
+    position: {
+      x: 9.9067744669277,
+      y: 699.4422745535387,
     },
     width: 100,
-    height: 127,
+    height: 100,
     selected: false,
     positionAbsolute: {
-      x: 344.0045695756484,
-      y: 240.22425314473264,
+      x: 9.9067744669277,
+      y: 699.4422745535387,
     },
     dragging: false,
   },
   {
     id: "2",
-    position: {
-      x: 397.78488600656425,
-      y: 23.597539553864465,
-    },
-    targetPosition: Position.Left,
-    sourcePosition: Position.Right,
-    type: "customOutput",
+    type: "instanceSmallNode",
     data: {
-      label: "Node2",
-      desc: "설명글2",
-      alaram: 50,
-      alaramToggle: "on",
-      nodeImage: "demoOne",
+      label: "Node 1",
     },
-    width: 100,
-    height: 127,
+    position: {
+      x: -223.33077031264818,
+      y: 374.1395885355403,
+    },
+    width: 70,
+    height: 70,
     selected: false,
     positionAbsolute: {
-      x: 397.78488600656425,
-      y: 23.597539553864465,
+      x: -223.33077031264818,
+      y: 374.1395885355403,
     },
     dragging: false,
   },
   {
     id: "3",
-    position: {
-      x: -258.00000000000006,
-      y: 8.999999999999993,
-    },
-    targetPosition: Position.Left,
-    sourcePosition: Position.Right,
-    type: "customInput",
+    type: "instanceSmallNode",
     data: {
-      label: "Node3",
-      desc: "설명글3",
-      alaram: 50,
-      alaramToggle: "on",
-      nodeImage: "demoTwo",
+      label: "Node 1",
     },
-    width: 100,
-    height: 127,
+    position: {
+      x: 49.076485273780605,
+      y: 90.64663791870622,
+    },
+    width: 70,
+    height: 70,
     selected: false,
     positionAbsolute: {
-      x: -258.00000000000006,
-      y: 8.999999999999993,
+      x: 49.076485273780605,
+      y: 90.64663791870622,
     },
     dragging: false,
   },
   {
     id: "4",
-    position: {
-      x: 266.0674872253042,
-      y: -157.9968369206192,
-    },
-    targetPosition: Position.Left,
-    sourcePosition: Position.Right,
-    type: "customOutput",
+    type: "instanceSmallNode",
     data: {
-      label: "Node4",
-      desc: "설명글4",
-      alaram: 50,
-      alaramToggle: "off",
-      nodeImage: "demoTwo",
+      label: "Node 1",
     },
-    width: 100,
-    height: 127,
+    position: {
+      x: -76.38467160842364,
+      y: 239.95209399785426,
+    },
+    width: 70,
+    height: 70,
     selected: false,
     positionAbsolute: {
-      x: 266.0674872253042,
-      y: -157.9968369206192,
+      x: -76.38467160842364,
+      y: 239.95209399785426,
     },
     dragging: false,
   },
   {
     id: "5",
-    position: {
-      x: -331.7525488901797,
-      y: 274.6773290098463,
-    },
-    targetPosition: Position.Left,
-    sourcePosition: Position.Right,
-    type: "customInput",
+    type: "instanceSmallNode",
     data: {
-      label: "Node5",
-      desc: "설명글5",
-      alaram: 50,
-      alaramToggle: "off",
-      nodeImage: "demoOne",
+      label: "Node 1",
+    },
+    position: {
+      x: 708.8317393286403,
+      y: 409.6184538012201,
+    },
+    width: 70,
+    height: 70,
+    selected: false,
+    positionAbsolute: {
+      x: 708.8317393286403,
+      y: 409.6184538012201,
+    },
+    dragging: false,
+  },
+  {
+    id: "6",
+    type: "instanceInputNode",
+    data: {
+      label: "Node 1",
+    },
+    position: {
+      x: -804.6753424271412,
+      y: 96.62656832796809,
     },
     width: 100,
-    height: 127,
-    selected: true,
+    height: 100,
+    selected: false,
     positionAbsolute: {
-      x: -331.7525488901797,
-      y: 274.6773290098463,
+      x: -804.6753424271412,
+      y: 96.62656832796809,
+    },
+    dragging: false,
+  },
+  {
+    id: "7",
+    type: "instanceNode",
+    data: {
+      label: "Node 1",
+    },
+    position: {
+      x: -485.62715732256345,
+      y: 123.57723915927113,
+    },
+    width: 120,
+    height: 120,
+    selected: false,
+    positionAbsolute: {
+      x: -485.62715732256345,
+      y: 123.57723915927113,
     },
     dragging: false,
   },
@@ -176,13 +182,55 @@ const initialNodes: Node[] = [
 // 간선의 초깃값
 const initialEdges: Edge[] = [
   {
-    source: "0",
+    type: "straight",
+    source: "6",
+    sourceHandle: null,
+    target: "7",
+    targetHandle: null,
+    id: "reactflow__edge-6-7",
+  },
+  {
+    type: "straight",
+    source: "7",
+    sourceHandle: null,
+    target: "3",
+    targetHandle: null,
+    id: "reactflow__edge-7-3",
+  },
+  {
+    type: "straight",
+    source: "7",
+    sourceHandle: null,
+    target: "4",
+    targetHandle: null,
+    id: "reactflow__edge-7-4",
+  },
+  {
+    type: "straight",
+    source: "7",
     sourceHandle: null,
     target: "2",
     targetHandle: null,
-    id: "reactflow__edge-0-2",
+    id: "reactflow__edge-7-2",
   },
   {
+    type: "straight",
+    source: "4",
+    sourceHandle: null,
+    target: "0",
+    targetHandle: null,
+    id: "reactflow__edge-4-0",
+  },
+  {
+    type: "straight",
+    source: "2",
+    sourceHandle: null,
+    target: "0",
+    targetHandle: null,
+    id: "reactflow__edge-2-0",
+  },
+  {
+    type: "straight",
     source: "3",
     sourceHandle: null,
     target: "0",
@@ -190,25 +238,20 @@ const initialEdges: Edge[] = [
     id: "reactflow__edge-3-0",
   },
   {
+    type: "straight",
     source: "0",
     sourceHandle: null,
-    target: "1",
+    target: "5",
     targetHandle: null,
-    id: "reactflow__edge-0-1",
+    id: "reactflow__edge-0-5",
   },
   {
-    source: "0",
-    sourceHandle: null,
-    target: "4",
-    targetHandle: null,
-    id: "reactflow__edge-0-4",
-  },
-  {
-    source: "5",
+    type: "straight",
+    source: "1",
     sourceHandle: null,
     target: "0",
     targetHandle: null,
-    id: "reactflow__edge-5-0",
+    id: "reactflow__edge-1-0",
   },
 ];
 // 커스텀 노드 타입
@@ -216,6 +259,9 @@ const nodeTypes = {
   customDefault: CustomNode,
   customInput: CustomNode,
   customOutput: CustomNode,
+  instanceNode: InstanceNode,
+  instanceInputNode: InstanceInputNode,
+  instanceSmallNode: InstanceSmallNode,
 };
 
 const DashboardWrap = () => {
@@ -262,6 +308,7 @@ const DashboardWrap = () => {
   );
   // contextMenu가 열려있을 때 메뉴를 클릭하면 창이 닫힘
   const onPaneClick = useCallback(() => setMenu(null), [setMenu]);
+  console.log("nodes: ", nodes);
   // console.log("edges: ", edges);
   return (
     <DashboardWrapperStyled>
@@ -289,18 +336,6 @@ const DashboardWrap = () => {
           )}
           <Controls />
         </ReactFlow>
-        {toggleEditNode ? (
-          // 토폴로지 수정 패널
-          <HandlerEditBox
-            nodes={nodes}
-            setNodes={setNodes}
-            selectNode={selectNode}
-            setSelectNode={setSelectNode}
-          />
-        ) : (
-          // 토폴로지 추가 패널
-          <HandlerBox nodes={nodes} setNodes={setNodes} />
-        )}
       </ReactFlowProvider>
     </DashboardWrapperStyled>
   );
