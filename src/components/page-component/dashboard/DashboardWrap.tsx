@@ -4,6 +4,7 @@ import ReactFlow, {
   Background,
   Controls,
   Edge,
+  EdgeProps,
   MarkerType,
   Node,
   OnConnect,
@@ -16,13 +17,14 @@ import ReactFlow, {
   applyNodeChanges,
 } from "reactflow";
 import { DashboardWrapperStyled } from "@/styles/dashboard/dashboardStyle";
-import CustomNode from "@/components/common/CustomNode";
 import ContextMenu from "@/components/common/ContextMenu";
 import { INodeContextMenuType } from "@/utils/type/interface";
 import HandlerEditBox from "@/components/common/HandlerEditBox";
 import InstanceNode from "@/components/common/InstanceNode";
 import InstanceInputNode from "@/components/common/InstanceInputNode";
 import InstanceSmallNode from "@/components/common/InstanceSmallNode";
+import FloatingEdge from "@/components/floating_edge/FloatingEdge";
+import FloatingConnectionLine from "@/components/floating_edge/FloatingConnectionLine";
 
 // 노드의 초깃값
 const initialNodes: Node[] = [
@@ -38,12 +40,10 @@ const initialNodes: Node[] = [
     },
     width: 120,
     height: 120,
-    selected: false,
     positionAbsolute: {
       x: 290.7585098840026,
       y: 365.07355959139346,
     },
-    dragging: false,
   },
   {
     id: "1",
@@ -52,17 +52,15 @@ const initialNodes: Node[] = [
       label: "Node 1",
     },
     position: {
-      x: 9.9067744669277,
-      y: 699.4422745535387,
+      x: 344.1981907726394,
+      y: 695.9600723003543,
     },
     width: 100,
     height: 100,
-    selected: false,
     positionAbsolute: {
-      x: 9.9067744669277,
-      y: 699.4422745535387,
+      x: 344.1981907726394,
+      y: 695.9600723003543,
     },
-    dragging: false,
   },
   {
     id: "2",
@@ -71,17 +69,15 @@ const initialNodes: Node[] = [
       label: "Node 1",
     },
     position: {
-      x: -223.33077031264818,
-      y: 374.1395885355403,
+      x: -110.78710749019235,
+      y: 376.02307163665665,
     },
     width: 70,
     height: 70,
-    selected: false,
     positionAbsolute: {
-      x: -223.33077031264818,
-      y: 374.1395885355403,
+      x: -110.78710749019235,
+      y: 376.02307163665665,
     },
-    dragging: false,
   },
   {
     id: "3",
@@ -90,17 +86,15 @@ const initialNodes: Node[] = [
       label: "Node 1",
     },
     position: {
-      x: 49.076485273780605,
-      y: 90.64663791870622,
+      x: 254.52641821166594,
+      y: 41.895806374123225,
     },
     width: 70,
     height: 70,
-    selected: false,
     positionAbsolute: {
-      x: 49.076485273780605,
-      y: 90.64663791870622,
+      x: 254.52641821166594,
+      y: 41.895806374123225,
     },
-    dragging: false,
   },
   {
     id: "4",
@@ -109,17 +103,15 @@ const initialNodes: Node[] = [
       label: "Node 1",
     },
     position: {
-      x: -76.38467160842364,
-      y: 239.95209399785426,
+      x: 81.35002527850976,
+      y: 197.7643861117085,
     },
     width: 70,
     height: 70,
-    selected: false,
     positionAbsolute: {
-      x: -76.38467160842364,
-      y: 239.95209399785426,
+      x: 81.35002527850976,
+      y: 197.7643861117085,
     },
-    dragging: false,
   },
   {
     id: "5",
@@ -128,17 +120,15 @@ const initialNodes: Node[] = [
       label: "Node 1",
     },
     position: {
-      x: 708.8317393286403,
-      y: 409.6184538012201,
+      x: 616.5533796192511,
+      y: 425.2883639405503,
     },
     width: 70,
     height: 70,
-    selected: false,
     positionAbsolute: {
-      x: 708.8317393286403,
-      y: 409.6184538012201,
+      x: 616.5533796192511,
+      y: 425.2883639405503,
     },
-    dragging: false,
   },
   {
     id: "6",
@@ -147,17 +137,15 @@ const initialNodes: Node[] = [
       label: "Node 1",
     },
     position: {
-      x: -804.6753424271412,
-      y: 96.62656832796809,
+      x: -443.73680299641256,
+      y: -218.00774631773115,
     },
     width: 100,
     height: 100,
-    selected: false,
     positionAbsolute: {
-      x: -804.6753424271412,
-      y: 96.62656832796809,
+      x: -443.73680299641256,
+      y: -218.00774631773115,
     },
-    dragging: false,
   },
   {
     id: "7",
@@ -166,107 +154,143 @@ const initialNodes: Node[] = [
       label: "Node 1",
     },
     position: {
-      x: -485.62715732256345,
-      y: 123.57723915927113,
+      x: -170.45558409406735,
+      y: -36.49395182799088,
     },
     width: 120,
     height: 120,
-    selected: false,
     positionAbsolute: {
-      x: -485.62715732256345,
-      y: 123.57723915927113,
+      x: -170.45558409406735,
+      y: -36.49395182799088,
     },
-    dragging: false,
   },
 ];
 // 간선의 초깃값
 const initialEdges: Edge[] = [
   {
-    type: "straight",
+    type: "floating",
     source: "6",
     sourceHandle: null,
     target: "7",
     targetHandle: null,
     id: "reactflow__edge-6-7",
+    data: {
+      time: "3s",
+      calls: "116 tests",
+    },
   },
   {
-    type: "straight",
+    type: "floating",
     source: "7",
     sourceHandle: null,
     target: "3",
     targetHandle: null,
     id: "reactflow__edge-7-3",
+    data: {
+      time: "10.4ms",
+      calls: "1.4K calls",
+    },
   },
   {
-    type: "straight",
+    type: "floating",
     source: "7",
     sourceHandle: null,
     target: "4",
     targetHandle: null,
     id: "reactflow__edge-7-4",
+    data: {
+      time: "14.9ms",
+      calls: "453 calls",
+    },
   },
   {
-    type: "straight",
+    type: "floating",
     source: "7",
     sourceHandle: null,
     target: "2",
     targetHandle: null,
     id: "reactflow__edge-7-2",
+    data: {
+      time: "11.7ms",
+      calls: "1.8K calls",
+    },
   },
   {
-    type: "straight",
+    type: "floating",
     source: "4",
     sourceHandle: null,
     target: "0",
     targetHandle: null,
     id: "reactflow__edge-4-0",
+    data: {
+      time: "8.7ms",
+      calls: "202 calls",
+    },
   },
   {
-    type: "straight",
+    type: "floating",
     source: "2",
     sourceHandle: null,
     target: "0",
     targetHandle: null,
     id: "reactflow__edge-2-0",
+    data: {
+      time: "10.7ms",
+      calls: "760 calls",
+    },
   },
   {
-    type: "straight",
+    type: "floating",
     source: "3",
     sourceHandle: null,
     target: "0",
     targetHandle: null,
     id: "reactflow__edge-3-0",
+    data: {
+      time: "11.7ms",
+      calls: "570 calls",
+    },
   },
   {
-    type: "straight",
+    type: "floating",
     source: "0",
     sourceHandle: null,
     target: "5",
     targetHandle: null,
     id: "reactflow__edge-0-5",
+    data: {
+      time: "21.4ms",
+      calls: "36 calls",
+    },
   },
   {
-    type: "straight",
+    type: "floating",
     source: "1",
     sourceHandle: null,
     target: "0",
     targetHandle: null,
     id: "reactflow__edge-1-0",
+    data: {
+      time: "1.2s",
+      calls: "385 tests",
+    },
   },
 ];
 // 커스텀 노드 타입
 const nodeTypes = {
-  customDefault: CustomNode,
-  customInput: CustomNode,
-  customOutput: CustomNode,
   instanceNode: InstanceNode,
   instanceInputNode: InstanceInputNode,
   instanceSmallNode: InstanceSmallNode,
+};
+// 커스텀 엣지 타입
+const edgeTypes = {
+  floating: FloatingEdge,
 };
 
 const DashboardWrap = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
+  // contextMenu state
   const [menu, setMenu] = useState<INodeContextMenuType | null>(null);
   const ref = useRef<any>(null);
   // 노드수정 패널 토글
@@ -285,9 +309,24 @@ const DashboardWrap = () => {
   );
   // 노드를 연결하는 함수
   const onConnect: OnConnect = useCallback(
-    params => setEdges(eds => addEdge(params, eds)),
-    [],
+    params =>
+      setEdges(eds =>
+        addEdge(
+          {
+            ...params,
+            type: "floating",
+            markerStart: {
+              type: MarkerType.ArrowClosed,
+              orient: "auto-start-reverse",
+            },
+            markerEnd: { type: MarkerType.Arrow },
+          },
+          eds,
+        ),
+      ),
+    [setEdges],
   );
+  // 노드 마우스 오른쪽 클릭 이벤트
   const onNodeContextMenu = useCallback(
     (e: React.MouseEvent, node: Node) => {
       e.preventDefault();
@@ -308,7 +347,7 @@ const DashboardWrap = () => {
   );
   // contextMenu가 열려있을 때 메뉴를 클릭하면 창이 닫힘
   const onPaneClick = useCallback(() => setMenu(null), [setMenu]);
-  console.log("nodes: ", nodes);
+  // console.log("nodes: ", nodes);
   // console.log("edges: ", edges);
   return (
     <DashboardWrapperStyled>
@@ -323,8 +362,10 @@ const DashboardWrap = () => {
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           onPaneClick={onPaneClick}
-          onNodeContextMenu={onNodeContextMenu}
+          // onNodeContextMenu={onNodeContextMenu}
           fitView
+          edgeTypes={edgeTypes}
+          connectionLineComponent={FloatingConnectionLine}
         >
           <Background />
           {menu && (

@@ -319,3 +319,23 @@ export const InstanceSmallNodeStyled = styled(InstanceInputNodeStyled)`
     }
   }
 `;
+export const InstanceEdgeLabelStyled = styled.div`
+  span {
+    display: block;
+    &.text {
+      border: 1px solid #999;
+      text-align: center;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background-color: #fff;
+    }
+    &.sub-text {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: 6px;
+      text-align: center;
+      white-space: nowrap;
+    }
+  }
+`;
