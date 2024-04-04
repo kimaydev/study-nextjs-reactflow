@@ -61,4 +61,4 @@ const CustomNode = ({
   );
 };
 
-export default CustomNode;
+export default React.memo(CustomNode);

@@ -1,6 +1,11 @@
 import styled, { css } from "styled-components";
 import { NodeAlarmKeyframe } from "../keyframeStyle";
 
+export const ReactFlowLayoutStyled = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
 export const NodeStyled = styled.div<{ $alaramToggle: string }>`
   width: 100px;
   background: #fff;
