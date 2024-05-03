@@ -21,10 +21,7 @@ const initialNodes: Node[] = [
     data: {
       label: "Node 1",
     },
-    position: {
-      x: 703,
-      y: 374,
-    },
+    position: { x: 593, y: 257 },
   },
 ];
 // 간선의 초깃값

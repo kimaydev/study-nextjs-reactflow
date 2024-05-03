@@ -4,7 +4,7 @@ export const ChartNodeStyled = styled.div`
   box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.15);
   background-color: #fff;
   .react-flow__handle {
-    background-color: pink;
+    background-color: #5d71c6;
     width: 15px;
     height: 100%;
     border-radius: 0;
