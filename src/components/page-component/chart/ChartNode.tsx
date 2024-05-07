@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Position } from "reactflow";
-import CustomHandle from "../common/CustomHandle";
-import { ChartNodeStyled } from "@/styles/chart/chartStyle";
+import CustomHandle from "../../common/CustomHandle";
+import { ChartNodeStyled } from "@/styles/page-component/chart/chartStyle";
 import EChartsReact from "echarts-for-react";
 
 const ChartNode = () => {

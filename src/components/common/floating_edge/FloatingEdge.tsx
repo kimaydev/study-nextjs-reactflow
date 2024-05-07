@@ -6,7 +6,7 @@ import {
   EdgeLabelRenderer,
 } from "reactflow";
 import { getEdgeParams } from "./FloatingUtils";
-import { InstanceEdgeLabelStyled } from "@/styles/common/handlerBoxStyle";
+import { InstanceEdgeLabelStyled } from "@/styles/page-component/instance/instanceStyle";
 
 function FloatingEdge({
   id,

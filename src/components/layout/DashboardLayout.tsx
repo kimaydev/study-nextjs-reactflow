@@ -1,8 +1,14 @@
-import { DashboardLayoutStyled } from "@/styles/dashboard/dashboardStyle";
 import React, { ReactElement } from "react";
+import { DashboardLayoutStyled } from "@/styles/layout/dashboardLayoutStyle";
+import Header from "../common/Header";
 
 const DashboardLayout = ({ children }: { children: ReactElement }) => {
-  return <DashboardLayoutStyled>{children}</DashboardLayoutStyled>;
+  return (
+    <DashboardLayoutStyled>
+      <Header />
+      <div className="contents-layout">{children}</div>
+    </DashboardLayoutStyled>
+  );
 };
 
 export default DashboardLayout;

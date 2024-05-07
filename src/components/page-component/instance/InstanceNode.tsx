@@ -1,9 +1,9 @@
 import React from "react";
-import CustomHandle from "./CustomHandle";
 import { Position } from "reactflow";
-import { ConfigProvider, Progress } from "antd";
-import { InstanceNodeStyled } from "@/styles/common/handlerBoxStyle";
 import { PiBellSimpleFill, PiWarningCircleFill } from "react-icons/pi";
+import { ConfigProvider, Progress } from "antd";
+import CustomHandle from "@/components/common/CustomHandle";
+import { InstanceNodeStyled } from "@/styles/page-component/instance/instanceStyle";
 
 const InstanceNode = () => {
   return (

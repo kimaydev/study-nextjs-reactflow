@@ -1,12 +1,12 @@
 import React, { useMemo } from "react";
 import { getConnectedEdges, Handle, useNodeId, useStore } from "reactflow";
 
-const selector = s => ({
+const selector = (s: any) => ({
   nodeInternals: s.nodeInternals,
   edges: s.edges,
 });
 
-const CustomHandle = props => {
+const CustomHandle = (props: any) => {
   const { nodeInternals, edges } = useStore(selector);
   const nodeId = useNodeId();
 

@@ -1,8 +1,8 @@
-import { InstanceInputNodeStyled } from "@/styles/common/handlerBoxStyle";
 import React from "react";
-import CustomHandle from "./CustomHandle";
 import { Position } from "reactflow";
 import { ConfigProvider, Progress } from "antd";
+import CustomHandle from "@/components/common/CustomHandle";
+import { InstanceInputNodeStyled } from "@/styles/page-component/instance/instanceStyle";
 
 const InstanceInputNode = () => {
   return (

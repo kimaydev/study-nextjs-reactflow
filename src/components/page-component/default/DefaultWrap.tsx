@@ -1,5 +1,5 @@
-import { ReactFlowLayoutStyled } from "@/styles/common/topologyStyle";
 import React, { useCallback, useState } from "react";
+import { ReactFlowLayoutStyled } from "@/styles/common/topologyStyle";
 import ReactFlow, {
   Background,
   Controls,
@@ -81,7 +81,7 @@ const initialEdges: Edge[] = [
   },
 ];
 
-const DefaultPage = () => {
+const DefaultWrap = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
   // 선택한 노드의 위치를 변경하는 함수
@@ -117,4 +117,4 @@ const DefaultPage = () => {
   );
 };
 
-export default DefaultPage;
+export default DefaultWrap;

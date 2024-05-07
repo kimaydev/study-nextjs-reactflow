@@ -1,8 +1,8 @@
-import { InstanceSmallNodeStyled } from "@/styles/common/handlerBoxStyle";
 import React from "react";
-import { FcCalendar } from "react-icons/fc";
-import CustomHandle from "./CustomHandle";
 import { Position } from "reactflow";
+import { FcCalendar } from "react-icons/fc";
+import CustomHandle from "@/components/common/CustomHandle";
+import { InstanceSmallNodeStyled } from "@/styles/page-component/instance/instanceStyle";
 
 const InstanceSmallNode = () => {
   return (
