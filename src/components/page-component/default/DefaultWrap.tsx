@@ -1,5 +1,4 @@
-import React, { useCallback, useState } from "react";
-import { ReactFlowLayoutStyled } from "@/styles/common/topologyStyle";
+import React, { useCallback, useRef, useState } from "react";
 import ReactFlow, {
   Background,
   Controls,
@@ -8,82 +7,173 @@ import ReactFlow, {
   OnConnect,
   OnEdgesChange,
   OnNodesChange,
+  Position,
+  ReactFlowProvider,
   addEdge,
   applyEdgeChanges,
   applyNodeChanges,
 } from "reactflow";
+import { DefaultLayoutStyled } from "@/styles/page-component/default/defaultStyle";
+import { INodeContextMenuType } from "@/utils/type/interface";
+import CustomNode from "@/components/common/CustomNode";
+import ContextMenu from "@/components/common/ContextMenu";
+import DefaultHandlerBox from "./DefaultHandlerBox";
 
 // 노드의 초깃값
 const initialNodes: Node[] = [
   {
-    id: "1",
-    type: "input",
-    data: {
-      label: "Input Node",
-    },
+    id: "0",
     position: {
-      x: 636,
-      y: 76,
+      x: -3.552713678800501e-15,
+      y: 87.00000000000001,
+    },
+    targetPosition: Position.Left,
+    sourcePosition: Position.Right,
+    type: "customDefault",
+    data: {
+      label: "Node0",
+      desc: "설명글0",
+      alaram: 5,
+      alaramToggle: "off",
+      nodeImage: "demoThree",
+    },
+  },
+  {
+    id: "1",
+    position: {
+      x: 344.0045695756484,
+      y: 240.22425314473264,
+    },
+    targetPosition: Position.Left,
+    sourcePosition: Position.Right,
+    type: "customOutput",
+    data: {
+      label: "Node1",
+      desc: "설명글1",
+      alaram: 50,
+      alaramToggle: "on",
+      nodeImage: "demoThree",
     },
   },
   {
     id: "2",
-    data: {
-      label: "Default Node",
-    },
     position: {
-      x: 636,
-      y: 176,
+      x: 397.78488600656425,
+      y: 23.597539553864465,
+    },
+    targetPosition: Position.Left,
+    sourcePosition: Position.Right,
+    type: "customOutput",
+    data: {
+      label: "Node2",
+      desc: "설명글2",
+      alaram: 50,
+      alaramToggle: "on",
+      nodeImage: "demoOne",
     },
   },
   {
     id: "3",
-    type: "output",
-    data: {
-      label: "Output Node 01",
-    },
     position: {
-      x: 440,
-      y: 330,
+      x: -258.00000000000006,
+      y: 8.999999999999993,
+    },
+    targetPosition: Position.Left,
+    sourcePosition: Position.Right,
+    type: "customInput",
+    data: {
+      label: "Node3",
+      desc: "설명글3",
+      alaram: 50,
+      alaramToggle: "on",
+      nodeImage: "demoTwo",
     },
   },
   {
     id: "4",
-    type: "output",
-    data: {
-      label: "Output Node 02",
-    },
     position: {
-      x: 840,
-      y: 330,
+      x: 266.0674872253042,
+      y: -157.9968369206192,
+    },
+    targetPosition: Position.Left,
+    sourcePosition: Position.Right,
+    type: "customOutput",
+    data: {
+      label: "Node4",
+      desc: "설명글4",
+      alaram: 50,
+      alaramToggle: "off",
+      nodeImage: "demoTwo",
+    },
+  },
+  {
+    id: "5",
+    position: {
+      x: -331.7525488901797,
+      y: 274.6773290098463,
+    },
+    targetPosition: Position.Left,
+    sourcePosition: Position.Right,
+    type: "customInput",
+    data: {
+      label: "Node5",
+      desc: "설명글5",
+      alaram: 50,
+      alaramToggle: "off",
+      nodeImage: "demoOne",
     },
   },
 ];
 // 간선의 초깃값
 const initialEdges: Edge[] = [
   {
-    id: "reactflow__edge-1-2",
-    source: "1",
+    source: "0",
+    sourceHandle: null,
     target: "2",
-    animated: true,
+    targetHandle: null,
+    id: "reactflow__edge-0-2",
   },
   {
-    id: "reactflow__edge-2-3",
-    source: "2",
-    target: "3",
-    type: "step",
+    source: "3",
+    sourceHandle: null,
+    target: "0",
+    targetHandle: null,
+    id: "reactflow__edge-3-0",
   },
   {
-    id: "reactflow__edge-2-4",
-    source: "2",
+    source: "0",
+    sourceHandle: null,
+    target: "1",
+    targetHandle: null,
+    id: "reactflow__edge-0-1",
+  },
+  {
+    source: "0",
+    sourceHandle: null,
     target: "4",
-    type: "step",
+    targetHandle: null,
+    id: "reactflow__edge-0-4",
+  },
+  {
+    source: "5",
+    sourceHandle: null,
+    target: "0",
+    targetHandle: null,
+    id: "reactflow__edge-5-0",
   },
 ];
+// 커스텀 노드 타입
+const nodeTypes = {
+  customDefault: CustomNode,
+  customInput: CustomNode,
+  customOutput: CustomNode,
+};
 
 const DefaultWrap = () => {
-  const [nodes, setNodes] = useState<Node[]>(initialNodes);
-  const [edges, setEdges] = useState<Edge[]>(initialEdges);
+  const [nodes, setNodes] = useState<Node[]>([]);
+  const [edges, setEdges] = useState<Edge[]>([]);
+  const [menu, setMenu] = useState<INodeContextMenuType | null>(null);
+  const ref = useRef<any>(null);
   // 선택한 노드의 위치를 변경하는 함수
   const onNodesChange: OnNodesChange = useCallback(
     changes => setNodes(nds => applyNodeChanges(changes, nds)),
@@ -97,23 +187,51 @@ const DefaultWrap = () => {
   // 노드를 연결하는 함수
   const onConnect: OnConnect = useCallback(
     params => setEdges(eds => addEdge(params, eds)),
-    [],
+    [setEdges],
   );
+  const onNodeContextMenu = useCallback(
+    (e: React.MouseEvent, node: Node) => {
+      e.preventDefault();
+      // 메뉴 위치 계산, 화면 밖으로 contextMenu가 위치하지 않음
+      const pane = ref.current.getBoundingClientRect();
+      setMenu({
+        id: node.id,
+        data: node.data,
+        top: e.clientY < pane.height - 200 && e.clientY,
+        left: e.clientX < pane.width - 200 && e.clientX,
+        right: e.clientX >= pane.width - 200 && pane.width - e.clientX,
+        bottom: e.clientY >= pane.height - 200 && pane.height - e.clientY,
+      });
+    },
+    [setMenu],
+  );
+  // contextMenu가 열려있을 때 메뉴를 클릭하면 창이 닫힘
+  const onPaneClick = useCallback(() => setMenu(null), [setMenu]);
   // console.log("nodes", nodes);
   // console.log("edges", edges);
   return (
-    <ReactFlowLayoutStyled>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-      >
-        <Background />
-        <Controls />
-      </ReactFlow>
-    </ReactFlowLayoutStyled>
+    <DefaultLayoutStyled>
+      <ReactFlowProvider>
+        <ReactFlow
+          ref={ref}
+          nodes={nodes}
+          edges={edges}
+          nodeTypes={nodeTypes}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          onPaneClick={onPaneClick}
+          onNodeContextMenu={onNodeContextMenu}
+          fitView
+        >
+          <Background />
+          {menu && <ContextMenu onClick={onPaneClick} {...menu} />}
+          <Controls />
+        </ReactFlow>
+        {/* 노드 추가 패널 */}
+        <DefaultHandlerBox nodes={nodes} setNodes={setNodes} />
+      </ReactFlowProvider>
+    </DefaultLayoutStyled>
   );
 };
 

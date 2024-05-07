@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import CustomHandle from "./CustomHandle";
-import { NodeProps, Position } from "reactflow";
+import React from "react";
 import Image from "next/image";
+import { NodeProps, Position } from "reactflow";
+import { getImage, getImageAlt } from "@/hooks/useTrans";
+import CustomHandle from "./CustomHandle";
 import { NodeStyled } from "@/styles/common/topologyStyle";
 
 interface ICustomNodeProps extends NodeProps {
@@ -16,12 +17,11 @@ const CustomNode = ({
   type,
 }: ICustomNodeProps) => {
   // props를 통해 마지막으로 추가된 노드의 값을 가져올 수 있다.
-  // source: 출발 지점
-  // target: 도착 지점
+  // source: 출발 지점 | target: 도착 지점
   // console.log("data props: ", data);
   return (
     <>
-      <NodeStyled $alaramToggle={data?.alaramToggle}>
+      <NodeStyled $alaramToggle={data?.alarm} $color={data?.color}>
         {type === "customDefault" || type === "customInput" ? (
           // 출발
           <CustomHandle
@@ -33,17 +33,21 @@ const CustomNode = ({
           />
         ) : null}
         <div className="image-box">
-          <i className="alarm">{data?.alaram >= 100 ? "99+" : data.alaram}</i>
-          <Image
-            src={`/assets/images/${(data?.nodeImage === "demoOne" && "icon_demo_001.png") || (data?.nodeImage === "demoTwo" && "icon_demo_002.png") || (data?.nodeImage === "demoThree" && "icon_demo_003.png")}`}
-            width="60"
-            height="60"
-            priority={true}
-            alt="데모001"
-          />
+          <i className="alarm">
+            {data?.alarmCount >= 100 ? "99+" : data.alarmCount}
+          </i>
+          {data?.image && (
+            <Image
+              src={`/assets/images/${getImage(data.image)}`}
+              width="60"
+              height="60"
+              priority={true}
+              alt={getImageAlt(data.image)}
+            />
+          )}
         </div>
         <div className="text-box">
-          <b>{data?.label}</b>
+          <b>{data?.title}</b>
           <p>{data?.desc}</p>
         </div>
         {type === "customDefault" || type === "customOutput" ? (

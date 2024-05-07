@@ -5,8 +5,11 @@ export const ReactFlowLayoutStyled = styled.div`
   width: 100%;
   height: 100%;
 `;
-
-export const NodeStyled = styled.div<{ $alaramToggle: string }>`
+interface NodeStyledType {
+  $alaramToggle: string;
+  $color: string;
+}
+export const NodeStyled = styled.div<NodeStyledType>`
   width: 100px;
   background: #fff;
   border: 1px solid #000;
@@ -50,6 +53,20 @@ export const NodeStyled = styled.div<{ $alaramToggle: string }>`
     }
   }
   .text-box {
+    background: ${props => {
+      switch (props.$color) {
+        case "white":
+          return "#fff";
+        case "red":
+          return "#ee5d50";
+        case "yellow":
+          return "#ffc246";
+        case "blue":
+          return "#5b93ff";
+        case "green":
+          return "#07bb62";
+      }
+    }};
     border-top: 1px solid #000;
     padding: 8px;
     text-align: center;

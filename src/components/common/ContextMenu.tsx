@@ -1,11 +1,11 @@
-import { ContextMenuStyled } from "@/styles/common/topologyStyle";
 import React, { useCallback } from "react";
 import { useReactFlow } from "reactflow";
+import { ContextMenuStyled } from "@/styles/common/topologyStyle";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { INodeContextMenuPropsType } from "@/utils/type/interface";
 
 const ContextMenu = ({
-  setToggleEditNode,
+  // setToggleEditNode,
   data,
   id,
   top,
@@ -18,7 +18,7 @@ const ContextMenu = ({
   // 노드 수정
   const handleEditNode = useCallback(() => {
     // console.log("data", data);
-    setToggleEditNode(true);
+    // setToggleEditNode(true);
   }, [id]);
   // 노드 삭제
   const handleDeleteNode = useCallback(() => {

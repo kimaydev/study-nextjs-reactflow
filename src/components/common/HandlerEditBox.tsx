@@ -1,12 +1,12 @@
-import {
-  HandlerBoxStyled,
-  ImageButtonStyled,
-  RadioButtonStyled,
-} from "@/styles/common/handlerBoxStyle";
-import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
-import { AiFillEdit } from "react-icons/ai";
+import Image from "next/image";
 import { Node } from "reactflow";
+import { AiFillEdit } from "react-icons/ai";
+import {
+  DefaultHandlerBoxStyled,
+  DefaultImageButtonStyled,
+  DefaultRadioButtonStyled,
+} from "@/styles/page-component/default/defaultStyle";
 
 interface IHandlerEditBoxProps {
   nodes: Node[];
@@ -104,7 +104,7 @@ const HandlerEditBox = ({
   );
   console.log("노드 수정됨", nodes);
   return (
-    <HandlerBoxStyled>
+    <DefaultHandlerBoxStyled>
       <h2>
         <i>
           <AiFillEdit />
@@ -137,7 +137,7 @@ const HandlerEditBox = ({
           <li>
             <div className="form-box">
               <span className="form-item-title">노드 알람</span>
-              <RadioButtonStyled>
+              <DefaultRadioButtonStyled>
                 <ul>
                   <li>
                     <input
@@ -162,13 +162,13 @@ const HandlerEditBox = ({
                     <label htmlFor="nodeAlarmOff">Off</label>
                   </li>
                 </ul>
-              </RadioButtonStyled>
+              </DefaultRadioButtonStyled>
             </div>
           </li>
           <li>
             <div className="form-box">
               <span className="form-item-title">노드 알람 갯수</span>
-              <RadioButtonStyled>
+              <DefaultRadioButtonStyled>
                 <ul>
                   <li>
                     <input
@@ -204,13 +204,13 @@ const HandlerEditBox = ({
                     <label htmlFor="nodeAlarmC">100개↑</label>
                   </li>
                 </ul>
-              </RadioButtonStyled>
+              </DefaultRadioButtonStyled>
             </div>
           </li>
           <li>
             <div className="form-box">
               <span className="form-item-title">노드 이미지</span>
-              <ImageButtonStyled>
+              <DefaultImageButtonStyled>
                 <ul>
                   <li>
                     <input
@@ -273,13 +273,13 @@ const HandlerEditBox = ({
                     </label>
                   </li>
                 </ul>
-              </ImageButtonStyled>
+              </DefaultImageButtonStyled>
             </div>
           </li>
           <li>
             <div className="form-box">
               <span className="form-item-title">트리 구조 방향 설정</span>
-              <RadioButtonStyled>
+              <DefaultRadioButtonStyled>
                 <ul>
                   <li>
                     <input
@@ -304,13 +304,13 @@ const HandlerEditBox = ({
                     <label htmlFor="FlowVertical">세로형</label>
                   </li>
                 </ul>
-              </RadioButtonStyled>
+              </DefaultRadioButtonStyled>
             </div>
           </li>
           <li>
             <div className="form-box">
               <span className="form-item-title">노드 타입 설정</span>
-              <RadioButtonStyled>
+              <DefaultRadioButtonStyled>
                 <ul>
                   <li>
                     <input
@@ -346,7 +346,7 @@ const HandlerEditBox = ({
                     <label htmlFor="nodeDefault">입 · 출력</label>
                   </li>
                 </ul>
-              </RadioButtonStyled>
+              </DefaultRadioButtonStyled>
             </div>
           </li>
         </ul>
@@ -354,7 +354,7 @@ const HandlerEditBox = ({
           노드 수정
         </button>
       </form>
-    </HandlerBoxStyled>
+    </DefaultHandlerBoxStyled>
   );
 };
 
