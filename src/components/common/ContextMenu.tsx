@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
 import { useReactFlow } from "reactflow";
-import { ContextMenuStyled } from "@/styles/common/topologyStyle";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { INodeContextMenuPropsType } from "@/utils/type/interface";
+import { ContextMenuStyled } from "@/styles/page-component/default/defaultNodeStyle";
 
 const ContextMenu = ({
   // setToggleEditNode,

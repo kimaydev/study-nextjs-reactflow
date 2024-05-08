@@ -15,8 +15,11 @@ export const DefaultHandlerBoxStyled = styled.div`
   width: 300px;
   height: 100%;
   h2 {
-    padding: 1.4rem;
-    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    height: 4rem;
+    padding: 0 1rem;
+    font-size: 1.6rem;
     font-weight: 900;
     border-bottom: 0.5px solid #ddd;
     i {
@@ -27,7 +30,7 @@ export const DefaultHandlerBoxStyled = styled.div`
   }
   form {
     position: relative;
-    height: calc(100% - 5rem);
+    height: calc(100% - 4rem);
     .submit-button {
       position: absolute;
       bottom: 0;
@@ -73,9 +76,14 @@ export const DefaultHandlerBoxStyled = styled.div`
       }
     }
     ol {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
       align-items: center;
       gap: 1rem;
+      label {
+        width: 100%;
+        height: 46.8px;
+      }
     }
   }
 `;
@@ -144,7 +152,7 @@ export const DefaultRadioButtonStyled = styled.div`
         align-items: center;
         justify-content: center;
         width: 100%;
-        min-height: 4rem;
+        min-height: 3rem;
         background: #fff;
         line-height: 1;
         text-transform: capitalize;

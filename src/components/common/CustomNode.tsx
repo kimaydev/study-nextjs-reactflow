@@ -3,7 +3,7 @@ import Image from "next/image";
 import { NodeProps, Position } from "reactflow";
 import { getImage, getImageAlt } from "@/hooks/useTrans";
 import CustomHandle from "./CustomHandle";
-import { NodeStyled } from "@/styles/common/topologyStyle";
+import { NodeStyled } from "@/styles/page-component/default/defaultNodeStyle";
 
 interface ICustomNodeProps extends NodeProps {
   style?: React.CSSProperties;

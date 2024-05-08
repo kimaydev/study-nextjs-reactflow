@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { NodeAlarmKeyframe } from "../keyframeStyle";
+import { NodeAlarmKeyframe } from "@/styles/keyframeStyle";
 
 export const ReactFlowLayoutStyled = styled.div`
   width: 100%;
@@ -11,48 +11,31 @@ interface NodeStyledType {
 }
 export const NodeStyled = styled.div<NodeStyledType>`
   width: 100px;
-  background: #fff;
-  border: 1px solid #000;
-  border-radius: 10px;
   overflow: hidden;
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    ${({ $alaramToggle }) =>
-      $alaramToggle === "on" &&
-      css`
-        animation: ${NodeAlarmKeyframe} 0.8s infinite alternate;
-      `}
-  }
   .image-box {
     position: relative;
     padding: 10px;
     text-align: center;
     .alarm {
       position: absolute;
-      top: 0;
-      right: 0;
+      top: 15px;
+      right: 10px;
       z-index: 1;
       font-size: 12px;
-      border: 2px solid #fff;
       border-top: 0;
       border-right: 0;
       color: #fff;
       font-weight: 600;
       background: #ff5f67;
-      border-radius: 0px 0px 0px 10px;
+      border-radius: 100px;
       min-width: 25px;
       height: 24px;
-      line-height: 22px;
+      line-height: 23px;
       padding: 0 6px;
     }
   }
   .text-box {
+    position: relative;
     background: ${props => {
       switch (props.$color) {
         case "white":
@@ -67,14 +50,55 @@ export const NodeStyled = styled.div<NodeStyledType>`
           return "#07bb62";
       }
     }};
-    border-top: 1px solid #000;
-    padding: 8px;
+    border: 1px solid #000;
+    padding: 4px 8px;
+    border-radius: 4px;
     text-align: center;
     font-size: 14px;
+    color: ${props => {
+      switch (props.$color) {
+        case "white":
+          return "#000";
+        case "red":
+          return "#fff";
+        case "yellow":
+          return "#000";
+        case "blue":
+          return "#fff";
+        case "green":
+          return "#fff";
+      }
+    }};
     p {
-      font-size: 0.8em;
+      font-size: 0.7em;
       margin-top: 2px;
-      color: #ed8e00;
+      color: ${props => {
+        switch (props.$color) {
+          case "white":
+            return "#000";
+          case "red":
+            return "#fff";
+          case "yellow":
+            return "#000";
+          case "blue":
+            return "#fff";
+          case "green":
+            return "#fff";
+        }
+      }};
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      ${({ $alaramToggle }) =>
+        $alaramToggle === "on" &&
+        css`
+          animation: ${NodeAlarmKeyframe} 0.8s infinite alternate;
+        `}
     }
   }
   .react-flow__handle {
@@ -124,8 +148,6 @@ export const ContextMenuStyled = styled.div`
         font-size: 0.85em;
         margin-bottom: 6px;
         font-weight: 600;
-      }
-      .list-content {
       }
       .top-list {
         .list-title {

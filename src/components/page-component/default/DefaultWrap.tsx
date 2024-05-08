@@ -24,103 +24,19 @@ const initialNodes: Node[] = [
   {
     id: "0",
     position: {
-      x: -3.552713678800501e-15,
-      y: 87.00000000000001,
+      x: 37,
+      y: 57,
     },
     targetPosition: Position.Left,
     sourcePosition: Position.Right,
     type: "customDefault",
     data: {
-      label: "Node0",
-      desc: "설명글0",
-      alaram: 5,
-      alaramToggle: "off",
-      nodeImage: "demoThree",
-    },
-  },
-  {
-    id: "1",
-    position: {
-      x: 344.0045695756484,
-      y: 240.22425314473264,
-    },
-    targetPosition: Position.Left,
-    sourcePosition: Position.Right,
-    type: "customOutput",
-    data: {
-      label: "Node1",
-      desc: "설명글1",
-      alaram: 50,
-      alaramToggle: "on",
-      nodeImage: "demoThree",
-    },
-  },
-  {
-    id: "2",
-    position: {
-      x: 397.78488600656425,
-      y: 23.597539553864465,
-    },
-    targetPosition: Position.Left,
-    sourcePosition: Position.Right,
-    type: "customOutput",
-    data: {
-      label: "Node2",
-      desc: "설명글2",
-      alaram: 50,
-      alaramToggle: "on",
-      nodeImage: "demoOne",
-    },
-  },
-  {
-    id: "3",
-    position: {
-      x: -258.00000000000006,
-      y: 8.999999999999993,
-    },
-    targetPosition: Position.Left,
-    sourcePosition: Position.Right,
-    type: "customInput",
-    data: {
-      label: "Node3",
-      desc: "설명글3",
-      alaram: 50,
-      alaramToggle: "on",
-      nodeImage: "demoTwo",
-    },
-  },
-  {
-    id: "4",
-    position: {
-      x: 266.0674872253042,
-      y: -157.9968369206192,
-    },
-    targetPosition: Position.Left,
-    sourcePosition: Position.Right,
-    type: "customOutput",
-    data: {
-      label: "Node4",
-      desc: "설명글4",
-      alaram: 50,
-      alaramToggle: "off",
-      nodeImage: "demoTwo",
-    },
-  },
-  {
-    id: "5",
-    position: {
-      x: -331.7525488901797,
-      y: 274.6773290098463,
-    },
-    targetPosition: Position.Left,
-    sourcePosition: Position.Right,
-    type: "customInput",
-    data: {
-      label: "Node5",
-      desc: "설명글5",
-      alaram: 50,
-      alaramToggle: "off",
-      nodeImage: "demoOne",
+      title: "Node",
+      desc: "",
+      alarm: "off",
+      alarmCount: 5,
+      image: "demoOne",
+      color: "white",
     },
   },
 ];
@@ -170,7 +86,7 @@ const nodeTypes = {
 };
 
 const DefaultWrap = () => {
-  const [nodes, setNodes] = useState<Node[]>([]);
+  const [nodes, setNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [menu, setMenu] = useState<INodeContextMenuType | null>(null);
   const ref = useRef<any>(null);
