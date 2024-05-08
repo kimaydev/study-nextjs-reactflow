@@ -11,7 +11,6 @@ interface ICustomNodeProps extends NodeProps {
 
 const CustomNode = ({
   data,
-  style,
   targetPosition,
   sourcePosition,
   type,
@@ -22,16 +21,6 @@ const CustomNode = ({
   return (
     <>
       <NodeStyled $alaramToggle={data?.alarm} $color={data?.color}>
-        {type === "customDefault" || type === "customInput" ? (
-          // 출발
-          <CustomHandle
-            type="source"
-            position={
-              (sourcePosition === "right" && Position.Right) ||
-              (sourcePosition === "bottom" && Position.Bottom)
-            }
-          />
-        ) : null}
         <div className="image-box">
           <i className="alarm">
             {data?.alarmCount >= 100 ? "99+" : data.alarmCount}
@@ -49,17 +38,27 @@ const CustomNode = ({
         <div className="text-box">
           <b>{data?.title}</b>
           <p>{data?.desc}</p>
+          {/* 출발 */}
+          {type === "customDefault" || type === "customInput" ? (
+            <CustomHandle
+              type="source"
+              position={
+                (sourcePosition === "right" && Position.Right) ||
+                (sourcePosition === "bottom" && Position.Bottom)
+              }
+            />
+          ) : null}
+          {/* 도착 */}
+          {type === "customDefault" || type === "customOutput" ? (
+            <CustomHandle
+              type="target"
+              position={
+                (targetPosition === "left" && Position.Left) ||
+                (targetPosition === "top" && Position.Top)
+              }
+            />
+          ) : null}
         </div>
-        {type === "customDefault" || type === "customOutput" ? (
-          // 도착
-          <CustomHandle
-            type="target"
-            position={
-              (targetPosition === "left" && Position.Left) ||
-              (targetPosition === "top" && Position.Top)
-            }
-          />
-        ) : null}
       </NodeStyled>
     </>
   );

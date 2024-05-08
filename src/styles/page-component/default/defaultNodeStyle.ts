@@ -11,7 +11,6 @@ interface NodeStyledType {
 }
 export const NodeStyled = styled.div<NodeStyledType>`
   width: 100px;
-  overflow: hidden;
   .image-box {
     position: relative;
     padding: 10px;

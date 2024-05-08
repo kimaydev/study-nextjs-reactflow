@@ -13,11 +13,15 @@ import ReactFlow, {
   applyEdgeChanges,
   applyNodeChanges,
 } from "reactflow";
-import { DefaultLayoutStyled } from "@/styles/page-component/default/defaultStyle";
+import {
+  DefaultLayoutStyled,
+  DefaultPanelListStyled,
+} from "@/styles/page-component/default/defaultStyle";
 import { INodeContextMenuType } from "@/utils/type/interface";
 import CustomNode from "@/components/common/CustomNode";
 import ContextMenu from "@/components/common/ContextMenu";
 import DefaultHandlerBox from "./DefaultHandlerBox";
+import { AiOutlineAppstoreAdd } from "react-icons/ai";
 
 // 노드의 초깃값
 const initialNodes: Node[] = [
@@ -105,6 +109,7 @@ const DefaultWrap = () => {
     params => setEdges(eds => addEdge(params, eds)),
     [setEdges],
   );
+  // 노드 오른쪽 클릭 시 나오는 메뉴
   const onNodeContextMenu = useCallback(
     (e: React.MouseEvent, node: Node) => {
       e.preventDefault();
@@ -143,6 +148,19 @@ const DefaultWrap = () => {
           <Background />
           {menu && <ContextMenu onClick={onPaneClick} {...menu} />}
           <Controls />
+          {/* 메뉴 */}
+          <DefaultPanelListStyled>
+            <ul>
+              <li>
+                <button>
+                  <i>
+                    <AiOutlineAppstoreAdd />
+                  </i>
+                  노드 추가
+                </button>
+              </li>
+            </ul>
+          </DefaultPanelListStyled>
         </ReactFlow>
         {/* 노드 추가 패널 */}
         <DefaultHandlerBox nodes={nodes} setNodes={setNodes} />

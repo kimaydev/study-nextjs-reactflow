@@ -1,10 +1,34 @@
 import styled from "styled-components";
 
 export const DefaultLayoutStyled = styled.div`
+  position: relative;
   display: grid;
   grid-template-columns: 1fr auto;
   width: 100%;
   height: 100%;
+`;
+export const DefaultPanelListStyled = styled.nav`
+  position: absolute;
+  right: 10px;
+  bottom: 20px;
+  z-index: 10;
+  button {
+    display: block;
+    width: 100px;
+    padding: 10px 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    background-color: pink;
+    i {
+      display: inline-block;
+      vertical-align: -2px;
+      margin-right: 2px;
+    }
+  }
+  ul {
+    & > li {
+    }
+  }
 `;
 export const DefaultHandlerBoxStyled = styled.div`
   background: #fff;
@@ -113,7 +137,6 @@ export const DefaultImageButtonStyled = styled.div`
       }
       input[type="radio"] {
         position: absolute;
-        background-color: red;
       }
       input[type="radio"]:checked + label {
         span {

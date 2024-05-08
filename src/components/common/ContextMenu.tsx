@@ -31,8 +31,8 @@ const ContextMenu = ({
         <div className="text-list">
           <ul className="top-list">
             <li>
-              <b className="list-title">{data.label}</b>
-              <p className="list-content">{data.desc}</p>
+              <b className="list-title">{data?.title}</b>
+              <p className="list-content">{data?.desc}</p>
             </li>
           </ul>
         </div>
@@ -40,11 +40,11 @@ const ContextMenu = ({
           <ul>
             <li>
               <span className="list-title">알람</span>
-              <p className="list-content">{data.alaramToggle}</p>
+              <p className="list-content">{data?.alarm}</p>
             </li>
             <li>
               <span className="list-title">알람 갯수</span>
-              <p className="list-content">{data.alaram}</p>
+              <p className="list-content">{data?.alarmCount}</p>
             </li>
           </ul>
         </div>
