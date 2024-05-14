@@ -18,3 +18,9 @@ export interface INodeContextMenuType {
   right: any;
   bottom: any;
 }
+// 패널 활성화 옵션 타입
+export interface IActivePanelType {
+  addNodeActive: boolean;
+  editNodeActive: boolean;
+  backgroundActive: boolean;
+}

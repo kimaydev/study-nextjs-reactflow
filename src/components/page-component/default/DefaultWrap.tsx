@@ -17,12 +17,14 @@ import {
   DefaultLayoutStyled,
   DefaultPanelListStyled,
 } from "@/styles/page-component/default/defaultStyle";
-import { INodeContextMenuType } from "@/utils/type/interface";
+import { IActivePanelType, INodeContextMenuType } from "@/utils/type/interface";
 import CustomNode from "@/components/common/CustomNode";
 import ContextMenu from "@/components/common/ContextMenu";
 import DefaultHandlerBox from "./DefaultHandlerBox";
 import DefaultHandlerEditBox from "./DefaultHandlerEditBox";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
+import { PiSelectionBackground } from "react-icons/pi";
+import DefaultHandlerBackground from "./DefaultHandlerBackground";
 
 // 노드의 초깃값
 const initialNodes: Node[] = [
@@ -94,8 +96,12 @@ const DefaultWrap = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [menu, setMenu] = useState<INodeContextMenuType | null>(null);
-  // 노드 추가,수정 패널 토글
-  const [toggleHandlerBox, setToggleHandlerBox] = useState<boolean>(true);
+  // 패널 활성화
+  const [activePanel, setActivePanel] = useState<IActivePanelType>({
+    addNodeActive: true,
+    editNodeActive: false,
+    backgroundActive: false,
+  });
   // 선택한 노드의 데이터
   const [selectNode, setSelectNode] = useState<Node | null>(null);
   const ref = useRef<any>(null);
@@ -155,7 +161,7 @@ const DefaultWrap = () => {
           {menu && (
             <ContextMenu
               onClick={onPaneClick}
-              setToggleHandlerBox={setToggleHandlerBox}
+              setActivePanel={setActivePanel}
               {...menu}
             />
           )}
@@ -164,21 +170,52 @@ const DefaultWrap = () => {
           <DefaultPanelListStyled>
             <ul>
               <li>
-                <button onClick={() => setToggleHandlerBox(true)}>
+                <button
+                  onClick={() =>
+                    setActivePanel(prev => {
+                      return {
+                        ...prev,
+                        addNodeActive: true,
+                        editNodeActive: false,
+                        backgroundActive: false,
+                      };
+                    })
+                  }
+                >
                   <i>
                     <AiOutlineAppstoreAdd />
                   </i>
                   노드 추가
                 </button>
               </li>
+              <li>
+                <button
+                  onClick={() =>
+                    setActivePanel(prev => {
+                      return {
+                        ...prev,
+                        addNodeActive: false,
+                        editNodeActive: false,
+                        backgroundActive: true,
+                      };
+                    })
+                  }
+                >
+                  <i>
+                    <PiSelectionBackground />
+                  </i>
+                  배경 수정
+                </button>
+              </li>
             </ul>
           </DefaultPanelListStyled>
         </ReactFlow>
-        {toggleHandlerBox ? (
-          // 노드 추가 패널
+        {/* 노드 추가 패널 */}
+        {activePanel.addNodeActive && (
           <DefaultHandlerBox nodes={nodes} setNodes={setNodes} />
-        ) : (
-          // 노드 수정 패널
+        )}
+        {/* 노드 수정 패널 */}
+        {activePanel.editNodeActive && (
           <DefaultHandlerEditBox
             nodes={nodes}
             setNodes={setNodes}
@@ -186,6 +223,8 @@ const DefaultWrap = () => {
             setSelectNode={setSelectNode}
           />
         )}
+        {/* 배경 수정 패널 */}
+        {activePanel.backgroundActive && <DefaultHandlerBackground />}
       </ReactFlowProvider>
     </DefaultLayoutStyled>
   );

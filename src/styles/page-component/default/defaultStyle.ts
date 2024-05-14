@@ -19,6 +19,7 @@ export const DefaultPanelListStyled = styled.nav`
     font-size: 1.4rem;
     font-weight: 700;
     border: 1px solid #ddd;
+    border-bottom: 0;
     background-color: #fff;
     &:hover {
       background-color: #f9f9f9;
@@ -29,8 +30,13 @@ export const DefaultPanelListStyled = styled.nav`
       margin-right: 2px;
     }
   }
-  ul {
+  & > ul {
     & > li {
+      &:last-of-type {
+        button {
+          border-bottom: 1px solid #ddd;
+        }
+      }
     }
   }
 `;

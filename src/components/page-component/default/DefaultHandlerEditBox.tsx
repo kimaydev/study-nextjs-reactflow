@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { Node, Position } from "reactflow";
+import PanelLayout from "@/components/layout/PanelLayout";
 import { AiFillEdit } from "react-icons/ai";
 import {
-  DefaultHandlerBoxStyled,
   DefaultImageButtonStyled,
   DefaultNodeColorRadioStyled,
   DefaultRadioButtonStyled,
@@ -216,203 +216,205 @@ const DefaultHandlerEditBox = ({
   );
   // console.log("노드 수정", nodes);
   return (
-    <DefaultHandlerBoxStyled>
-      <h2>
-        <i>
-          <AiFillEdit />
-        </i>
-        노드 수정
-      </h2>
-      <form onSubmit={handleEditNode}>
-        <ul>
-          <li>
-            <div className="form-box">
-              <label htmlFor="NodeName" className="form-item-title">
-                노드명
-              </label>
-              <input
-                type="text"
-                className="input-text"
-                value={addNode.title}
-                onChange={handleNodeName}
-                placeholder="노드명을 입력해주세요."
-              />
-              <label className="form-item-title">설명글</label>
-              <input
-                type="text"
-                className="input-text"
-                value={addNode.desc}
-                onChange={handleNodeDesc}
-                placeholder="설명글을 입력해주세요."
-              />
-            </div>
-          </li>
-          <li>
-            <div className="form-box">
-              <span className="form-item-title">노드 알람</span>
-              <DefaultRadioButtonStyled>
-                <ul>
-                  {nodeAlarmArr.map((item, index) => (
-                    <li key={index}>
-                      <input
-                        type="radio"
-                        name="NodeAlarmToggle"
-                        id={item}
-                        value={item}
-                        checked={addNode.alarm === item}
-                        onChange={handleNodeAlarmToggle}
-                      />
-                      <label htmlFor={item}>{item}</label>
-                    </li>
-                  ))}
-                </ul>
-              </DefaultRadioButtonStyled>
-            </div>
-          </li>
-          <li>
-            <div className="form-box">
-              <span className="form-item-title">노드 알람 갯수</span>
-              <DefaultRadioButtonStyled>
-                <ul>
-                  {nodeAlarmCountArr.map((item, index) => (
-                    <li key={index}>
-                      <input
-                        type="radio"
-                        name="NodeAlarmCount"
-                        id={`nodeAlarmCount${item}`}
-                        value={item}
-                        checked={addNode.alarmCount === item}
-                        onChange={handleNodeAlarmCount}
-                      />
-                      <label htmlFor={`nodeAlarmCount${item}`}>
-                        {item}개{item >= 100 && "↑"}
-                      </label>
-                    </li>
-                  ))}
-                </ul>
-              </DefaultRadioButtonStyled>
-            </div>
-          </li>
-          <li>
-            <div className="form-box">
-              <span className="form-item-title">노드 이미지</span>
-              <DefaultImageButtonStyled>
-                <ul>
-                  {nodeImageArr.map((item, index) => (
-                    <li key={index}>
-                      <input
-                        type="radio"
-                        name="NodeImage"
-                        id={item}
-                        value={item}
-                        checked={addNode.image === item}
-                        onChange={handleNodeImage}
-                      />
-                      <label htmlFor={item}>
-                        <Image
-                          src={`/assets/images/${getImage(item)}`}
-                          width="60"
-                          height="60"
-                          priority={true}
-                          alt={getImageAlt(item)}
-                        />
-                        <span>{getImageAlt(item)}</span>
-                      </label>
-                    </li>
-                  ))}
-                </ul>
-              </DefaultImageButtonStyled>
-            </div>
-          </li>
-          <li>
-            <div className="form-box">
-              <span className="form-item-title">노드 색상</span>
-              <ol>
-                {nodeColorArr.map((item, index) => (
-                  <li key={index}>
-                    <DefaultNodeColorRadioStyled $value={item}>
-                      <input
-                        type="radio"
-                        name="NodeColor"
-                        value={item}
-                        checked={addNode.color === item}
-                        onChange={handleNodeColor}
-                      />
-                    </DefaultNodeColorRadioStyled>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </li>
-          <li>
-            <div className="form-box">
-              <span className="form-item-title">트리 구조 방향 설정</span>
-              <DefaultRadioButtonStyled>
-                <ul>
-                  {nodeFlowArr.map((item, index) => {
-                    const transKR = () => {
-                      const values: valuesType = {
-                        horizontal: "가로형",
-                        vertical: "세로형",
-                      };
-                      return values[item];
-                    };
-                    return (
-                      <li key={index}>
-                        <input
-                          type="radio"
-                          name="FlowStructure"
-                          id={item}
-                          value={item}
-                          checked={addNode.flow === item}
-                          onChange={handleFlowStructure}
-                        />
-                        <label htmlFor={item}>{transKR()}</label>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </DefaultRadioButtonStyled>
-            </div>
-          </li>
-          <li>
-            <div className="form-box">
-              <span className="form-item-title">노드 타입 설정</span>
-              <DefaultRadioButtonStyled>
-                <ul>
-                  {nodeTypeArr.map((item, index) => {
-                    const transKR = () => {
-                      const values: valuesType = {
-                        customInput: "입력",
-                        customOutput: "출력",
-                        customDefault: "입 · 출력",
-                      };
-                      return values[item] ?? "-";
-                    };
-                    return (
-                      <li key={index}>
-                        <input
-                          type="radio"
-                          name="NodeType"
-                          id={item}
-                          value={item}
-                          checked={addNode.type === item}
-                          onChange={handleNodeType}
-                        />
-                        <label htmlFor={item}>{transKR()}</label>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </DefaultRadioButtonStyled>
-            </div>
-          </li>
-        </ul>
-        <button className="submit-button" type="submit">
+    <PanelLayout>
+      <>
+        <h2>
+          <i>
+            <AiFillEdit />
+          </i>
           노드 수정
-        </button>
-      </form>
-    </DefaultHandlerBoxStyled>
+        </h2>
+        <form onSubmit={handleEditNode}>
+          <ul>
+            <li>
+              <div className="form-box">
+                <label htmlFor="NodeName" className="form-item-title">
+                  노드명
+                </label>
+                <input
+                  type="text"
+                  className="input-text"
+                  value={addNode.title}
+                  onChange={handleNodeName}
+                  placeholder="노드명을 입력해주세요."
+                />
+                <label className="form-item-title">설명글</label>
+                <input
+                  type="text"
+                  className="input-text"
+                  value={addNode.desc}
+                  onChange={handleNodeDesc}
+                  placeholder="설명글을 입력해주세요."
+                />
+              </div>
+            </li>
+            <li>
+              <div className="form-box">
+                <span className="form-item-title">노드 알람</span>
+                <DefaultRadioButtonStyled>
+                  <ul>
+                    {nodeAlarmArr.map((item, index) => (
+                      <li key={index}>
+                        <input
+                          type="radio"
+                          name="NodeAlarmToggle"
+                          id={item}
+                          value={item}
+                          checked={addNode.alarm === item}
+                          onChange={handleNodeAlarmToggle}
+                        />
+                        <label htmlFor={item}>{item}</label>
+                      </li>
+                    ))}
+                  </ul>
+                </DefaultRadioButtonStyled>
+              </div>
+            </li>
+            <li>
+              <div className="form-box">
+                <span className="form-item-title">노드 알람 갯수</span>
+                <DefaultRadioButtonStyled>
+                  <ul>
+                    {nodeAlarmCountArr.map((item, index) => (
+                      <li key={index}>
+                        <input
+                          type="radio"
+                          name="NodeAlarmCount"
+                          id={`nodeAlarmCount${item}`}
+                          value={item}
+                          checked={addNode.alarmCount === item}
+                          onChange={handleNodeAlarmCount}
+                        />
+                        <label htmlFor={`nodeAlarmCount${item}`}>
+                          {item}개{item >= 100 && "↑"}
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
+                </DefaultRadioButtonStyled>
+              </div>
+            </li>
+            <li>
+              <div className="form-box">
+                <span className="form-item-title">노드 이미지</span>
+                <DefaultImageButtonStyled>
+                  <ul>
+                    {nodeImageArr.map((item, index) => (
+                      <li key={index}>
+                        <input
+                          type="radio"
+                          name="NodeImage"
+                          id={item}
+                          value={item}
+                          checked={addNode.image === item}
+                          onChange={handleNodeImage}
+                        />
+                        <label htmlFor={item}>
+                          <Image
+                            src={`/assets/images/${getImage(item)}`}
+                            width="60"
+                            height="60"
+                            priority={true}
+                            alt={getImageAlt(item)}
+                          />
+                          <span>{getImageAlt(item)}</span>
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
+                </DefaultImageButtonStyled>
+              </div>
+            </li>
+            <li>
+              <div className="form-box">
+                <span className="form-item-title">노드 색상</span>
+                <ol>
+                  {nodeColorArr.map((item, index) => (
+                    <li key={index}>
+                      <DefaultNodeColorRadioStyled $value={item}>
+                        <input
+                          type="radio"
+                          name="NodeColor"
+                          value={item}
+                          checked={addNode.color === item}
+                          onChange={handleNodeColor}
+                        />
+                      </DefaultNodeColorRadioStyled>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </li>
+            <li>
+              <div className="form-box">
+                <span className="form-item-title">트리 구조 방향 설정</span>
+                <DefaultRadioButtonStyled>
+                  <ul>
+                    {nodeFlowArr.map((item, index) => {
+                      const transKR = () => {
+                        const values: valuesType = {
+                          horizontal: "가로형",
+                          vertical: "세로형",
+                        };
+                        return values[item];
+                      };
+                      return (
+                        <li key={index}>
+                          <input
+                            type="radio"
+                            name="FlowStructure"
+                            id={item}
+                            value={item}
+                            checked={addNode.flow === item}
+                            onChange={handleFlowStructure}
+                          />
+                          <label htmlFor={item}>{transKR()}</label>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </DefaultRadioButtonStyled>
+              </div>
+            </li>
+            <li>
+              <div className="form-box">
+                <span className="form-item-title">노드 타입 설정</span>
+                <DefaultRadioButtonStyled>
+                  <ul>
+                    {nodeTypeArr.map((item, index) => {
+                      const transKR = () => {
+                        const values: valuesType = {
+                          customInput: "입력",
+                          customOutput: "출력",
+                          customDefault: "입 · 출력",
+                        };
+                        return values[item] ?? "-";
+                      };
+                      return (
+                        <li key={index}>
+                          <input
+                            type="radio"
+                            name="NodeType"
+                            id={item}
+                            value={item}
+                            checked={addNode.type === item}
+                            onChange={handleNodeType}
+                          />
+                          <label htmlFor={item}>{transKR()}</label>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </DefaultRadioButtonStyled>
+              </div>
+            </li>
+          </ul>
+          <button className="submit-button" type="submit">
+            노드 수정
+          </button>
+        </form>
+      </>
+    </PanelLayout>
   );
 };
 
