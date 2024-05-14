@@ -118,6 +118,13 @@ export const DefaultHandlerBoxStyled = styled.div`
         width: 100%;
         height: 46.8px;
       }
+      &.flex-list {
+        grid-template-columns: auto 1fr;
+        margin-top: 6px;
+        label {
+          height: auto;
+        }
+      }
     }
   }
 `;
@@ -207,7 +214,7 @@ export const DefaultRadioButtonStyled = styled.div`
     }
   }
 `;
-export const DefaultNodeColorRadioStyled = styled.label<{ $value: string }>`
+export const DefaultNodeColorRadioStyled = styled.div<{ $value: string }>`
   display: block;
   width: 4rem;
   height: 4rem;

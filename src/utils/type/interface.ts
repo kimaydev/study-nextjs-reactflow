@@ -1,3 +1,5 @@
+import { BackgroundVariant } from "reactflow";
+
 // 노드 추가 타입
 export interface INodeType {
   title: string; // 노드명
@@ -23,4 +25,11 @@ export interface IActivePanelType {
   addNodeActive: boolean;
   editNodeActive: boolean;
   backgroundActive: boolean;
+}
+// 배경 수정 타입
+export interface IBackgroundType {
+  variant: BackgroundVariant;
+  color: string;
+  gap: number | [number, number] | undefined;
+  style: React.CSSProperties;
 }

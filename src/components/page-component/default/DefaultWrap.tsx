@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState } from "react";
 import ReactFlow, {
   Background,
+  BackgroundVariant,
   Controls,
   Edge,
   Node,
@@ -17,7 +18,11 @@ import {
   DefaultLayoutStyled,
   DefaultPanelListStyled,
 } from "@/styles/page-component/default/defaultStyle";
-import { IActivePanelType, INodeContextMenuType } from "@/utils/type/interface";
+import {
+  IActivePanelType,
+  IBackgroundType,
+  INodeContextMenuType,
+} from "@/utils/type/interface";
 import CustomNode from "@/components/common/CustomNode";
 import ContextMenu from "@/components/common/ContextMenu";
 import DefaultHandlerBox from "./DefaultHandlerBox";
@@ -85,6 +90,15 @@ const initialEdges: Edge[] = [
     id: "reactflow__edge-5-0",
   },
 ];
+// 배경 초깃값
+const initialBackground: IBackgroundType = {
+  variant: BackgroundVariant.Lines,
+  color: "#ccc",
+  gap: 28,
+  style: {
+    backgroundColor: "#fff",
+  },
+};
 // 커스텀 노드 타입
 const nodeTypes = {
   customDefault: CustomNode,
@@ -96,11 +110,13 @@ const DefaultWrap = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [menu, setMenu] = useState<INodeContextMenuType | null>(null);
+  const [background, setBackground] =
+    useState<IBackgroundType>(initialBackground);
   // 패널 활성화
   const [activePanel, setActivePanel] = useState<IActivePanelType>({
-    addNodeActive: true,
+    addNodeActive: false,
     editNodeActive: false,
-    backgroundActive: false,
+    backgroundActive: true,
   });
   // 선택한 노드의 데이터
   const [selectNode, setSelectNode] = useState<Node | null>(null);
@@ -157,7 +173,7 @@ const DefaultWrap = () => {
           onNodeContextMenu={onNodeContextMenu}
           fitView
         >
-          <Background />
+          <Background {...background} />
           {menu && (
             <ContextMenu
               onClick={onPaneClick}
@@ -224,7 +240,12 @@ const DefaultWrap = () => {
           />
         )}
         {/* 배경 수정 패널 */}
-        {activePanel.backgroundActive && <DefaultHandlerBackground />}
+        {activePanel.backgroundActive && (
+          <DefaultHandlerBackground
+            background={background}
+            setBackground={setBackground}
+          />
+        )}
       </ReactFlowProvider>
     </DefaultLayoutStyled>
   );
