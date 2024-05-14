@@ -1,11 +1,16 @@
 import React, { useCallback } from "react";
 import { useReactFlow } from "reactflow";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
-import { INodeContextMenuPropsType } from "@/utils/type/interface";
+import { INodeContextMenuType } from "@/utils/type/interface";
 import { ContextMenuStyled } from "@/styles/page-component/default/defaultNodeStyle";
 
+export interface IContextMenuPropsType extends INodeContextMenuType {
+  setToggleHandlerBox: React.Dispatch<React.SetStateAction<boolean>>;
+  onClick?: () => void;
+}
+
 const ContextMenu = ({
-  // setToggleEditNode,
+  setToggleHandlerBox,
   data,
   id,
   top,
@@ -13,12 +18,12 @@ const ContextMenu = ({
   right,
   bottom,
   ...props
-}: INodeContextMenuPropsType) => {
+}: IContextMenuPropsType) => {
   const { getNode, setNodes, addNodes, setEdges } = useReactFlow();
   // 노드 수정
   const handleEditNode = useCallback(() => {
     // console.log("data", data);
-    // setToggleEditNode(true);
+    setToggleHandlerBox(false);
   }, [id]);
   // 노드 삭제
   const handleDeleteNode = useCallback(() => {

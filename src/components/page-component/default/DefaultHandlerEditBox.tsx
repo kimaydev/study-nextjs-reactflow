@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { Node, Position } from "reactflow";
-import { AiOutlineAppstoreAdd } from "react-icons/ai";
+import { AiFillEdit } from "react-icons/ai";
 import {
   DefaultHandlerBoxStyled,
   DefaultImageButtonStyled,
@@ -11,12 +11,14 @@ import {
 import { INodeType } from "@/utils/type/interface";
 import { getImage, getImageAlt, valuesType } from "@/hooks/useTrans";
 
-interface IHandlerBox {
+interface IHandlerEditBoxProps {
   nodes: Node[];
   setNodes: React.Dispatch<React.SetStateAction<Node[]>>;
+  selectNode: Node | null;
+  setSelectNode: React.Dispatch<React.SetStateAction<Node | null>>;
 }
-// 노드 추가 기본값
-const initialNode: INodeType = {
+// 노드 수정 기본값
+const initialNode = {
   title: "Node",
   desc: "",
   alarm: "off",
@@ -27,9 +29,14 @@ const initialNode: INodeType = {
   type: "customDefault",
 };
 
-const DefaultHandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
-  // 노드 추가
-  const [addNode, setAddNode] = useState(initialNode);
+const DefaultHandlerEditBox = ({
+  nodes,
+  setNodes,
+  selectNode,
+  setSelectNode,
+}: IHandlerEditBoxProps) => {
+  // 노드 수정
+  const [addNode, setAddNode] = useState<INodeType>(initialNode);
   // 노드명 입력
   const handleNodeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -123,14 +130,48 @@ const DefaultHandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
       };
     });
   };
-  // 노드 생성 시 랜덤한 위치에 나오게 하려고 넣은 함수
-  const getRandom = (min: number, max: number) =>
-    Math.floor(Math.random() * (max - min) + min);
-  // 노드 추가 핸들러
-  const handleAddNode = useCallback(
+  // 선택한 노드의 id
+  useEffect(() => {
+    // console.log("selectNode", selectNode);
+    // targetPosition, sourcePosition의 값에 따라 flow의 값을 반환함
+    type flowPositionType = (selectNode: Node | null) => string;
+    const flowPosition: flowPositionType = selectNode => {
+      const values = {
+        targetPosition: selectNode?.targetPosition,
+        sourcePosition: selectNode?.sourcePosition,
+      };
+      if (
+        values.targetPosition === Position.Left &&
+        values.sourcePosition === Position.Right
+      ) {
+        return "horizontal";
+      } else if (
+        values.targetPosition === Position.Top &&
+        values.sourcePosition === Position.Bottom
+      ) {
+        return "vertical";
+      }
+      return "horizontal";
+    };
+    setAddNode(prev => {
+      return {
+        ...prev,
+        title: selectNode?.data.title,
+        desc: selectNode?.data.desc,
+        alarm: selectNode?.data.alarm,
+        alarmCount: selectNode?.data.alarmCount,
+        image: selectNode?.data.image,
+        color: selectNode?.data.color,
+        flow: flowPosition(selectNode),
+        type: selectNode?.type,
+      };
+    });
+  }, [selectNode]);
+  // 노드 수정 핸들러
+  const handleEditNode = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      console.log("노드 생성", addNode);
+      const selectNodeId = selectNode?.id;
       // valuesType 값 string에서 Position으로 오버라이딩
       type valuesType = {
         [key: string]: Position;
@@ -150,45 +191,39 @@ const DefaultHandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
         };
         return values[addNode.flow] ?? Position.Right;
       };
-      setNodes(prev => {
-        // console.log("prev: ", prev);
-        // 마지막으로 생성된 노드의 id 값에서 1을 증가
-        const lastEl = prev.slice(-1)[0];
-        // 노드가 없을 경우 id 값은 0부터 시작함
-        const increaseId = prev.length > 0 ? parseInt(lastEl.id) + 1 : 0;
-        const toStringId = increaseId.toString();
-        return [
-          ...prev,
-          {
-            id: toStringId,
-            position: { x: getRandom(10, 100), y: getRandom(15, 80) },
-            type: addNode.type,
-            targetPosition: targetValue(),
-            sourcePosition: sourceValue(),
-            data: {
+      // 참조 : https://reactflow.dev/examples/nodes/update-node
+      setNodes(nds =>
+        nds.map(node => {
+          if (node.id === selectNodeId) {
+            node.type = addNode.type;
+            node.targetPosition = targetValue();
+            node.sourcePosition = sourceValue();
+            node.data = {
+              ...node.data,
               title: addNode.title,
               desc: addNode.desc,
               alarm: addNode.alarm,
               alarmCount: addNode.alarmCount,
               image: addNode.image,
               color: addNode.color,
-            },
-          },
-        ];
-      });
+            };
+          }
+          return node;
+        }),
+      );
     },
     [addNode],
   );
-  // console.log("nodes", nodes);
+  // console.log("노드 수정", nodes);
   return (
     <DefaultHandlerBoxStyled>
       <h2>
         <i>
-          <AiOutlineAppstoreAdd />
+          <AiFillEdit />
         </i>
-        노드 추가
+        노드 수정
       </h2>
-      <form onSubmit={handleAddNode}>
+      <form onSubmit={handleEditNode}>
         <ul>
           <li>
             <div className="form-box">
@@ -374,11 +409,11 @@ const DefaultHandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
           </li>
         </ul>
         <button className="submit-button" type="submit">
-          노드 생성
+          노드 수정
         </button>
       </form>
     </DefaultHandlerBoxStyled>
   );
 };
 
-export default DefaultHandlerBox;
+export default DefaultHandlerEditBox;

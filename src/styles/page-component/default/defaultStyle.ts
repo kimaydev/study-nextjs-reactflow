@@ -18,7 +18,11 @@ export const DefaultPanelListStyled = styled.nav`
     padding: 10px 0;
     font-size: 1.4rem;
     font-weight: 700;
-    background-color: pink;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    &:hover {
+      background-color: #f9f9f9;
+    }
     i {
       display: inline-block;
       vertical-align: -2px;

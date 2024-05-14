@@ -21,6 +21,7 @@ import { INodeContextMenuType } from "@/utils/type/interface";
 import CustomNode from "@/components/common/CustomNode";
 import ContextMenu from "@/components/common/ContextMenu";
 import DefaultHandlerBox from "./DefaultHandlerBox";
+import DefaultHandlerEditBox from "./DefaultHandlerEditBox";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
 
 // 노드의 초깃값
@@ -93,6 +94,10 @@ const DefaultWrap = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [menu, setMenu] = useState<INodeContextMenuType | null>(null);
+  // 노드 추가,수정 패널 토글
+  const [toggleHandlerBox, setToggleHandlerBox] = useState<boolean>(true);
+  // 선택한 노드의 데이터
+  const [selectNode, setSelectNode] = useState<Node | null>(null);
   const ref = useRef<any>(null);
   // 선택한 노드의 위치를 변경하는 함수
   const onNodesChange: OnNodesChange = useCallback(
@@ -115,6 +120,7 @@ const DefaultWrap = () => {
       e.preventDefault();
       // 메뉴 위치 계산, 화면 밖으로 contextMenu가 위치하지 않음
       const pane = ref.current.getBoundingClientRect();
+      setSelectNode(node);
       setMenu({
         id: node.id,
         data: node.data,
@@ -146,13 +152,19 @@ const DefaultWrap = () => {
           fitView
         >
           <Background />
-          {menu && <ContextMenu onClick={onPaneClick} {...menu} />}
+          {menu && (
+            <ContextMenu
+              onClick={onPaneClick}
+              setToggleHandlerBox={setToggleHandlerBox}
+              {...menu}
+            />
+          )}
           <Controls />
           {/* 메뉴 */}
           <DefaultPanelListStyled>
             <ul>
               <li>
-                <button>
+                <button onClick={() => setToggleHandlerBox(true)}>
                   <i>
                     <AiOutlineAppstoreAdd />
                   </i>
@@ -162,8 +174,18 @@ const DefaultWrap = () => {
             </ul>
           </DefaultPanelListStyled>
         </ReactFlow>
-        {/* 노드 추가 패널 */}
-        <DefaultHandlerBox nodes={nodes} setNodes={setNodes} />
+        {toggleHandlerBox ? (
+          // 노드 추가 패널
+          <DefaultHandlerBox nodes={nodes} setNodes={setNodes} />
+        ) : (
+          // 노드 수정 패널
+          <DefaultHandlerEditBox
+            nodes={nodes}
+            setNodes={setNodes}
+            selectNode={selectNode}
+            setSelectNode={setSelectNode}
+          />
+        )}
       </ReactFlowProvider>
     </DefaultLayoutStyled>
   );

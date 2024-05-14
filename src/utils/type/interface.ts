@@ -7,7 +7,7 @@ export interface INodeType {
   image: string; // 노드 이미지
   color: string; // 노드 색상
   flow: string; // 트리 구조 방향 설정
-  type: string; // 노드 타입 설정
+  type: string | undefined; // 노드 타입 설정
 }
 // 토폴로지 contextmenu 타입
 export interface INodeContextMenuType {
@@ -17,8 +17,4 @@ export interface INodeContextMenuType {
   left: any;
   right: any;
   bottom: any;
-}
-export interface INodeContextMenuPropsType extends INodeContextMenuType {
-  // setToggleEditNode: React.Dispatch<React.SetStateAction<boolean>>;
-  onClick?: () => void;
 }
