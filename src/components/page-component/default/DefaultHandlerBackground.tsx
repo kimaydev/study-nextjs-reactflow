@@ -92,63 +92,65 @@ const DefaultHandlerBackground = ({
           배경 수정
         </h2>
         <form>
-          <ul>
-            <li>
-              <div className="form-box">
-                <label htmlFor="NodeName" className="form-item-title">
-                  패턴형태
-                </label>
-                <DefaultRadioButtonStyled>
-                  <ul>
-                    {backgroundPatternArr.map((item, index) => (
-                      <li key={index}>
-                        <input
-                          type="radio"
-                          name="BackgroundPattern"
-                          id={item}
-                          value={item}
-                          checked={background.variant === item}
-                          onChange={handleBackgroundPattern}
-                        />
-                        <label htmlFor={item}>{item}</label>
-                      </li>
-                    ))}
-                  </ul>
-                </DefaultRadioButtonStyled>
-                <ol className="flex-list">
-                  <li>
-                    <label className="form-item-title">패턴색상</label>
-                    <ColorPicker
-                      defaultValue={background.color}
-                      value={background.color}
-                      onChange={handleColorChange}
-                      showText
-                    />
-                  </li>
-                  <li>
-                    <label className="form-item-title">패턴간격</label>
-                    <input
-                      type="number"
-                      className="input-text"
-                      value={background.gap && background.gap.toString()}
-                      onChange={handlePatternGap}
-                    />
-                  </li>
-                </ol>
-              </div>
-            </li>
-            <li>
-              <div className="form-box">
-                <span className="form-item-title">배경색상</span>
-                <ColorPicker
-                  defaultValue={background.style.backgroundColor}
-                  value={background.style.backgroundColor}
-                  onChange={handleBackgroundColorChange}
-                  showText
-                />
-              </div>
-            </li>
-          </ul>
+          <div className="form-wrapper">
+            <ul>
+              <li>
+                <div className="form-box">
+                  <label htmlFor="NodeName" className="form-item-title">
+                    패턴형태
+                  </label>
+                  <DefaultRadioButtonStyled>
+                    <ul>
+                      {backgroundPatternArr.map((item, index) => (
+                        <li key={index}>
+                          <input
+                            type="radio"
+                            name="BackgroundPattern"
+                            id={item}
+                            value={item}
+                            checked={background.variant === item}
+                            onChange={handleBackgroundPattern}
+                          />
+                          <label htmlFor={item}>{item}</label>
+                        </li>
+                      ))}
+                    </ul>
+                  </DefaultRadioButtonStyled>
+                  <ol className="flex-list">
+                    <li>
+                      <label className="form-item-title">패턴색상</label>
+                      <ColorPicker
+                        defaultValue={background.color}
+                        value={background.color}
+                        onChange={handleColorChange}
+                        showText
+                      />
+                    </li>
+                    <li>
+                      <label className="form-item-title">패턴간격</label>
+                      <input
+                        type="number"
+                        className="input-text"
+                        value={background.gap && background.gap.toString()}
+                        onChange={handlePatternGap}
+                      />
+                    </li>
+                  </ol>
+                </div>
+              </li>
+              <li>
+                <div className="form-box">
+                  <span className="form-item-title">배경색상</span>
+                  <ColorPicker
+                    defaultValue={background.style.backgroundColor}
+                    value={background.style.backgroundColor}
+                    onChange={handleBackgroundColorChange}
+                    showText
+                  />
+                </div>
+              </li>
+            </ul>
+          </div>
         </form>
       </>
     </PanelLayout>

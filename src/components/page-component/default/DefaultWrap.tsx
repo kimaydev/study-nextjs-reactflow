@@ -30,6 +30,7 @@ import DefaultHandlerEditBox from "./DefaultHandlerEditBox";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
 import { PiSelectionBackground } from "react-icons/pi";
 import DefaultHandlerBackground from "./DefaultHandlerBackground";
+import CustomEdge from "@/components/common/CustomEdge";
 
 // 노드의 초깃값
 const initialNodes: Node[] = [
@@ -51,43 +52,32 @@ const initialNodes: Node[] = [
       color: "white",
     },
   },
+  {
+    id: "1",
+    position: {
+      x: 387.5,
+      y: -86,
+    },
+    targetPosition: Position.Left,
+    sourcePosition: Position.Right,
+    type: "customDefault",
+    data: {
+      title: "Node1",
+      desc: "설명글1",
+      alarm: "on",
+      alarmCount: 5,
+      image: "demoTwo",
+      color: "white",
+    },
+  },
 ];
 // 간선의 초깃값
 const initialEdges: Edge[] = [
   {
     source: "0",
-    sourceHandle: null,
-    target: "2",
-    targetHandle: null,
-    id: "reactflow__edge-0-2",
-  },
-  {
-    source: "3",
-    sourceHandle: null,
-    target: "0",
-    targetHandle: null,
-    id: "reactflow__edge-3-0",
-  },
-  {
-    source: "0",
-    sourceHandle: null,
     target: "1",
-    targetHandle: null,
-    id: "reactflow__edge-0-1",
-  },
-  {
-    source: "0",
-    sourceHandle: null,
-    target: "4",
-    targetHandle: null,
-    id: "reactflow__edge-0-4",
-  },
-  {
-    source: "5",
-    sourceHandle: null,
-    target: "0",
-    targetHandle: null,
-    id: "reactflow__edge-5-0",
+    id: "edge-0-1",
+    type: "customEdge",
   },
 ];
 // 배경 초깃값
@@ -105,18 +95,22 @@ const nodeTypes = {
   customInput: CustomNode,
   customOutput: CustomNode,
 };
+// 커스텀 간선 타입
+const edgeTypes = {
+  customEdge: CustomEdge,
+};
 
 const DefaultWrap = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
-  const [edges, setEdges] = useState<Edge[]>([]);
+  const [edges, setEdges] = useState<Edge[]>(initialEdges);
   const [menu, setMenu] = useState<INodeContextMenuType | null>(null);
   const [background, setBackground] =
     useState<IBackgroundType>(initialBackground);
   // 패널 활성화
   const [activePanel, setActivePanel] = useState<IActivePanelType>({
-    addNodeActive: false,
+    addNodeActive: true,
     editNodeActive: false,
-    backgroundActive: true,
+    backgroundActive: false,
   });
   // 선택한 노드의 데이터
   const [selectNode, setSelectNode] = useState<Node | null>(null);
@@ -131,9 +125,19 @@ const DefaultWrap = () => {
     changes => setEdges(eds => applyEdgeChanges(changes, eds)),
     [],
   );
-  // 노드를 연결하는 함수
+  // 노드와 노드 사이를 연결하는 함수
   const onConnect: OnConnect = useCallback(
-    params => setEdges(eds => addEdge(params, eds)),
+    params => {
+      // 간선의 프로퍼티를 추가 및 수정할 수 있음
+      const newParams = {
+        ...params,
+        id: "edge-" + params.source + "-" + params.target,
+        type: "customEdge",
+      };
+      // console.log("params", params);
+      // setEdges(eds => addEdge(params, eds));
+      setEdges(eds => addEdge(newParams, eds));
+    },
     [setEdges],
   );
   // 노드 오른쪽 클릭 시 나오는 메뉴
@@ -146,18 +150,18 @@ const DefaultWrap = () => {
       setMenu({
         id: node.id,
         data: node.data,
-        top: e.clientY < pane.height - 200 && e.clientY,
+        top: e.clientY < pane.height - 200 && e.clientY - 50,
         left: e.clientX < pane.width - 200 && e.clientX,
         right: e.clientX >= pane.width - 200 && pane.width - e.clientX,
-        bottom: e.clientY >= pane.height - 200 && pane.height - e.clientY,
+        bottom: e.clientY >= pane.height - 200 && pane.height - e.clientY + 50,
       });
     },
     [setMenu],
   );
   // contextMenu가 열려있을 때 메뉴를 클릭하면 창이 닫힘
   const onPaneClick = useCallback(() => setMenu(null), [setMenu]);
-  // console.log("nodes", nodes);
-  // console.log("edges", edges);
+  console.log("nodes", nodes);
+  console.log("edges", edges);
   return (
     <DefaultLayoutStyled>
       <ReactFlowProvider>
@@ -166,6 +170,7 @@ const DefaultWrap = () => {
           nodes={nodes}
           edges={edges}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}

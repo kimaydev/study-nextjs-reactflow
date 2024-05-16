@@ -78,13 +78,15 @@ export const DefaultHandlerBoxStyled = styled.div`
         background: rgba(0, 0, 0, 1);
       }
     }
-    & > ul {
+    .form-wrapper {
       height: calc(100% - 4.6rem);
       overflow-y: auto;
-      & > li {
-        border-bottom: 0.5px solid #ddd;
-        &:last-of-type {
-          border-bottom: 0;
+      & > ul {
+        & > li {
+          border-bottom: 0.5px solid #ddd;
+          &:last-of-type {
+            border-bottom: 0;
+          }
         }
       }
     }
