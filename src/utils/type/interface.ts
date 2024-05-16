@@ -33,3 +33,7 @@ export interface IBackgroundType {
   gap: number | [number, number] | undefined;
   style: React.CSSProperties;
 }
+// 간선 스타일 설정 타입
+export interface IEdgeOptionsType {
+  baseEdge: string;
+}

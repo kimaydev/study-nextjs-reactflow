@@ -160,8 +160,8 @@ const DefaultWrap = () => {
   );
   // contextMenu가 열려있을 때 메뉴를 클릭하면 창이 닫힘
   const onPaneClick = useCallback(() => setMenu(null), [setMenu]);
-  console.log("nodes", nodes);
-  console.log("edges", edges);
+  // console.log("nodes", nodes);
+  // console.log("edges", edges);
   return (
     <DefaultLayoutStyled>
       <ReactFlowProvider>

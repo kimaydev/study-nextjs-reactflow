@@ -46,7 +46,7 @@ export const DefaultHandlerBoxStyled = styled.div`
   box-shadow: 0px 0px 17px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   isolation: isolate;
-  width: 300px;
+  width: 360px;
   height: 100%;
   h2 {
     display: flex;
