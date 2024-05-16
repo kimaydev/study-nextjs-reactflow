@@ -182,21 +182,8 @@ const DefaultHandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
     },
     [addNode],
   );
-  // console.log("nodes", nodes);
-  // 간선 스타일 설정 =======================
-  const [edgeOptions, setEdgeOptions] = useRecoilState(rEdgeOptions);
-  // 간선 형태 설정
-  const edgePathArr: string[] = ["straight", "step", "smoothstep", "bezier"];
-  const handleEdgePath = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setEdgeOptions(prev => {
-      return {
-        ...prev,
-        baseEdge: value,
-      };
-    });
-  };
-  console.log("edgeOptions", edgeOptions);
+  // console.log("nodes", nodes)
+
   return (
     <PanelLayout>
       <>
@@ -384,38 +371,6 @@ const DefaultHandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
                               onChange={handleNodeType}
                             />
                             <label htmlFor={item}>{transKR()}</label>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </DefaultRadioButtonStyled>
-                </div>
-              </li>
-            </ul>
-            <h2>
-              <i>
-                <BsBorderStyle />
-              </i>
-              간선 스타일 설정
-            </h2>
-            <ul>
-              <li>
-                <div className="form-box">
-                  <span className="form-item-title">간선 형태</span>
-                  <DefaultRadioButtonStyled>
-                    <ul>
-                      {edgePathArr.map((item, index) => {
-                        return (
-                          <li key={index}>
-                            <input
-                              type="radio"
-                              name="EdgeOptions"
-                              id={item}
-                              value={item}
-                              checked={edgeOptions.baseEdge === item}
-                              onChange={handleEdgePath}
-                            />
-                            <label htmlFor={item}>{item}</label>
                           </li>
                         );
                       })}

@@ -1,4 +1,4 @@
-import { BackgroundVariant } from "reactflow";
+import { BackgroundVariant, Position } from "reactflow";
 
 // 노드 추가 타입
 export interface INodeType {
@@ -12,18 +12,25 @@ export interface INodeType {
   type: string | undefined; // 노드 타입 설정
 }
 // 토폴로지 contextmenu 타입
-export interface INodeContextMenuType {
-  id: string;
-  data: any;
+interface IContextMenuType {
   top: any;
   left: any;
   right: any;
   bottom: any;
 }
+export interface INodeContextMenuType extends IContextMenuType {
+  id: string;
+  data: any;
+}
+export interface IEdgeContextMenuType extends IContextMenuType {
+  // id: string;
+  // data: any;
+}
 // 패널 활성화 옵션 타입
 export interface IActivePanelType {
   addNodeActive: boolean;
   editNodeActive: boolean;
+  editEdgeActive: boolean;
   backgroundActive: boolean;
 }
 // 배경 수정 타입

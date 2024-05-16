@@ -9,7 +9,7 @@ export interface IContextMenuPropsType extends INodeContextMenuType {
   onClick?: () => void;
 }
 
-const ContextMenu = ({
+const NodeContextMenu = ({
   setActivePanel,
   data,
   id,
@@ -85,4 +85,4 @@ const ContextMenu = ({
   );
 };
 
-export default ContextMenu;
+export default NodeContextMenu;
