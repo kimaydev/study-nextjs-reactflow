@@ -188,3 +188,16 @@ export const ContextMenuStyled = styled.div`
     }
   }
 `;
+export const EdgeStyled = styled.div`
+  position: absolute;
+  pointer-events: all;
+  .label {
+    display: block;
+    max-width: 100px;
+    padding: 5px 10px;
+    word-wrap: break-word;
+    line-height: 1.5;
+    background: #ff0072;
+    color: #fff;
+  }
+`;

@@ -10,9 +10,6 @@ import {
 import { INodeType } from "@/utils/type/interface";
 import { getImage, getImageAlt, valuesType } from "@/hooks/useTrans";
 import PanelLayout from "@/components/layout/PanelLayout";
-import { BsBorderStyle } from "react-icons/bs";
-import { useRecoilState } from "recoil";
-import { rEdgeOptions } from "@/utils/states/rReactFlow";
 
 interface IHandlerBox {
   nodes: Node[];

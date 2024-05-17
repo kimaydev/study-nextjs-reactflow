@@ -1,10 +1,10 @@
 import React, { useCallback } from "react";
 import { useReactFlow } from "reactflow";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
-import { IActivePanelType, INodeContextMenuType } from "@/utils/type/interface";
+import { IActivePanelType, IContextMenuType } from "@/utils/type/interface";
 import { ContextMenuStyled } from "@/styles/page-component/default/defaultNodeStyle";
 
-export interface IContextMenuPropsType extends INodeContextMenuType {
+export interface IContextMenuPropsType extends IContextMenuType {
   setActivePanel: React.Dispatch<React.SetStateAction<IActivePanelType>>;
   onClick?: () => void;
 }

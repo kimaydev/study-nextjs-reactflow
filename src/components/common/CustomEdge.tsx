@@ -1,6 +1,8 @@
 import React from "react";
+import { EdgeStyled } from "@/styles/page-component/default/defaultNodeStyle";
 import {
   BaseEdge,
+  Edge,
   EdgeLabelRenderer,
   EdgeProps,
   getBezierPath,
@@ -10,6 +12,7 @@ import {
 
 const CustomEdge = ({
   id,
+  data,
   sourceX,
   sourceY,
   targetX,
@@ -19,7 +22,7 @@ const CustomEdge = ({
   style = { stroke: "#FF0072" },
   markerEnd,
 }: EdgeProps) => {
-  const { setEdges } = useReactFlow();
+  const { getEdge, setEdges } = useReactFlow();
   // 베지어 곡선 형태
   // const [edgePath, labelX, labelY] = getBezierPath({
   //   sourceX,
@@ -45,29 +48,18 @@ const CustomEdge = ({
   //     targetY,
   //   }),
   // );
-  // 간선 삭제
-  const handleEdgeRemove = () => {
-    setEdges(edges => edges.filter(edge => edge.id !== id));
-  };
   return (
     <>
       <BaseEdge path={edgePath} markerEnd={markerEnd} style={style} />
       <EdgeLabelRenderer>
-        <div
+        <EdgeStyled
           style={{
-            position: "absolute",
             transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
-            fontSize: 12,
-            // everything inside EdgeLabelRenderer has no pointer events by default
-            // if you have an interactive element, set pointer-events: all
-            pointerEvents: "all",
           }}
           className="nodrag nopan"
         >
-          <button className="edgebutton" onClick={handleEdgeRemove}>
-            ×
-          </button>
-        </div>
+          <span className="label">{data.baseEdge}</span>
+        </EdgeStyled>
       </EdgeLabelRenderer>
     </>
   );

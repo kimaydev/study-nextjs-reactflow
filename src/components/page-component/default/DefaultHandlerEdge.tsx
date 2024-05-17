@@ -1,39 +1,58 @@
 import React, { useCallback, useState } from "react";
-import { useRecoilState } from "recoil";
 import PanelLayout from "@/components/layout/PanelLayout";
 import { BsBorderStyle } from "react-icons/bs";
 import { DefaultRadioButtonStyled } from "@/styles/page-component/default/defaultStyle";
-import { rEdgeOptions } from "@/utils/states/rReactFlow";
 import { IEdgeOptionsType } from "@/utils/type/interface";
+import { Edge, useEdges, useReactFlow } from "reactflow";
+import { useRecoilValue } from "recoil";
+import { rSelectEdgeId } from "@/utils/states/rReactFlow";
 
+interface IDefaultHandlerEdgeProps {
+  edges: Edge[];
+  setEdges: React.Dispatch<React.SetStateAction<Edge[]>>;
+}
 // 간선 수정 기본값
 const initialEdge: IEdgeOptionsType = {
   baseEdge: "bezier",
 };
 
-const DefaultHandlerEdge = () => {
-  const [edgeSubmitOptions, setEdgeSubmitOptions] =
-    useState<IEdgeOptionsType>(initialEdge);
+const DefaultHandlerEdge = ({ edges, setEdges }: IDefaultHandlerEdgeProps) => {
+  const { getEdge } = useReactFlow();
+  const getSelectEdgeId = useRecoilValue(rSelectEdgeId);
+  // console.log("선택한 간선의 id", getSelectEdgeId);
+  const [editEdge, setEditEdge] = useState<IEdgeOptionsType>(initialEdge);
   // 간선 형태 설정
   const edgePathArr: string[] = ["straight", "step", "smoothstep", "bezier"];
   const handleEdgePath = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setEdgeSubmitOptions(prev => {
+    setEditEdge(prev => {
       return {
         ...prev,
         baseEdge: value,
       };
     });
   };
-  // console.log("edgeOptions", edgeOptions);
-  const [edgeOptions, setEdgeOptions] = useRecoilState(rEdgeOptions);
+  // console.log("getEdge", getEdge(getSelectEdgeId));
   const handleEditEdge = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      setEdgeOptions(edgeSubmitOptions);
+      const selectEdgeId = getEdge(getSelectEdgeId);
+      // console.log("selectEdgeId", selectEdgeId?.id);
+      setEdges(edges =>
+        edges.map(edge => {
+          if (edge.id === selectEdgeId?.id) {
+            edge.data = {
+              ...edge.data,
+              baseEdge: editEdge.baseEdge,
+            };
+          }
+          return edge;
+        }),
+      );
     },
-    [edgeSubmitOptions],
+    [editEdge, getSelectEdgeId],
   );
+  // console.log("edges", edges);
   // console.log("edgeOptions", edgeOptions);
   return (
     <PanelLayout>
@@ -42,7 +61,7 @@ const DefaultHandlerEdge = () => {
           <i>
             <BsBorderStyle />
           </i>
-          간선 스타일 설정
+          간선 수정
         </h2>
         <form onSubmit={handleEditEdge}>
           <div className="form-wrapper">
@@ -60,7 +79,7 @@ const DefaultHandlerEdge = () => {
                               name="EdgeOptions"
                               id={item}
                               value={item}
-                              checked={edgeSubmitOptions.baseEdge === item}
+                              checked={editEdge.baseEdge === item}
                               onChange={handleEdgePath}
                             />
                             <label htmlFor={item}>{item}</label>

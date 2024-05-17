@@ -1,41 +1,52 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { ContextMenuStyled } from "@/styles/page-component/default/defaultNodeStyle";
-import { IActivePanelType, IEdgeContextMenuType } from "@/utils/type/interface";
+import { IActivePanelType, IContextMenuType } from "@/utils/type/interface";
 import { BsBorderStyle } from "react-icons/bs";
 import { MdOutlineClose } from "react-icons/md";
+import { useReactFlow } from "reactflow";
+import { rSelectEdgeId } from "@/utils/states/rReactFlow";
+import { useSetRecoilState } from "recoil";
 
-interface IContextMenuPropsType extends IEdgeContextMenuType {
+interface IContextMenuPropsType extends IContextMenuType {
   setActivePanel: React.Dispatch<React.SetStateAction<IActivePanelType>>;
-  // onClick?: () => void;
+  onClick?: () => void;
 }
 
 const EdgeContextMenu = ({
   setActivePanel,
+  id,
   top,
   left,
   right,
   bottom,
   ...props
 }: IContextMenuPropsType) => {
+  const { setEdges } = useReactFlow();
+  const setSelectEdgeId = useSetRecoilState(rSelectEdgeId);
+  // 간선 수정
+  const handleEdgeEdit = () => {
+    setSelectEdgeId(id);
+    setActivePanel(prev => {
+      return {
+        ...prev,
+        addNodeActive: false,
+        editNodeActive: false,
+        editEdgeActive: true,
+        backgroundActive: false,
+      };
+    });
+  };
+  // 간선 삭제
+  const handleEdgeRemove = useCallback(() => {
+    setEdges(edges => edges.filter(edge => edge.id !== id));
+  }, [id, setEdges]);
   return (
     <ContextMenuStyled>
       <div style={{ top, left, right, bottom }} {...props}>
         <div className="button-list">
           <ul>
             <li>
-              <button
-                onClick={() =>
-                  setActivePanel(prev => {
-                    return {
-                      ...prev,
-                      addNodeActive: false,
-                      editNodeActive: false,
-                      editEdgeActive: true,
-                      backgroundActive: false,
-                    };
-                  })
-                }
-              >
+              <button onClick={handleEdgeEdit}>
                 <i>
                   <BsBorderStyle />
                 </i>
@@ -43,19 +54,7 @@ const EdgeContextMenu = ({
               </button>
             </li>
             <li>
-              <button
-                onClick={() =>
-                  setActivePanel(prev => {
-                    return {
-                      ...prev,
-                      addNodeActive: false,
-                      editNodeActive: false,
-                      editEdgeActive: true,
-                      backgroundActive: false,
-                    };
-                  })
-                }
-              >
+              <button onClick={handleEdgeRemove}>
                 <i>
                   <MdOutlineClose />
                 </i>

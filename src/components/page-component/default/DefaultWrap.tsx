@@ -21,8 +21,7 @@ import {
 import {
   IActivePanelType,
   IBackgroundType,
-  IEdgeContextMenuType,
-  INodeContextMenuType,
+  IContextMenuType,
 } from "@/utils/type/interface";
 import CustomNode from "@/components/common/CustomNode";
 import DefaultHandlerBox from "./DefaultHandlerBox";
@@ -31,10 +30,7 @@ import { AiOutlineAppstoreAdd } from "react-icons/ai";
 import { PiSelectionBackground } from "react-icons/pi";
 import DefaultHandlerBackground from "./DefaultHandlerBackground";
 import CustomEdge from "@/components/common/CustomEdge";
-import { BsBorderStyle } from "react-icons/bs";
 import DefaultHandlerEdge from "./DefaultHandlerEdge";
-import { useRecoilValue } from "recoil";
-import { rEdgeOptions } from "@/utils/states/rReactFlow";
 import NodeContextMenu from "@/components/common/NodeContextMenu";
 import EdgeContextMenu from "@/components/common/EdgeContextMenu";
 
@@ -84,6 +80,7 @@ const initialEdges: Edge[] = [
     target: "1",
     id: "edge-0-1",
     type: "customEdge",
+    data: { baseEdge: "bezier" },
   },
 ];
 // 배경 초깃값
@@ -109,8 +106,8 @@ const edgeTypes = {
 const DefaultWrap = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
-  const [nodeMenu, setNodeMenu] = useState<INodeContextMenuType | null>(null);
-  const [edgeMenu, setEdgeMenu] = useState<IEdgeContextMenuType | null>(null);
+  const [nodeMenu, setNodeMenu] = useState<IContextMenuType | null>(null);
+  const [edgeMenu, setEdgeMenu] = useState<IContextMenuType | null>(null);
   const [background, setBackground] =
     useState<IBackgroundType>(initialBackground);
   // 패널 활성화
@@ -134,22 +131,21 @@ const DefaultWrap = () => {
     [],
   );
   // 노드와 노드 사이를 연결하는 함수
-  const { baseEdge } = useRecoilValue(rEdgeOptions);
   const onConnect: OnConnect = useCallback(
     params => {
-      // 간선의 프로퍼티를 추가 및 수정할 수 있음
+      // 간선의 프로퍼티 기본값 설정
       const newParams = {
         ...params,
         id: "edge-" + params.source + "-" + params.target,
         type: "customEdge",
         data: {
-          baseEdge,
+          baseEdge: "bezier",
         },
       };
-      console.log("newParams", newParams);
+      // console.log("newParams", newParams);
       setEdges(eds => addEdge(newParams, eds));
     },
-    [setEdges, baseEdge],
+    [setEdges],
   );
   // 노드 컨텍스트 메뉴
   const onNodeContextMenu = useCallback(
@@ -176,19 +172,17 @@ const DefaultWrap = () => {
     setNodeMenu(null);
     setEdgeMenu(null);
   }, [setNodeMenu, setEdgeMenu]);
-  // console.log("nodes", nodes);
-  // console.log("edges", edges);
   // 간선 컨텍스트 메뉴
   const onEdgeContextMenu = useCallback(
     (e: React.MouseEvent, edge: Edge) => {
       e.preventDefault();
-      console.log("edge", edge);
+      // console.log("edge", edge);
       const pane = ref.current.getBoundingClientRect();
       // 노드 컨텍스트 메뉴 열려있을 때 null값으로 초기화
       nodeMenu && setNodeMenu(null);
       setEdgeMenu({
-        // id: node.id,
-        // data: node.data,
+        id: edge.id,
+        data: edge.data,
         top: e.clientY < pane.height - 200 && e.clientY - 50,
         left: e.clientX < pane.width - 200 && e.clientX,
         right: e.clientX >= pane.width - 200 && pane.width - e.clientX,
@@ -197,6 +191,8 @@ const DefaultWrap = () => {
     },
     [nodeMenu],
   );
+  // console.log("nodes", nodes);
+  // console.log("edges", edges);
   return (
     <DefaultLayoutStyled>
       <ReactFlowProvider>
@@ -223,7 +219,11 @@ const DefaultWrap = () => {
             />
           )}
           {edgeMenu && (
-            <EdgeContextMenu setActivePanel={setActivePanel} {...edgeMenu} />
+            <EdgeContextMenu
+              onClick={onPaneClick}
+              setActivePanel={setActivePanel}
+              {...edgeMenu}
+            />
           )}
           <Controls />
           {/* 메뉴 */}
@@ -286,7 +286,9 @@ const DefaultWrap = () => {
           />
         )}
         {/* 간선 설정 패널 */}
-        {activePanel.editEdgeActive && <DefaultHandlerEdge />}
+        {activePanel.editEdgeActive && (
+          <DefaultHandlerEdge edges={edges} setEdges={setEdges} />
+        )}
         {/* 배경 수정 패널 */}
         {activePanel.backgroundActive && (
           <DefaultHandlerBackground

@@ -12,19 +12,13 @@ export interface INodeType {
   type: string | undefined; // 노드 타입 설정
 }
 // 토폴로지 contextmenu 타입
-interface IContextMenuType {
+export interface IContextMenuType {
+  id: string;
+  data: any;
   top: any;
   left: any;
   right: any;
   bottom: any;
-}
-export interface INodeContextMenuType extends IContextMenuType {
-  id: string;
-  data: any;
-}
-export interface IEdgeContextMenuType extends IContextMenuType {
-  // id: string;
-  // data: any;
 }
 // 패널 활성화 옵션 타입
 export interface IActivePanelType {
