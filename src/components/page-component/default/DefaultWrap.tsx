@@ -111,6 +111,16 @@ const initialEdges: Edge[] = [
       baseEdge: "step",
     },
   },
+  {
+    source: "3",
+    target: "4",
+    id: "edge-3-4",
+    type: "customEdge",
+    animated: false,
+    data: {
+      baseEdge: "bezier",
+    },
+  },
 ];
 // 배경 초깃값
 const initialBackground: IBackgroundType = {
@@ -141,9 +151,9 @@ const DefaultWrap = () => {
     useState<IBackgroundType>(initialBackground);
   // 패널 활성화
   const [activePanel, setActivePanel] = useState<IActivePanelType>({
-    addNodeActive: false,
+    addNodeActive: true,
     editNodeActive: false,
-    editEdgeActive: true,
+    editEdgeActive: false,
     backgroundActive: false,
   });
   // 선택한 노드의 데이터
