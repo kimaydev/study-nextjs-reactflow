@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PanelLayout from "@/components/layout/PanelLayout";
 import { BsBorderStyle } from "react-icons/bs";
 import { DefaultRadioButtonStyled } from "@/styles/page-component/default/defaultStyle";
@@ -6,6 +6,7 @@ import { IEdgeOptionsType } from "@/utils/type/interface";
 import { Edge, useEdges, useReactFlow } from "reactflow";
 import { useRecoilValue } from "recoil";
 import { rSelectEdgeId } from "@/utils/states/rReactFlow";
+import { valuesType } from "@/hooks/useTrans";
 
 interface IDefaultHandlerEdgeProps {
   edges: Edge[];
@@ -13,12 +14,15 @@ interface IDefaultHandlerEdgeProps {
 }
 // 간선 수정 기본값
 const initialEdge: IEdgeOptionsType = {
-  baseEdge: "bezier",
+  animated: false,
+  data: { baseEdge: "bezier" },
 };
 
 const DefaultHandlerEdge = ({ edges, setEdges }: IDefaultHandlerEdgeProps) => {
   const { getEdge } = useReactFlow();
   const getSelectEdgeId = useRecoilValue(rSelectEdgeId);
+  const selectEdgeValue = getEdge(getSelectEdgeId);
+  // console.log("selectEdgeValue", selectEdgeValue);
   // console.log("선택한 간선의 id", getSelectEdgeId);
   const [editEdge, setEditEdge] = useState<IEdgeOptionsType>(initialEdge);
   // 간선 형태 설정
@@ -28,23 +32,50 @@ const DefaultHandlerEdge = ({ edges, setEdges }: IDefaultHandlerEdgeProps) => {
     setEditEdge(prev => {
       return {
         ...prev,
-        baseEdge: value,
+        data: {
+          ...prev.data,
+          baseEdge: value,
+        },
       };
     });
   };
-  // console.log("getEdge", getEdge(getSelectEdgeId));
+  // 애니메이션 효과 설정
+  const edgeAnimatedArr: boolean[] = [true, false];
+  const handleEdgeAnimated = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = JSON.parse(e.target.value);
+    setEditEdge(prev => {
+      return {
+        ...prev,
+        animated: value,
+      };
+    });
+  };
+  useEffect(() => {
+    const selectEdgeData = selectEdgeValue?.data;
+    setEditEdge(prev => {
+      return {
+        ...prev,
+        animated: selectEdgeValue?.animated,
+        data: {
+          ...prev.data,
+          baseEdge: selectEdgeData?.baseEdge,
+        },
+      };
+    });
+  }, [getSelectEdgeId]);
   const handleEditEdge = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      const selectEdgeId = getEdge(getSelectEdgeId);
-      // console.log("selectEdgeId", selectEdgeId?.id);
+      const selectEdgeId = selectEdgeValue?.id;
+      // console.log("selectEdgeId", selectEdgeId);
       setEdges(edges =>
         edges.map(edge => {
-          if (edge.id === selectEdgeId?.id) {
-            edge.data = {
-              ...edge.data,
-              baseEdge: editEdge.baseEdge,
-            };
+          if (edge.id === selectEdgeId) {
+            (edge.animated = editEdge.animated),
+              (edge.data = {
+                ...edge.data,
+                baseEdge: editEdge.data.baseEdge,
+              });
           }
           return edge;
         }),
@@ -52,6 +83,7 @@ const DefaultHandlerEdge = ({ edges, setEdges }: IDefaultHandlerEdgeProps) => {
     },
     [editEdge, getSelectEdgeId],
   );
+  // console.log("editEdge", editEdge);
   // console.log("edges", edges);
   // console.log("edgeOptions", edgeOptions);
   return (
@@ -79,10 +111,42 @@ const DefaultHandlerEdge = ({ edges, setEdges }: IDefaultHandlerEdgeProps) => {
                               name="EdgeOptions"
                               id={item}
                               value={item}
-                              checked={editEdge.baseEdge === item}
+                              checked={editEdge.data.baseEdge === item}
                               onChange={handleEdgePath}
                             />
                             <label htmlFor={item}>{item}</label>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </DefaultRadioButtonStyled>
+                </div>
+              </li>
+              <li>
+                <div className="form-box">
+                  <span className="form-item-title">애니메이션 효과</span>
+                  <DefaultRadioButtonStyled>
+                    <ul>
+                      {edgeAnimatedArr.map((item, index) => {
+                        const transItem = item.toString();
+                        const transKR = () => {
+                          const values: valuesType = {
+                            true: "활성화",
+                            false: "비활성화",
+                          };
+                          return values[transItem];
+                        };
+                        return (
+                          <li key={index}>
+                            <input
+                              type="radio"
+                              name="EdgeAnimated"
+                              id={transItem}
+                              value={transItem}
+                              checked={editEdge.animated === item}
+                              onChange={handleEdgeAnimated}
+                            />
+                            <label htmlFor={transItem}>{transKR()}</label>
                           </li>
                         );
                       })}

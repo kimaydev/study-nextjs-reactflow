@@ -72,6 +72,24 @@ const initialNodes: Node[] = [
       color: "white",
     },
   },
+  {
+    id: "2",
+    position: {
+      x: 448,
+      y: 167,
+    },
+    targetPosition: Position.Left,
+    sourcePosition: Position.Right,
+    type: "customDefault",
+    data: {
+      title: "Node",
+      desc: "",
+      alarm: "off",
+      alarmCount: 5,
+      image: "demoOne",
+      color: "white",
+    },
+  },
 ];
 // 간선의 초깃값
 const initialEdges: Edge[] = [
@@ -80,7 +98,18 @@ const initialEdges: Edge[] = [
     target: "1",
     id: "edge-0-1",
     type: "customEdge",
+    animated: true,
     data: { baseEdge: "bezier" },
+  },
+  {
+    source: "0",
+    target: "2",
+    id: "edge-0-2",
+    type: "customEdge",
+    animated: false,
+    data: {
+      baseEdge: "step",
+    },
   },
 ];
 // 배경 초깃값
@@ -138,6 +167,7 @@ const DefaultWrap = () => {
         ...params,
         id: "edge-" + params.source + "-" + params.target,
         type: "customEdge",
+        animated: false,
         data: {
           baseEdge: "bezier",
         },
