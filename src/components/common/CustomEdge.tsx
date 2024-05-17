@@ -6,6 +6,7 @@ import {
   EdgeLabelRenderer,
   EdgeProps,
   getBezierPath,
+  getSmoothStepPath,
   getStraightPath,
   useReactFlow,
 } from "reactflow";
@@ -23,31 +24,48 @@ const CustomEdge = ({
   markerEnd,
 }: EdgeProps) => {
   const { getEdge, setEdges } = useReactFlow();
-  // 베지어 곡선 형태
-  // const [edgePath, labelX, labelY] = getBezierPath({
-  //   sourceX,
-  //   sourceY,
-  //   sourcePosition,
-  //   targetX,
-  //   targetY,
-  //   targetPosition,
-  // });
-  // 직선 형태
-  const [edgePath, labelX, labelY] = getStraightPath({
-    sourceX,
-    sourceY,
-    targetX,
-    targetY,
-  });
-  // console.log(
-  //   "getStraightPath",
-  //   getStraightPath({
-  //     sourceX,
-  //     sourceY,
-  //     targetX,
-  //     targetY,
-  //   }),
-  // );
+  // console.log("간선", data.baseEdge);
+  // baseEdge 값에 따라 간선의 형태 변경(기본값은 베지어 곡선)
+  type baseEdgeType = () => [string, number, number];
+  const baseEdge: baseEdgeType = () => {
+    if (data.baseEdge === "straight") {
+      const [edgePath, labelX, labelY] = getStraightPath({
+        sourceX,
+        sourceY,
+        targetX,
+        targetY,
+      });
+      return [edgePath, labelX, labelY];
+    } else if (data.baseEdge === "step") {
+      const [edgePath, labelX, labelY] = getSmoothStepPath({
+        sourceX,
+        sourceY,
+        targetX,
+        targetY,
+        borderRadius: 0,
+      });
+      return [edgePath, labelX, labelY];
+    } else if (data.baseEdge === "smoothstep") {
+      const [edgePath, labelX, labelY] = getSmoothStepPath({
+        sourceX,
+        sourceY,
+        targetX,
+        targetY,
+        borderRadius: 5,
+      });
+      return [edgePath, labelX, labelY];
+    }
+    const [edgePath, labelX, labelY] = getBezierPath({
+      sourceX,
+      sourceY,
+      sourcePosition,
+      targetX,
+      targetY,
+      targetPosition,
+    });
+    return [edgePath, labelX, labelY];
+  };
+  const [edgePath, labelX, labelY] = baseEdge();
   return (
     <>
       <BaseEdge path={edgePath} markerEnd={markerEnd} style={style} />
