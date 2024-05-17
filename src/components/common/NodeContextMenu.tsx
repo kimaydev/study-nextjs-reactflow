@@ -28,6 +28,7 @@ const NodeContextMenu = ({
         ...prev,
         addNodeActive: false,
         editNodeActive: true,
+        editEdgeActive: false,
         backgroundActive: false,
       };
     });

@@ -158,6 +158,8 @@ const DefaultWrap = () => {
       // 메뉴 위치 계산, 화면 밖으로 contextMenu가 위치하지 않음
       const pane = ref.current.getBoundingClientRect();
       setSelectNode(node);
+      // 간선 컨텍스트 메뉴 열려있을 때 null값으로 초기화
+      edgeMenu && setEdgeMenu(null);
       setNodeMenu({
         id: node.id,
         data: node.data,
@@ -167,26 +169,34 @@ const DefaultWrap = () => {
         bottom: e.clientY >= pane.height - 200 && pane.height - e.clientY + 50,
       });
     },
-    [setNodeMenu],
+    [setNodeMenu, edgeMenu],
   );
-  // contextMenu가 열려있을 때 메뉴를 클릭하면 창이 닫힘
-  const onPaneClick = useCallback(() => setNodeMenu(null), [setNodeMenu]);
+  // 컨텍스트 메뉴가 열려있을 때 영역 밖을 클릭하면 창이 닫힘
+  const onPaneClick = useCallback(() => {
+    setNodeMenu(null);
+    setEdgeMenu(null);
+  }, [setNodeMenu, setEdgeMenu]);
   // console.log("nodes", nodes);
   // console.log("edges", edges);
   // 간선 컨텍스트 메뉴
-  const onEdgeContextMenu = useCallback((e: React.MouseEvent, edge: Edge) => {
-    e.preventDefault();
-    console.log("edge", edge);
-    const pane = ref.current.getBoundingClientRect();
-    setEdgeMenu({
-      // id: node.id,
-      // data: node.data,
-      top: e.clientY < pane.height - 200 && e.clientY - 50,
-      left: e.clientX < pane.width - 200 && e.clientX,
-      right: e.clientX >= pane.width - 200 && pane.width - e.clientX,
-      bottom: e.clientY >= pane.height - 200 && pane.height - e.clientY + 50,
-    });
-  }, []);
+  const onEdgeContextMenu = useCallback(
+    (e: React.MouseEvent, edge: Edge) => {
+      e.preventDefault();
+      console.log("edge", edge);
+      const pane = ref.current.getBoundingClientRect();
+      // 노드 컨텍스트 메뉴 열려있을 때 null값으로 초기화
+      nodeMenu && setNodeMenu(null);
+      setEdgeMenu({
+        // id: node.id,
+        // data: node.data,
+        top: e.clientY < pane.height - 200 && e.clientY - 50,
+        left: e.clientX < pane.width - 200 && e.clientX,
+        right: e.clientX >= pane.width - 200 && pane.width - e.clientX,
+        bottom: e.clientY >= pane.height - 200 && pane.height - e.clientY + 50,
+      });
+    },
+    [nodeMenu],
+  );
   return (
     <DefaultLayoutStyled>
       <ReactFlowProvider>
@@ -212,7 +222,9 @@ const DefaultWrap = () => {
               {...nodeMenu}
             />
           )}
-          {edgeMenu && <EdgeContextMenu {...edgeMenu} />}
+          {edgeMenu && (
+            <EdgeContextMenu setActivePanel={setActivePanel} {...edgeMenu} />
+          )}
           <Controls />
           {/* 메뉴 */}
           <DefaultPanelListStyled>
@@ -235,26 +247,6 @@ const DefaultWrap = () => {
                     <AiOutlineAppstoreAdd />
                   </i>
                   노드 추가
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() =>
-                    setActivePanel(prev => {
-                      return {
-                        ...prev,
-                        addNodeActive: false,
-                        editNodeActive: false,
-                        editEdgeActive: true,
-                        backgroundActive: false,
-                      };
-                    })
-                  }
-                >
-                  <i>
-                    <BsBorderStyle />
-                  </i>
-                  간선 설정
                 </button>
               </li>
               <li>

@@ -124,15 +124,15 @@ export const ContextMenuStyled = styled.div`
   & > div {
     position: absolute;
     z-index: 10;
-    width: 16rem;
     background: #fff;
-    border: 1px solid #eee;
-    border-radius: 6px;
-    box-shadow: 0px 5px 17px 0px rgba(0, 0, 0, 0.3);
+    border: 1px solid #000;
+    box-shadow: 0px 7px 13px 0px rgba(0, 0, 0, 0.15);
     font-size: 1.4rem;
+    overflow: hidden;
+    isolation: isolate;
     .text-list {
       padding: 10px;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #000;
       li {
         margin-bottom: 6px;
         &:last-of-type {
@@ -161,8 +161,10 @@ export const ContextMenuStyled = styled.div`
     }
     .button-list {
       li {
-        padding: 4px;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid #000;
+        &:last-of-type {
+          border: 0;
+        }
       }
       button {
         display: block;
@@ -171,7 +173,6 @@ export const ContextMenuStyled = styled.div`
         padding: 0.5em;
         text-align: left;
         background: #fff;
-        border-radius: 4px;
         &:hover {
           background: #eee;
         }
