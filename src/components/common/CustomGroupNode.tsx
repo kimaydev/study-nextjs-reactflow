@@ -7,12 +7,12 @@ const CustomGroupNode = ({ data, selected }: NodeProps) => {
   return (
     <>
       <NodeResizer
-        color="#ff0071"
+        color="#000"
         isVisible={selected}
         minWidth={100}
-        minHeight={30}
+        minHeight={100}
       />
-      <GroupNodeStyled $color={data?.color}>{data.label}</GroupNodeStyled>
+      <GroupNodeStyled $color={data?.color} />
     </>
   );
 };

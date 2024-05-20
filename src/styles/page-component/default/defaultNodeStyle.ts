@@ -35,6 +35,10 @@ export const NodeStyled = styled.div<NodeStyledType>`
   }
   .text-box {
     position: relative;
+    border: 1px solid #000;
+    padding: 4px 8px;
+    text-align: center;
+    font-size: 14px;
     background: ${props => {
       switch (props.$color) {
         case "white":
@@ -49,11 +53,6 @@ export const NodeStyled = styled.div<NodeStyledType>`
           return "#07bb62";
       }
     }};
-    border: 1px solid #000;
-    padding: 4px 8px;
-    border-radius: 4px;
-    text-align: center;
-    font-size: 14px;
     color: ${props => {
       switch (props.$color) {
         case "white":
@@ -101,11 +100,19 @@ export const NodeStyled = styled.div<NodeStyledType>`
     }
   }
   .react-flow__handle {
-    width: 10px;
-    height: 10px;
-    border: 1px solid #fff;
-    border-radius: 100%;
+    border: 0;
+    border-radius: 0;
     z-index: 2;
+    &.react-flow__handle-top,
+    &.react-flow__handle-bottom {
+      width: 85%;
+      height: 5px;
+    }
+    &.react-flow__handle-left,
+    &.react-flow__handle-right {
+      width: 5px;
+      height: 100%;
+    }
     &.react-flow__handle-top {
       top: -5px;
     }
@@ -197,13 +204,13 @@ export const EdgeStyled = styled.div`
     padding: 5px 10px;
     word-wrap: break-word;
     line-height: 1.5;
-    background: #ff0072;
+    background: #000;
     color: #fff;
   }
 `;
 export const GroupNodeStyled = styled.div<{ $color: string }>`
   min-width: 100px;
-  min-height: 30px;
+  min-height: 100px;
   width: 100%;
   height: 100%;
   background: ${props => {

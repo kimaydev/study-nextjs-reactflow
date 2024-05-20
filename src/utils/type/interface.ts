@@ -13,7 +13,7 @@ export interface INodeType {
 }
 // 그룹노드 추가 타입
 export interface IGroupNodeType {
-  color: string; // 노드 색상
+  color: string; // 그룹노드 색상
 }
 // 토폴로지 contextmenu 타입
 export interface IContextMenuType {

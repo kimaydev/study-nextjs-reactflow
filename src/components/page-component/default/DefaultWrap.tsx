@@ -58,11 +58,22 @@ const initialNodes: Node[] = [
   },
   {
     id: "1",
-    parentNode: undefined,
     position: {
       x: 387.5,
       y: -86,
     },
+    type: "customGroup",
+    data: {
+      color: "red",
+    },
+  },
+  {
+    id: "2",
+    position: {
+      x: 387.5,
+      y: -86,
+    },
+    parentNode: "1",
     targetPosition: Position.Left,
     sourcePosition: Position.Right,
     type: "customDefault",
@@ -72,25 +83,6 @@ const initialNodes: Node[] = [
       alarm: "on",
       alarmCount: 5,
       image: "demoTwo",
-      color: "white",
-    },
-  },
-  {
-    id: "2",
-    parentNode: undefined,
-    position: {
-      x: 448,
-      y: 167,
-    },
-    targetPosition: Position.Left,
-    sourcePosition: Position.Right,
-    type: "customDefault",
-    data: {
-      title: "Node",
-      desc: "",
-      alarm: "off",
-      alarmCount: 5,
-      image: "demoOne",
       color: "white",
     },
   },
@@ -104,26 +96,6 @@ const initialEdges: Edge[] = [
     type: "customEdge",
     animated: true,
     data: { baseEdge: "bezier" },
-  },
-  {
-    source: "0",
-    target: "2",
-    id: "edge-0-2",
-    type: "customEdge",
-    animated: false,
-    data: {
-      baseEdge: "step",
-    },
-  },
-  {
-    source: "3",
-    target: "4",
-    id: "edge-3-4",
-    type: "customEdge",
-    animated: false,
-    data: {
-      baseEdge: "bezier",
-    },
   },
 ];
 // 배경 초깃값
@@ -203,19 +175,14 @@ const DefaultWrap = () => {
       setSelectNode(node);
       // 간선 컨텍스트 메뉴 열려있을 때 null값으로 초기화
       edgeMenu && setEdgeMenu(null);
-      // 선택한 노드의 타입이 그룹이 아닐 경우
-      if (node.type !== "group") {
-        // alert("그룹 아님");
-        setNodeMenu({
-          id: node.id,
-          data: node.data,
-          top: e.clientY < pane.height - 200 && e.clientY - 50,
-          left: e.clientX < pane.width - 200 && e.clientX,
-          right: e.clientX >= pane.width - 200 && pane.width - e.clientX,
-          bottom:
-            e.clientY >= pane.height - 200 && pane.height - e.clientY + 50,
-        });
-      }
+      setNodeMenu({
+        id: node.id,
+        data: node.data,
+        top: e.clientY < pane.height - 200 && e.clientY - 50,
+        left: e.clientX < pane.width - 200 && e.clientX,
+        right: e.clientX >= pane.width - 200 && pane.width - e.clientX,
+        bottom: e.clientY >= pane.height - 200 && pane.height - e.clientY + 50,
+      });
     },
     [setNodeMenu, edgeMenu],
   );

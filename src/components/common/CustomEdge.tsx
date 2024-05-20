@@ -20,7 +20,7 @@ const CustomEdge = ({
   targetY,
   sourcePosition,
   targetPosition,
-  style = { stroke: "#FF0072" },
+  style = { stroke: "#000" },
   markerEnd,
 }: EdgeProps) => {
   const { getEdge, setEdges } = useReactFlow();

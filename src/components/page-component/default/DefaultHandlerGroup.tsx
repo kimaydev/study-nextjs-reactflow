@@ -69,7 +69,7 @@ const DefaultHandlerGroup = ({ nodes, setNodes }: IHandlerBox) => {
             <ul>
               <li>
                 <div className="form-box">
-                  <span className="form-item-title">노드 색상</span>
+                  <span className="form-item-title">그룹노드 색상</span>
                   <ol>
                     {nodeColorArr.map((item, index) => (
                       <li key={index}>
