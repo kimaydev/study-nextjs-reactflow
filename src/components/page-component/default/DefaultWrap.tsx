@@ -62,18 +62,6 @@ const initialNodes: Node[] = [
       x: 387.5,
       y: -86,
     },
-    type: "customGroup",
-    data: {
-      color: "red",
-    },
-  },
-  {
-    id: "2",
-    position: {
-      x: 387.5,
-      y: -86,
-    },
-    parentNode: "1",
     targetPosition: Position.Left,
     sourcePosition: Position.Right,
     type: "customDefault",
@@ -83,6 +71,24 @@ const initialNodes: Node[] = [
       alarm: "on",
       alarmCount: 5,
       image: "demoTwo",
+      color: "white",
+    },
+  },
+  {
+    id: "2",
+    position: {
+      x: 448,
+      y: 167,
+    },
+    targetPosition: Position.Left,
+    sourcePosition: Position.Right,
+    type: "customDefault",
+    data: {
+      title: "Node",
+      desc: "",
+      alarm: "off",
+      alarmCount: 5,
+      image: "demoOne",
       color: "white",
     },
   },
@@ -96,6 +102,16 @@ const initialEdges: Edge[] = [
     type: "customEdge",
     animated: true,
     data: { baseEdge: "bezier" },
+  },
+  {
+    source: "0",
+    target: "2",
+    id: "edge-0-2",
+    type: "customEdge",
+    animated: false,
+    data: {
+      baseEdge: "step",
+    },
   },
 ];
 // 배경 초깃값
