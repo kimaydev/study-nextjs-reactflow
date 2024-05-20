@@ -14,10 +14,11 @@ export const DefaultPanelListStyled = styled.nav`
   z-index: 10;
   button {
     display: block;
-    width: 100px;
-    padding: 10px 0;
+    width: 120px;
+    padding: 10px 8px;
     font-size: 1.4rem;
     font-weight: 700;
+    text-align: left;
     border: 1px solid #ddd;
     border-bottom: 0;
     background-color: #fff;
@@ -46,7 +47,7 @@ export const DefaultHandlerBoxStyled = styled.div`
   box-shadow: 0px 0px 17px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   isolation: isolate;
-  width: 360px;
+  width: 280px;
   height: 100%;
   h2 {
     display: flex;
@@ -178,15 +179,10 @@ export const DefaultRadioButtonStyled = styled.div`
       position: relative;
       width: 100%;
       border: 0.5px solid #999;
-      border-right: 0;
       overflow: hidden;
       isolation: isolate;
-      &:first-of-type {
-        border-radius: 0.6rem 0 0 0.6rem;
-      }
       &:last-of-type {
         border-right: 0.5px solid #999;
-        border-radius: 0 0.6rem 0.6rem 0;
       }
       label {
         z-index: 1;
@@ -213,6 +209,14 @@ export const DefaultRadioButtonStyled = styled.div`
           color: #fff;
         }
       }
+    }
+  }
+`;
+export const DefaultRadioButtonTwoLineStyled = styled(DefaultRadioButtonStyled)`
+  & > ul {
+    flex-wrap: wrap;
+    & > li {
+      width: 50%;
     }
   }
 `;
@@ -246,6 +250,22 @@ export const DefaultNodeColorRadioStyled = styled.div<{ $value: string }>`
     cursor: pointer;
     &:checked {
       border-color: rgba(0, 0, 0, 0.8);
+    }
+    &.group-node {
+      background: ${props => {
+        switch (props.$value) {
+          case "white":
+            return "rgba(0, 0, 0, 0.05)";
+          case "red":
+            return "rgba(238, 93, 80, 0.5)";
+          case "yellow":
+            return "rgba(255, 194, 70, 0.5)";
+          case "blue":
+            return "rgba(91, 147, 255, 0.5)";
+          case "green":
+            return "rgba(7, 187, 98, 0.5)";
+        }
+      }};
     }
   }
 `;

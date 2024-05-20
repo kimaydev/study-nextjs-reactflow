@@ -27,6 +27,7 @@ const NodeContextMenu = ({
       return {
         ...prev,
         addNodeActive: false,
+        groupNodeActive: false,
         editNodeActive: true,
         editEdgeActive: false,
         backgroundActive: false,

@@ -26,13 +26,14 @@ import {
 import CustomNode from "@/components/common/CustomNode";
 import DefaultHandlerBox from "./DefaultHandlerBox";
 import DefaultHandlerEditBox from "./DefaultHandlerEditBox";
-import { AiOutlineAppstoreAdd } from "react-icons/ai";
+import { AiOutlineAppstoreAdd, AiOutlineGroup } from "react-icons/ai";
 import { PiSelectionBackground } from "react-icons/pi";
 import DefaultHandlerBackground from "./DefaultHandlerBackground";
 import CustomEdge from "@/components/common/CustomEdge";
 import DefaultHandlerEdge from "./DefaultHandlerEdge";
 import NodeContextMenu from "@/components/common/NodeContextMenu";
 import EdgeContextMenu from "@/components/common/EdgeContextMenu";
+import DefaultHandlerGroup from "./DefaultHandlerGroup";
 
 // 노드의 초깃값
 const initialNodes: Node[] = [
@@ -56,6 +57,7 @@ const initialNodes: Node[] = [
   },
   {
     id: "1",
+    parentNode: undefined,
     position: {
       x: 387.5,
       y: -86,
@@ -74,6 +76,7 @@ const initialNodes: Node[] = [
   },
   {
     id: "2",
+    parentNode: undefined,
     position: {
       x: 448,
       y: 167,
@@ -89,6 +92,15 @@ const initialNodes: Node[] = [
       image: "demoOne",
       color: "white",
     },
+  },
+  {
+    id: "3",
+    position: {
+      x: 448,
+      y: 167,
+    },
+    type: "group",
+    data: {},
   },
 ];
 // 간선의 초깃값
@@ -152,6 +164,7 @@ const DefaultWrap = () => {
   // 패널 활성화
   const [activePanel, setActivePanel] = useState<IActivePanelType>({
     addNodeActive: true,
+    groupNodeActive: false,
     editNodeActive: false,
     editEdgeActive: false,
     backgroundActive: false,
@@ -191,19 +204,25 @@ const DefaultWrap = () => {
   const onNodeContextMenu = useCallback(
     (e: React.MouseEvent, node: Node) => {
       e.preventDefault();
+      console.log("node", node);
       // 메뉴 위치 계산, 화면 밖으로 contextMenu가 위치하지 않음
       const pane = ref.current.getBoundingClientRect();
       setSelectNode(node);
       // 간선 컨텍스트 메뉴 열려있을 때 null값으로 초기화
       edgeMenu && setEdgeMenu(null);
-      setNodeMenu({
-        id: node.id,
-        data: node.data,
-        top: e.clientY < pane.height - 200 && e.clientY - 50,
-        left: e.clientX < pane.width - 200 && e.clientX,
-        right: e.clientX >= pane.width - 200 && pane.width - e.clientX,
-        bottom: e.clientY >= pane.height - 200 && pane.height - e.clientY + 50,
-      });
+      // 선택한 노드의 타입이 그룹이 아닐 경우
+      if (node.type !== "group") {
+        // alert("그룹 아님");
+        setNodeMenu({
+          id: node.id,
+          data: node.data,
+          top: e.clientY < pane.height - 200 && e.clientY - 50,
+          left: e.clientX < pane.width - 200 && e.clientX,
+          right: e.clientX >= pane.width - 200 && pane.width - e.clientX,
+          bottom:
+            e.clientY >= pane.height - 200 && pane.height - e.clientY + 50,
+        });
+      }
     },
     [setNodeMenu, edgeMenu],
   );
@@ -276,6 +295,7 @@ const DefaultWrap = () => {
                       return {
                         ...prev,
                         addNodeActive: true,
+                        groupNodeActive: false,
                         editNodeActive: false,
                         editEdgeActive: false,
                         backgroundActive: false,
@@ -296,6 +316,28 @@ const DefaultWrap = () => {
                       return {
                         ...prev,
                         addNodeActive: false,
+                        groupNodeActive: true,
+                        editNodeActive: false,
+                        editEdgeActive: false,
+                        backgroundActive: false,
+                      };
+                    })
+                  }
+                >
+                  <i>
+                    <AiOutlineGroup />
+                  </i>
+                  그룹노드 추가
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() =>
+                    setActivePanel(prev => {
+                      return {
+                        ...prev,
+                        addNodeActive: false,
+                        groupNodeActive: false,
                         editNodeActive: false,
                         editEdgeActive: false,
                         backgroundActive: true,
@@ -316,6 +358,8 @@ const DefaultWrap = () => {
         {activePanel.addNodeActive && (
           <DefaultHandlerBox nodes={nodes} setNodes={setNodes} />
         )}
+        {/* 그룹노드 추가 패널 */}
+        {activePanel.groupNodeActive && <DefaultHandlerGroup />}
         {/* 노드 수정 패널 */}
         {activePanel.editNodeActive && (
           <DefaultHandlerEditBox

@@ -11,6 +11,10 @@ export interface INodeType {
   flow: string; // 트리 구조 방향 설정
   type: string | undefined; // 노드 타입 설정
 }
+// 그룹노드 추가 타입
+export interface IGroupNodeType {
+  color: string; // 노드 색상
+}
 // 토폴로지 contextmenu 타입
 export interface IContextMenuType {
   id: string;
@@ -23,6 +27,7 @@ export interface IContextMenuType {
 // 패널 활성화 옵션 타입
 export interface IActivePanelType {
   addNodeActive: boolean;
+  groupNodeActive: boolean;
   editNodeActive: boolean;
   editEdgeActive: boolean;
   backgroundActive: boolean;

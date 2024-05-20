@@ -30,6 +30,7 @@ const EdgeContextMenu = ({
       return {
         ...prev,
         addNodeActive: false,
+        groupNodeActive: false,
         editNodeActive: false,
         editEdgeActive: true,
         backgroundActive: false,

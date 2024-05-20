@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import PanelLayout from "@/components/layout/PanelLayout";
 import { BsBorderStyle } from "react-icons/bs";
-import { DefaultRadioButtonStyled } from "@/styles/page-component/default/defaultStyle";
+import {
+  DefaultRadioButtonStyled,
+  DefaultRadioButtonTwoLineStyled,
+} from "@/styles/page-component/default/defaultStyle";
 import { IEdgeOptionsType } from "@/utils/type/interface";
 import { Edge, useEdges, useReactFlow } from "reactflow";
 import { useRecoilValue } from "recoil";
@@ -101,7 +104,7 @@ const DefaultHandlerEdge = ({ edges, setEdges }: IDefaultHandlerEdgeProps) => {
               <li>
                 <div className="form-box">
                   <span className="form-item-title">간선 형태</span>
-                  <DefaultRadioButtonStyled>
+                  <DefaultRadioButtonTwoLineStyled>
                     <ul>
                       {edgePathArr.map((item, index) => {
                         return (
@@ -119,7 +122,7 @@ const DefaultHandlerEdge = ({ edges, setEdges }: IDefaultHandlerEdgeProps) => {
                         );
                       })}
                     </ul>
-                  </DefaultRadioButtonStyled>
+                  </DefaultRadioButtonTwoLineStyled>
                 </div>
               </li>
               <li>
