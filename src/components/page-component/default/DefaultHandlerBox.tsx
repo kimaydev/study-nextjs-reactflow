@@ -8,7 +8,7 @@ import {
   DefaultRadioButtonStyled,
 } from "@/styles/page-component/default/defaultStyle";
 import { INodeType } from "@/utils/type/interface";
-import { getImage, getImageAlt, valuesType } from "@/hooks/useTrans";
+import { getImage, getImageAlt, getRandom, valuesType } from "@/hooks/useTrans";
 import PanelLayout from "@/components/layout/PanelLayout";
 
 interface IHandlerBox {
@@ -123,9 +123,6 @@ const DefaultHandlerBox = ({ nodes, setNodes }: IHandlerBox) => {
       };
     });
   };
-  // 노드 생성 시 랜덤한 위치에 나오게 하려고 넣은 함수
-  const getRandom = (min: number, max: number) =>
-    Math.floor(Math.random() * (max - min) + min);
   // 노드 추가 핸들러
   const handleAddNode = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {

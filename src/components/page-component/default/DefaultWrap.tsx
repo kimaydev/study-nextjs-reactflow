@@ -34,6 +34,7 @@ import DefaultHandlerEdge from "./DefaultHandlerEdge";
 import NodeContextMenu from "@/components/common/NodeContextMenu";
 import EdgeContextMenu from "@/components/common/EdgeContextMenu";
 import DefaultHandlerGroup from "./DefaultHandlerGroup";
+import CustomGroupNode from "@/components/common/CustomGroupNode";
 
 // 노드의 초깃값
 const initialNodes: Node[] = [
@@ -93,15 +94,6 @@ const initialNodes: Node[] = [
       color: "white",
     },
   },
-  {
-    id: "3",
-    position: {
-      x: 448,
-      y: 167,
-    },
-    type: "group",
-    data: {},
-  },
 ];
 // 간선의 초깃값
 const initialEdges: Edge[] = [
@@ -148,6 +140,7 @@ const nodeTypes = {
   customDefault: CustomNode,
   customInput: CustomNode,
   customOutput: CustomNode,
+  customGroup: CustomGroupNode,
 };
 // 커스텀 간선 타입
 const edgeTypes = {
@@ -359,7 +352,9 @@ const DefaultWrap = () => {
           <DefaultHandlerBox nodes={nodes} setNodes={setNodes} />
         )}
         {/* 그룹노드 추가 패널 */}
-        {activePanel.groupNodeActive && <DefaultHandlerGroup />}
+        {activePanel.groupNodeActive && (
+          <DefaultHandlerGroup nodes={nodes} setNodes={setNodes} />
+        )}
         {/* 노드 수정 패널 */}
         {activePanel.editNodeActive && (
           <DefaultHandlerEditBox

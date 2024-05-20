@@ -18,3 +18,6 @@ export const getImageAlt = (value: string) => {
   };
   return values[value];
 };
+// 노드 생성 시 랜덤한 위치에 나오게 하려고 넣은 함수
+export const getRandom = (min: number, max: number) =>
+  Math.floor(Math.random() * (max - min) + min);

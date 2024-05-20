@@ -201,3 +201,23 @@ export const EdgeStyled = styled.div`
     color: #fff;
   }
 `;
+export const GroupNodeStyled = styled.div<{ $color: string }>`
+  min-width: 100px;
+  min-height: 30px;
+  width: 100%;
+  height: 100%;
+  background: ${props => {
+    switch (props.$color) {
+      case "white":
+        return "rgba(0, 0, 0, 0.05)";
+      case "red":
+        return "rgba(238, 93, 80, 0.5)";
+      case "yellow":
+        return "rgba(255, 194, 70, 0.5)";
+      case "blue":
+        return "rgba(91, 147, 255, 0.5)";
+      case "green":
+        return "rgba(7, 187, 98, 0.5)";
+    }
+  }};
+`;
