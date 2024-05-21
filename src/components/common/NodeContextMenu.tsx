@@ -40,7 +40,7 @@ const NodeContextMenu = ({
   // 노드 삭제
   const handleDeleteNode = useCallback(() => {
     setNodes(nodes => nodes.filter(node => node.id !== id));
-    setEdges(edges => edges.filter(edge => edge.source !== id));
+    setEdges(edges => edges.filter(edge => edge.id.includes(id) === false));
   }, [id, setNodes, setEdges]);
   // 그룹 연결
   const handleGroupConnection = useCallback(() => {
