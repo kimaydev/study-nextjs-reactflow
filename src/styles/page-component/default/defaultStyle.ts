@@ -15,6 +15,12 @@ export const DefaultLayoutStyled = styled.div`
       }
     }
   }
+  .react-flow__node-customGroup {
+    z-index: -2 !important;
+    &.selected {
+      z-index: -1 !important;
+    }
+  }
 `;
 export const DefaultPanelListStyled = styled.nav`
   position: absolute;

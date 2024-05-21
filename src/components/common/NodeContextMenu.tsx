@@ -43,10 +43,17 @@ const NodeContextMenu = ({
     setEdges(edges => edges.filter(edge => edge.source !== id));
   }, [id, setNodes, setEdges]);
   // 그룹 연결
-  const handleGroupConnection = () => {
-    const getNodesData = getNodes();
-    const selectedNodes = getNodesData.filter(item => item.selected === true);
-  };
+  const handleGroupConnection = useCallback(() => {
+    setNodes(nds =>
+      nds.map(node => {
+        // 선택한 노드의 타입이 "customGroup"이 아니면서 selected 값이 true
+        if (node.type !== "customGroup" && node.selected === true) {
+          node.parentNode = id;
+        }
+        return node;
+      }),
+    );
+  }, [id, setNodes]);
 
   return (
     <ContextMenuStyled>
