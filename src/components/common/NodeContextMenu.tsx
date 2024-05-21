@@ -22,7 +22,7 @@ const NodeContextMenu = ({
 }: IContextMenuPropsType) => {
   const { getNode, getNodes, setNodes, addNodes, setEdges } = useReactFlow();
   const selectNode = getNode(id);
-  // console.log("getNode", selectNode?.type);
+  // console.log("getNode", selectNode?.position);
   // 노드 수정
   const handleEditNode = useCallback(() => {
     // console.log("data", data);

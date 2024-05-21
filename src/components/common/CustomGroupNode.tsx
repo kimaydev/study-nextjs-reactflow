@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
 import { NodeProps, NodeResizer } from "reactflow";
 import { GroupNodeStyled } from "@/styles/page-component/default/defaultNodeStyle";
 
 const CustomGroupNode = ({ data, selected }: NodeProps) => {
-  // console.log("data props: ", data);
+  const ref = useRef<any>(null);
+  // const pane = ref.current?.getBoundingClientRect();
+  // console.log("pane", pane);
   return (
     <>
       <NodeResizer
@@ -12,7 +14,7 @@ const CustomGroupNode = ({ data, selected }: NodeProps) => {
         minWidth={100}
         minHeight={100}
       />
-      <GroupNodeStyled $color={data?.color} />
+      <GroupNodeStyled $color={data?.color} ref={ref} />
     </>
   );
 };
