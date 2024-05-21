@@ -54,6 +54,22 @@ const NodeContextMenu = ({
       }),
     );
   }, [id, setNodes]);
+  // 그룹 해제
+  const handleGroupDisconnection = useCallback(() => {
+    setNodes(nds => {
+      const deleteGroup = nds
+        // 선택한 그룹 노드 삭제
+        .filter(nds => nds.id !== id)
+        // 선택한 그룹에 연결된 하위 노드 parentNode값 초기화
+        .map(node => {
+          if (node.parentNode === id) {
+            node.parentNode = undefined;
+          }
+          return node;
+        });
+      return deleteGroup;
+    });
+  }, [id, setNodes]);
 
   return (
     <ContextMenuStyled>
@@ -116,7 +132,7 @@ const NodeContextMenu = ({
                   </button>
                 </li>
                 <li>
-                  <button onClick={handleDeleteNode}>
+                  <button onClick={handleGroupDisconnection}>
                     <i>
                       <FaRegObjectUngroup />
                     </i>
