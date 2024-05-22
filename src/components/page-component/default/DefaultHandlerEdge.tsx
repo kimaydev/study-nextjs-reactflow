@@ -6,7 +6,7 @@ import {
   DefaultRadioButtonTwoLineStyled,
 } from "@/styles/page-component/default/defaultStyle";
 import { IEdgeOptionsType } from "@/utils/type/interface";
-import { Edge, useEdges, useReactFlow } from "reactflow";
+import { Edge, MarkerType, useReactFlow } from "reactflow";
 import { useRecoilValue } from "recoil";
 import { rSelectEdgeId } from "@/utils/states/rReactFlow";
 import { valuesType } from "@/hooks/useTrans";
@@ -18,7 +18,7 @@ interface IDefaultHandlerEdgeProps {
 // 간선 수정 기본값
 const initialEdge: IEdgeOptionsType = {
   animated: false,
-  data: { baseEdge: "bezier" },
+  data: { baseEdge: "bezier", selectMarker: "none" },
 };
 
 const DefaultHandlerEdge = ({ edges, setEdges }: IDefaultHandlerEdgeProps) => {
@@ -53,6 +53,25 @@ const DefaultHandlerEdge = ({ edges, setEdges }: IDefaultHandlerEdgeProps) => {
       };
     });
   };
+  // 마커 표시 설정
+  const edgeMarkerArr: string[] = [
+    "none",
+    "markerStart", // 시작
+    "markerEnd", // 끝
+    "markerBothSide", // 양쪽
+  ];
+  const handleEdgeMarker = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEditEdge(prev => {
+      return {
+        ...prev,
+        data: {
+          ...prev.data,
+          selectMarker: value,
+        },
+      };
+    });
+  };
   useEffect(() => {
     const selectEdgeData = selectEdgeValue?.data;
     setEditEdge(prev => {
@@ -74,7 +93,27 @@ const DefaultHandlerEdge = ({ edges, setEdges }: IDefaultHandlerEdgeProps) => {
       setEdges(edges =>
         edges.map(edge => {
           if (edge.id === selectEdgeId) {
+            // 애니메이션 효과
             (edge.animated = editEdge.animated),
+              // 마커 설정
+              editEdge.data.selectMarker === "none" &&
+                ((edge.markerStart = undefined), (edge.markerEnd = undefined)),
+              editEdge.data.selectMarker === "markerStart" &&
+                ((edge.markerStart = {
+                  type: MarkerType.ArrowClosed,
+                  orient: "auto-start-reverse",
+                }),
+                (edge.markerEnd = undefined)),
+              editEdge.data.selectMarker === "markerEnd" &&
+                ((edge.markerStart = undefined),
+                (edge.markerEnd = { type: MarkerType.ArrowClosed })),
+              editEdge.data.selectMarker === "markerBothSide" &&
+                ((edge.markerStart = {
+                  type: MarkerType.ArrowClosed,
+                  orient: "auto-start-reverse",
+                }),
+                (edge.markerEnd = { type: MarkerType.ArrowClosed })),
+              // 간선 형태
               (edge.data = {
                 ...edge.data,
                 baseEdge: editEdge.data.baseEdge,
@@ -86,8 +125,8 @@ const DefaultHandlerEdge = ({ edges, setEdges }: IDefaultHandlerEdgeProps) => {
     },
     [editEdge, getSelectEdgeId],
   );
-  // console.log("editEdge", editEdge);
-  // console.log("edges", edges);
+  console.log("editEdge", editEdge);
+  console.log("edges", edges);
   // console.log("edgeOptions", edgeOptions);
   return (
     <PanelLayout>
@@ -150,6 +189,39 @@ const DefaultHandlerEdge = ({ edges, setEdges }: IDefaultHandlerEdgeProps) => {
                               onChange={handleEdgeAnimated}
                             />
                             <label htmlFor={transItem}>{transKR()}</label>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </DefaultRadioButtonStyled>
+                </div>
+              </li>
+              <li>
+                <div className="form-box">
+                  <span className="form-item-title">마커 표시</span>
+                  <DefaultRadioButtonStyled>
+                    <ul>
+                      {edgeMarkerArr.map((item, index) => {
+                        const transKR = () => {
+                          const values: valuesType = {
+                            none: "없음",
+                            markerStart: "←",
+                            markerEnd: "→",
+                            markerBothSide: "↔",
+                          };
+                          return values[item];
+                        };
+                        return (
+                          <li key={index}>
+                            <input
+                              type="radio"
+                              name="EdgeMarker"
+                              id={item}
+                              value={item}
+                              checked={editEdge.data.selectMarker === item}
+                              onChange={handleEdgeMarker}
+                            />
+                            <label htmlFor={item}>{transKR()}</label>
                           </li>
                         );
                       })}

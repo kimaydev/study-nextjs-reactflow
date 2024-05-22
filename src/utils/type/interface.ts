@@ -42,5 +42,5 @@ export interface IBackgroundType {
 // 간선 스타일 설정 타입
 export interface IEdgeOptionsType {
   animated: boolean | undefined;
-  data: { baseEdge: string };
+  data: { baseEdge: string; selectMarker: string };
 }

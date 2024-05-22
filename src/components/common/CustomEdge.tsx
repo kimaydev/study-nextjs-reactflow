@@ -20,7 +20,8 @@ const CustomEdge = ({
   targetY,
   sourcePosition,
   targetPosition,
-  style = { stroke: "#000" },
+  style = {},
+  markerStart,
   markerEnd,
 }: EdgeProps) => {
   const { getEdge, setEdges } = useReactFlow();
@@ -68,7 +69,12 @@ const CustomEdge = ({
   const [edgePath, labelX, labelY] = baseEdge();
   return (
     <>
-      <BaseEdge path={edgePath} markerEnd={markerEnd} style={style} />
+      <BaseEdge
+        path={edgePath}
+        markerStart={markerStart}
+        markerEnd={markerEnd}
+        style={style}
+      />
       <EdgeLabelRenderer>
         <EdgeStyled
           style={{

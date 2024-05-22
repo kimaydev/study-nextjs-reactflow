@@ -4,6 +4,7 @@ import ReactFlow, {
   BackgroundVariant,
   Controls,
   Edge,
+  MarkerType,
   Node,
   OnConnect,
   OnEdgesChange,
@@ -102,6 +103,13 @@ const initialEdges: Edge[] = [
     type: "customEdge",
     animated: true,
     data: { baseEdge: "bezier" },
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+    },
+    markerStart: {
+      type: MarkerType.ArrowClosed,
+      orient: "auto-start-reverse",
+    },
   },
   {
     source: "0",
