@@ -42,55 +42,253 @@ const initialNodes: Node[] = [
   {
     id: "0",
     position: {
-      x: 37,
-      y: 57,
+      x: 145.7207091501509,
+      y: -219.91995204617263,
     },
-    targetPosition: Position.Left,
-    sourcePosition: Position.Right,
-    type: "customDefault",
+    type: "customInput",
+    targetPosition: Position.Top,
+    sourcePosition: Position.Bottom,
     data: {
       title: "Node",
       desc: "",
       alarm: "off",
-      alarmCount: 5,
-      image: "demoOne",
-      color: "white",
-    },
-  },
-  {
-    id: "1",
-    position: {
-      x: 387.5,
-      y: -86,
-    },
-    targetPosition: Position.Left,
-    sourcePosition: Position.Right,
-    type: "customDefault",
-    data: {
-      title: "Node1",
-      desc: "설명글1",
-      alarm: "on",
       alarmCount: 5,
       image: "demoTwo",
       color: "white",
     },
   },
   {
-    id: "2",
+    id: "3",
     position: {
-      x: 448,
-      y: 167,
+      x: 594.0438763212558,
+      y: 58.91735185513926,
     },
+    type: "customOutput",
+    targetPosition: Position.Top,
+    sourcePosition: Position.Bottom,
+    data: {
+      title: "Node",
+      desc: "",
+      alarm: "off",
+      alarmCount: 5,
+      image: "demoThree",
+      color: "red",
+    },
+    parentNode: "6",
+  },
+  {
+    id: "4",
+    position: {
+      x: 90.19219199547334,
+      y: 58.48805309374279,
+    },
+    type: "customOutput",
+    targetPosition: Position.Top,
+    sourcePosition: Position.Bottom,
+    data: {
+      title: "Node",
+      desc: "",
+      alarm: "off",
+      alarmCount: 5,
+      image: "demoThree",
+      color: "red",
+    },
+    parentNode: "6",
+  },
+  {
+    id: "5",
+    position: {
+      x: 342.36601472412536,
+      y: 85.22488666738587,
+    },
+    type: "customDefault",
+    targetPosition: Position.Top,
+    sourcePosition: Position.Bottom,
+    data: {
+      title: "Node",
+      desc: "",
+      alarm: "off",
+      alarmCount: 5,
+      image: "demoTwo",
+      color: "red",
+    },
+    parentNode: "6",
+  },
+  {
+    id: "6",
+    position: {
+      x: -194.5797953292706,
+      y: -111.89954666954335,
+    },
+    type: "customGroup",
+    data: {
+      color: "red",
+    },
+    style: {
+      width: 784,
+      height: 224,
+    },
+  },
+  {
+    id: "7",
+    position: {
+      x: -161.62086860667833,
+      y: 203.4745272621821,
+    },
+    type: "customOutput",
+    targetPosition: Position.Top,
+    sourcePosition: Position.Bottom,
+    data: {
+      title: "Node",
+      desc: "",
+      alarm: "on",
+      alarmCount: 5,
+      image: "demoOne",
+      color: "yellow",
+    },
+  },
+  {
+    id: "8",
+    position: {
+      x: 34.16251642669957,
+      y: 203.4252055571491,
+    },
+    type: "customOutput",
+    targetPosition: Position.Top,
+    sourcePosition: Position.Bottom,
+    data: {
+      title: "Node",
+      desc: "",
+      alarm: "off",
+      alarmCount: 50,
+      image: "demoOne",
+      color: "yellow",
+    },
+  },
+  {
+    id: "9",
+    position: {
+      x: 286.4884946319826,
+      y: 203.25597324110643,
+    },
+    type: "customDefault",
+    targetPosition: Position.Top,
+    sourcePosition: Position.Bottom,
+    data: {
+      title: "Node",
+      desc: "",
+      alarm: "off",
+      alarmCount: 50,
+      image: "demoTwo",
+      color: "yellow",
+    },
+  },
+  {
+    id: "11",
+    position: {
+      x: 423.22565964099954,
+      y: 318.90158215457836,
+    },
+    type: "customDefault",
     targetPosition: Position.Left,
     sourcePosition: Position.Right,
-    type: "customDefault",
     data: {
       title: "Node",
       desc: "",
       alarm: "off",
       alarmCount: 5,
       image: "demoOne",
-      color: "white",
+      color: "blue",
+    },
+  },
+  {
+    id: "12",
+    position: {
+      x: 423.83299555742275,
+      y: 486.88771512427786,
+    },
+    type: "customOutput",
+    targetPosition: Position.Left,
+    sourcePosition: Position.Right,
+    data: {
+      title: "Node",
+      desc: "",
+      alarm: "off",
+      alarmCount: 5,
+      image: "demoOne",
+      color: "blue",
+    },
+  },
+  {
+    id: "14",
+    position: {
+      x: 38.323525363192175,
+      y: 9.623436780081533,
+    },
+    type: "customOutput",
+    targetPosition: Position.Left,
+    sourcePosition: Position.Right,
+    data: {
+      title: "Node",
+      desc: "",
+      alarm: "off",
+      alarmCount: 5,
+      image: "demoThree",
+      color: "green",
+    },
+    parentNode: "17",
+  },
+  {
+    id: "15",
+    position: {
+      x: 38.13684086617127,
+      y: 193.93658873297045,
+    },
+    type: "customOutput",
+    targetPosition: Position.Left,
+    sourcePosition: Position.Right,
+    data: {
+      title: "Node",
+      desc: "",
+      alarm: "off",
+      alarmCount: 5,
+      image: "demoThree",
+      color: "green",
+    },
+    parentNode: "17",
+  },
+  {
+    id: "16",
+    position: {
+      x: 38.09783133502242,
+      y: 304.4928843163723,
+    },
+    type: "customOutput",
+    targetPosition: Position.Left,
+    sourcePosition: Position.Right,
+    data: {
+      title: "Node",
+      desc: "",
+      alarm: "off",
+      alarmCount: 5,
+      image: "demoThree",
+      color: "green",
+    },
+    parentNode: "17",
+  },
+  {
+    id: "17",
+    position: {
+      x: 634.5387643384935,
+      y: 310.5240512593714,
+    },
+    type: "customGroup",
+    data: {
+      color: "green",
+    },
+    style: {
+      width: 176,
+      height: 448,
     },
   },
 ];
@@ -98,23 +296,111 @@ const initialNodes: Node[] = [
 const initialEdges: Edge[] = [
   {
     source: "0",
-    target: "1",
-    id: "edge-0-1",
+    target: "3",
+    id: "edge-0-3",
     type: "customEdge",
-    animated: true,
-    data: { baseEdge: "bezier" },
-    markerEnd: {
-      type: MarkerType.ArrowClosed,
-    },
-    markerStart: {
-      type: MarkerType.ArrowClosed,
-      orient: "auto-start-reverse",
+    animated: false,
+    data: {
+      baseEdge: "step",
     },
   },
   {
     source: "0",
-    target: "2",
-    id: "edge-0-2",
+    target: "4",
+    id: "edge-0-4",
+    type: "customEdge",
+    animated: false,
+    data: {
+      baseEdge: "step",
+    },
+  },
+  {
+    source: "0",
+    target: "5",
+    id: "edge-0-5",
+    type: "customEdge",
+    animated: false,
+    data: {
+      baseEdge: "straight",
+    },
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+    },
+  },
+  {
+    source: "5",
+    target: "7",
+    id: "edge-5-7",
+    type: "customEdge",
+    animated: false,
+    data: {
+      baseEdge: "step",
+    },
+  },
+  {
+    source: "5",
+    target: "8",
+    id: "edge-5-8",
+    type: "customEdge",
+    animated: false,
+    data: {
+      baseEdge: "step",
+    },
+  },
+  {
+    source: "5",
+    target: "9",
+    id: "edge-5-9",
+    type: "customEdge",
+    animated: false,
+    data: {
+      baseEdge: "step",
+    },
+  },
+  {
+    source: "9",
+    target: "11",
+    id: "edge-9-11",
+    type: "customEdge",
+    animated: false,
+    data: {
+      baseEdge: "step",
+    },
+  },
+  {
+    source: "9",
+    target: "12",
+    id: "edge-9-12",
+    type: "customEdge",
+    animated: false,
+    data: {
+      baseEdge: "step",
+    },
+  },
+  {
+    source: "11",
+    target: "14",
+    id: "edge-11-14",
+    type: "customEdge",
+    animated: false,
+    data: {
+      baseEdge: "straight",
+    },
+  },
+  {
+    source: "11",
+    target: "15",
+    id: "edge-11-15",
+    type: "customEdge",
+    animated: false,
+    data: {
+      baseEdge: "step",
+    },
+  },
+  {
+    source: "11",
+    target: "16",
+    id: "edge-11-16",
     type: "customEdge",
     animated: false,
     data: {
@@ -125,7 +411,7 @@ const initialEdges: Edge[] = [
 // 배경 초깃값
 const initialBackground: IBackgroundType = {
   variant: BackgroundVariant.Lines,
-  color: "#ccc",
+  color: "#efefef",
   gap: 28,
   style: {
     backgroundColor: "#fff",
@@ -193,7 +479,7 @@ const DefaultWrap = () => {
   const onNodeContextMenu = useCallback(
     (e: React.MouseEvent, node: Node) => {
       e.preventDefault();
-      console.log("node", node);
+      // console.log("node", node);
       // 메뉴 위치 계산, 화면 밖으로 contextMenu가 위치하지 않음
       const pane = ref.current.getBoundingClientRect();
       setSelectNode(node);

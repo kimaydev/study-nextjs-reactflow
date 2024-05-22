@@ -125,8 +125,8 @@ const DefaultHandlerEdge = ({ edges, setEdges }: IDefaultHandlerEdgeProps) => {
     },
     [editEdge, getSelectEdgeId],
   );
-  console.log("editEdge", editEdge);
-  console.log("edges", edges);
+  // console.log("editEdge", editEdge);
+  // console.log("edges", edges);
   // console.log("edgeOptions", edgeOptions);
   return (
     <PanelLayout>
