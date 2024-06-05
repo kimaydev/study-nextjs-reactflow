@@ -16,6 +16,9 @@ const Header = () => {
           <li>
             <Link href="/chart">chart</Link>
           </li>
+          <li>
+            <Link href="/background">background</Link>
+          </li>
         </ul>
       </nav>
     </HeaderStyled>
